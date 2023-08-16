@@ -6,7 +6,7 @@ import{ FaEye, FaReply } from 'react-icons/fa';
 export default function IndexInicioSecion() {
     const [VerContrasena, setVerContrasena] = useState(false);
     const [Password, setPassword] = useState('');
-    const [selectedOption, setSelectedOption] = useState('Opciones');
+    const [SelectedOption, setSelectedOption] = useState('Opciones');
 
     const InicioLinkClick = (event: { preventDefault: () => void }) => {
         event.preventDefault();
@@ -55,7 +55,7 @@ export default function IndexInicioSecion() {
                         </div>
                         <div className="caja">
                             <div className="contenedorOpcion">
-                                <button className="botonOpcion">{selectedOption} <></> </button>
+                                <button className="botonOpcion">{SelectedOption} <></> </button>
                                 <div className="opcionContenido">
                                     <a href="#" onClick={() => opcionElegida('Empleado')}>Empleado</a>
                                     <a href="#" onClick={() => opcionElegida('Gerente')}>Gerente</a>
@@ -63,7 +63,7 @@ export default function IndexInicioSecion() {
                             </div>
                         </div>
                         <div className="cajax">
-                            <a className="IniciarSecionLink" href={selectedOption === 'Gerente' ? '/indexGerenteInicio' : '/indexEmpleadoInicio'}>Iniciar Sesión</a>
+                            <a className="IniciarSecionLink" href={SelectedOption === 'Gerente' ? '/indexGerenteInicio' : '/indexEmpleadoInicio'}>Iniciar Sesión</a>
       
                         </div>
 

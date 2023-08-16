@@ -1,12 +1,12 @@
 import Link from "next/link";
 import router from "next/router";
 
-const InicioLinkClick = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    router.push("/");
-};
-
 export default function IndexGerenteInicio() {
+    const InicioLinkClick = (event: { preventDefault: () => void }) => {
+        event.preventDefault();
+        router.push("/");
+    };
+
     return (
         <>
             <div className="FondoGerenteInicio">
