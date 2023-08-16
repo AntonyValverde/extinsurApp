@@ -16,7 +16,7 @@ export default function Home() {
             </div>
 
             <nav className="navegation">
-              <Link href="/indexInicioSecion" className="buttonBorder">
+              <Link href="/IndexInicioSecion" className="buttonBorder">
                 Iniciar Secion.
                 <FaRegUserCircle className="icons"></FaRegUserCircle>
               </Link>

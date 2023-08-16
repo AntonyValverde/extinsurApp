@@ -63,7 +63,7 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="cajax">
-                            <a className="IniciarSecionLink" href={SelectedOption === 'Gerente' ? '/indexGerenteInicio' : '/indexEmpleadoInicio'}>Iniciar Sesión</a>
+                            <a className="IniciarSecionLink" href={SelectedOption === 'Gerente' ? '/IndexGerenteInicio' : '/IndexEmpleadoInicio'}>Iniciar Sesión</a>
       
                         </div>
 
