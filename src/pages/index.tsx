@@ -8,7 +8,7 @@ export default function Index() {
         <header>
           <div className="Header">
 
-            <h1 className="nombreEmpresa">ExtinSur</h1>
+            <h1 className="nombreEmpresa">ExtinSurr</h1>
 
             <div className="contenedorBusqueda">
               <input className="barraBusqueda" type="text" />
