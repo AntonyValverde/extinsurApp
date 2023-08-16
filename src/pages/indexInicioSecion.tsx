@@ -3,11 +3,9 @@ import router from "next/router";
 import { useState } from 'react';
 import{ FaEye, FaReply } from 'react-icons/fa';
 
-
-
 export default function indexInicioSecion() {
     const [VerContrasena, setVerContrasena] = useState(false);
-    const [password, setPassword] = useState('');
+    const [Password, setPassword] = useState('');
     const [selectedOption, setSelectedOption] = useState('Opciones');
 
     const InicioLinkClick = (event: { preventDefault: () => void }) => {
@@ -46,7 +44,7 @@ export default function indexInicioSecion() {
                                 <input
                                     type={VerContrasena ? 'text' : 'password'}
                                     className="input"
-                                    value={password}
+                                    value={Password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <button className="botonVer" type="button" onClick={verContraseña} >
