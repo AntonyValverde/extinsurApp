@@ -6,7 +6,7 @@ const InicioLinkClick = (event: { preventDefault: () => void }) => {
     router.push("/");
 };
 
-export default function indexEmpleadoInicio() {
+export default function IndexEmpleadoInicio() {
     return (
         <>
             <div className="FondoGerenteInicio">
