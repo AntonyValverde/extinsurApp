@@ -1,17 +1,19 @@
 import Link from "next/link";
 import router from "next/router";
 import { useState } from 'react';
-import{ FaEye, FaReply } from 'react-icons/fa'
+import{ FaEye, FaReply } from 'react-icons/fa';
 
-const InicioLinkClick = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    router.push("/");
-};
+
 
 export default function indexInicioSecion() {
     const [VerContrasena, setVerContrasena] = useState(false);
     const [password, setPassword] = useState('');
     const [selectedOption, setSelectedOption] = useState('Opciones');
+
+    const InicioLinkClick = (event: { preventDefault: () => void }) => {
+        event.preventDefault();
+        router.push("/");
+    };
 
     const verContraseña = () => {
         setVerContrasena(!VerContrasena);
