@@ -1,7 +1,7 @@
-import '@/styles/globals.css'
-import '@/styles/indexInicio.css'
-import '@/styles/IndexInicioSecion.css'
-import '@/styles/IndexGerenteInicio.css'
+import '@/./styles/globals.css'
+import '@/./styles/indexInicio.css'
+import '@/./styles/IndexInicioSecion.css'
+import '@/./styles/IndexGerenteInicio.css'
 
 import type { AppProps } from 'next/app'
 
