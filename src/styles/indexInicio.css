@@ -1,0 +1,419 @@
+.h1Info {
+  font-family: "Josefin_Sans";
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.articleInfo {
+  font-family: "Josefin_Sans";
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.linkMaps {
+  color: #1284c7;
+  font-family: "Josefin_Sans";
+}
+
+.etiqueta {
+  /*Head*/
+  background-color: #aa1d1d;
+  color: #d9d9d9;
+  font-size: 32px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: -10px;
+  text-align: left;
+  font-family: "Josefin_Sans";
+  padding: 15px;
+}
+
+/* Responsive Styles head */
+
+/* Establecer la imagen de fondo */
+.body {
+  background-image: url('/indexInicio/extintores_fuego.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  width: 100%;
+  height: 300vh;
+  margin: 0;
+  padding: 0;
+
+  position: relative;
+  padding-bottom: 2em;
+}
+
+.conteinerInicio {
+  background-color: rgba(239, 220, 220, 0.8);
+  width: 80%;
+  /* Ancho del contenedor */
+  margin: 0 auto;
+  /* Margen horizontal automático para centrar el contenedor */
+  padding: 20px;
+  padding-top: 30px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  padding-left: 20px;
+
+  border: 1px solid #140303;
+}
+
+/* Estilos adicionales para el contenido */
+.nombreEmpresa {
+  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Roboto Slab', serif;
+  font-size: 28px;
+}
+
+.Header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  color: #100101;
+  padding: 20px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+}
+
+.navegation {
+  position: relative;
+  font-size: 1.1em;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 40px;
+
+}
+
+.contenedorBusqueda {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.contactos {
+  /*footer*/
+  font-family: "Josefin_Sans";
+  font-size: 20px;
+  margin-inline: 35px;
+  color: #d9d9d9;
+}
+
+.lupa {
+  width: 30px;
+  height: 30px;
+  margin-top: -3px;
+  position: absolute;
+  right: 3px;
+  cursor: pointer;
+}
+
+.barraBusqueda {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: rgba(248, 246, 246, 0.5);
+  color: rgb(10, 10, 3);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  font-size: 20px;
+  font-family: "Josefin_Sans";
+  opacity: 0.8;
+}
+.icons{
+  display:inline-block;
+  padding: 1px;
+}
+
+.buttonBorder {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent;
+  color: rgb(14, 12, 0);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  font-size: 20px;
+  font-family: "Josefin_Sans";
+}
+
+.buttonBorder::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: transparent;
+  transition: width 1.3s ease;
+  z-index: -1;
+}
+
+.buttonBorder:hover::before {
+  background-image: linear-gradient(to right, #f40202, #ff9a00, #f6ff00);
+  background-position: left center;
+  width: 100%;
+
+}
+
+.footerInicio {
+  background-color: #100101;
+  padding: 1em 0;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 28px;
+  font-family: "Josefin_Sans";
+  color: #fff;
+}
+
+.linkInicio {
+  margin-left: 35%;
+  font-size: 28px;
+  text-align: center;
+  font-family: "Josefin_Sans";
+  text-decoration: underline;
+}
+
+.linkInicio:hover {
+  background-color: #454545;
+  color: #2ce3f7;
+}
+
+.navInfo {
+  position: absolute;
+  top: 150px;
+  /* Ajusta la distancia desde la parte superior */
+  right: 60%;
+  /* Ajusta la distancia desde la derecha */
+  width: 500px;
+  /* Ajusta el ancho del contenedor según tus necesidades */
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navDireccion {
+  position: absolute;
+  top: 150px;
+  /* Ajusta la distancia desde la parte superior */
+  right: 10%;
+  /* Ajusta la distancia desde la derecha */
+  width: 500px;
+  /* Ajusta el ancho del contenedor según tus necesidades */
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navServicios {
+  position: absolute;
+  top: 850px;
+  /* Ajusta la distancia desde la parte superior */
+  right: 60%;
+  /* Ajusta la distancia desde la derecha */
+  width: 500px;
+  /* Ajusta el ancho del contenedor según tus necesidades */
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navServiciosImagenes {
+  position: absolute;
+  top: 850px;
+  /* Ajusta la distancia desde la parte superior */
+  right: 10%;
+  /* Ajusta la distancia desde la derecha */
+  width: 500px;
+  /* Ajusta el ancho del contenedor según tus necesidades */
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+
+@media screen and (max-width: 768px) {
+  .h1Info {
+    font-size: 24px;
+  }
+
+  .articleInfo {
+    font-size: 16px;
+  }
+
+  /* Ajustar estilos para .etiqueta y otros elementos similares si es necesario */
+
+  /* Estilos para .conteinerInicio y otros contenedores */
+  .conteinerInicio {
+    width: 90%;
+    padding: 10px;
+  }
+
+  /* Ajustar estilos de navegación y otros elementos para dispositivos móviles */
+
+  /* Estilos para .navInfo, .navDireccion, .navServicios y .navServiciosImagenes */
+  .navInfo,
+  .navDireccion,
+  .navServicios,
+  .navServiciosImagenes {
+    position: static;
+    width: 100%;
+    top: auto;
+    right: auto;
+    height: auto;
+    margin-top: 20px;
+    /* Agregar espacio entre secciones */
+  }
+}
+
+/* Continuación de estilos responsive */
+@media screen and (max-width: 768px) {
+  /* ... estilos ajustados previamente ... */
+
+  /* Estilos para .Header y elementos de navegación */
+  .Header {
+    padding: 10px;
+  }
+
+  .navegation {
+    font-size: 0.9em;
+    margin-left: 20px;
+  }
+
+  /* Ajustar estilos de .contenedorBusqueda, .lupa y .barraBusqueda si es necesario */
+
+  /* Estilos para .buttonBorder y otros botones */
+  .buttonBorder {
+    font-size: 14px;
+  }
+
+  /* Ajustar estilos de .footerInicio y .linkInicio si es necesario */
+
+  /* Estilos para las secciones .navInfo, .navDireccion, .navServicios y .navServiciosImagenes */
+  .navInfo,
+  .navDireccion,
+  .navServicios,
+  .navServiciosImagenes {
+    width: 90%;
+    margin: 20px auto;
+    padding: 5px;
+  }
+
+  .Header {
+    padding: 10px;
+  }
+
+  .navegation {
+    font-size: 0.9em;
+    margin-left: 20px;
+  }
+
+  /* Ajustar estilos de .contenedorBusqueda, .lupa y .barraBusqueda si es necesario */
+
+  /* Estilos para .buttonBorder y otros botones */
+  .buttonBorder {
+    font-size: 14px;
+  }
+
+  /* Ajustar estilos de .footerInicio y .linkInicio si es necesario */
+
+  /* Estilos para las secciones .navInfo, .navDireccion, .navServicios y .navServiciosImagenes */
+  .navInfo,
+  .navDireccion,
+  .navServicios,
+  .navServiciosImagenes {
+    width: 90%;
+    margin: 20px auto;
+    padding: 5px;
+  }
+
+  /* Estilos para .nombreEmpresa y otros elementos similares */
+  .nombreEmpresa {
+    font-size: 24px;
+  }
+
+  /* Ajustar estilos de .Header y elementos de navegación si es necesario */
+
+  /* Ajustar estilos de .contenedorBusqueda, .lupa y .barraBusqueda si es necesario */
+
+  /* Estilos para .buttonBorder y otros botones */
+  .buttonBorder {
+    font-size: 14px;
+  }
+
+  /* Ajustar estilos de .footerInicio y .linkInicio si es necesario */
+
+  /* Estilos para las secciones .navInfo, .navDireccion, .navServicios y .navServiciosImagenes */
+  .navInfo,
+  .navDireccion,
+  .navServicios,
+  .navServiciosImagenes {
+    width: 90%;
+    margin: 20px auto;
+    padding: 5px;
+  }
+
+  .buttonBorder {
+    font-size: 14px;
+  }
+
+  /* Ajustar estilos de .footerInicio y .linkInicio si es necesario */
+
+  /* Estilos para las secciones .navInfo, .navDireccion, .navServicios y .navServiciosImagenes */
+  .navInfo,
+  .navDireccion,
+  .navServicios,
+  .navServiciosImagenes {
+    width: 90%;
+    margin: 20px auto;
+    padding: 5px;
+  }
+
+  /* Estilos para .body y .conteinerInicio */
+  .body {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: auto;
+    padding-bottom: 2em;
+  }
+
+  .conteinerInicio {
+    width: 90%;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* Ajustar estilos para .nombreEmpresa si es necesario */
+
+  /* Ajustar estilos para .Header y elementos de navegación si es necesario */
+
+  /* Ajustar estilos de .contenedorBusqueda, .lupa y .barraBusqueda si es necesario */
+
+  /* Estilos para .buttonBorder y otros botones */
+  .buttonBorder {
+    font-size: 14px;
+  }
+}

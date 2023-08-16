@@ -1,0 +1,62 @@
+.FondoGerenteInicio {
+
+    background-image: url('/indexInicio/extintores_fuego.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    position: fixed;
+    padding-bottom: 2em;
+
+    justify-content: center;
+    
+}
+
+.tituloGerente {
+
+    padding: 1em 0;
+    text-align: center;
+    bottom: 0;
+    font-size: 38px;
+    font-family: "Josefin_Sans";
+    color: #111010;
+    cursor: default;
+
+    color: transparent;
+    /* Hacemos el color del texto transparente */
+    -webkit-text-stroke: 2px #fa0606e2;
+    /* Para navegadores basados en WebKit */
+    filter: drop-shadow(0px 0px 5px rgba(14, 11, 11, 0.8));
+}
+
+.Botonera {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Botonera button {
+    
+    font-family: "Josefin_Sans";
+    margin: 20px;
+    padding: 15px 20px;
+    font-size: 20px;
+    background-color: #007bff44; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.Botonera button:hover {
+    background-color: #0056b3; /* Color de fondo del botón al pasar el cursor */
+    transform: scale(1.05); /* Efecto de escala al pasar el cursor */
+}
+
+
