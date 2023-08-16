@@ -3,7 +3,7 @@ import router from "next/router";
 import { useState } from 'react';
 import{ FaEye, FaReply } from 'react-icons/fa';
 
-export default function Home() {
+export default function IndexInicioSecion() {
     const [VerContrasena, setVerContrasena] = useState(false);
     const [Password, setPassword] = useState('');
     const [SelectedOption, setSelectedOption] = useState('Opciones');
