@@ -1,9 +1,7 @@
 import Link from "next/link";
 import router from "next/router";
 
-
-
-export default function IndexEmpleadoInicio() {
+export default function Home() {
     const InicioLinkClick = (event: { preventDefault: () => void }) => {
         event.preventDefault();
         router.push("/");
