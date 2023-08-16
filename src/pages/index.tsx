@@ -1,7 +1,7 @@
 import Link from "next/link";
 import{ FaRegUserCircle, FaFire, FaMapMarked, FaTools } from 'react-icons/fa'
 
-export default function Index() {
+export default function Home() {
   return (
     <>
       <div className="body">
