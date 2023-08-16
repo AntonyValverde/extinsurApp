@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import '@/styles/IndexInicio.css'
+import '@/styles/indexInicio.css'
 import '@/styles/IndexInicioSecion.css'
 import '@/styles/IndexGerenteInicio.css'
 
