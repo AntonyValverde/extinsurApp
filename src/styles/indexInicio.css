@@ -215,8 +215,6 @@ h2, h3 {
 }
 
 
-
-
 .navInfo {
   position: absolute;
   top: 150px;
@@ -232,9 +230,37 @@ h2, h3 {
   overflow: auto;
 }
 
-.navDireccion {
+.navInfoFotos {
   position: absolute;
   top: 150px;
+   
+  right: 10%;
+  
+  width: 500px;
+   
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navDireccion {
+  position: absolute;
+  top: 850px;
+  
+  right: 60%;
+  width: 500px; 
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navProductos {
+  position: absolute;
+  top: 1550px;
   
   right: 10%;
    
@@ -249,7 +275,7 @@ h2, h3 {
 
 .navServicios {
   position: absolute;
-  top: 850px;
+  top: 1550px;
    
   right: 60%;
   

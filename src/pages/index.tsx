@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { FaRegUserCircle, FaFire, FaMapMarked, FaTools, FaSistrix, FaFacebook, FaInstagram, FaEnvelopeOpenText, FaWhatsapp, FaPortrait, FaIcons } from 'react-icons/fa'
+import React from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { FaRegUserCircle, FaFire, FaMapMarked, FaTools, FaSistrix, FaFacebook, FaInstagram, FaFireExtinguisher, FaEnvelopeOpenText, FaWhatsapp, FaPortrait, FaIcons } from 'react-icons/fa'
 
 export default function Home() {
   return (
@@ -8,7 +11,7 @@ export default function Home() {
         <header>
           <div className="Header">
 
-            <h1 className="nombreEmpresa">ExtinSurr</h1>
+            <h1 className="nombreEmpresa">ExtinSur</h1>
 
             <div className="contenedorBusqueda">
               <input className="barraBusqueda" type="text" />
@@ -33,7 +36,7 @@ export default function Home() {
 
         <nav className="navInfo">
           <h1 className="h1Info">
-          <span className="text">Extinsur</span>
+            <span className="text">Extinsur</span>
             <FaFire className="icons"></FaFire>
           </h1>
           <div>
@@ -52,6 +55,36 @@ export default function Home() {
               Coordenadas exactas:
               <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
             </article>
+          </div>
+        </nav>
+
+        <nav className="navInfoFotos">
+
+          <div>
+
+            <article>
+
+              <Carousel 
+                autoPlay={true}  
+                interval={4000}  
+                infiniteLoop={true}  
+                showThumbs={false}
+                
+              >
+                <div>
+                  <img src="/indexInicio/extintor_rotulo.png" alt="Imagen 1" />
+                </div>
+                <div>
+                  <img src="/indexInicio/varios_extintores.jpg" alt="Imagen 2" />
+                </div>
+                <div>
+                  <img src="/indexInicio/extintor-para-incendios-abc.jpg" alt="Imagen 2" />
+                </div>
+
+              </Carousel>
+
+            </article>
+
           </div>
         </nav>
 
@@ -118,6 +151,30 @@ export default function Home() {
           </div>
         </nav>
 
+        <nav className="navProductos">
+          <h1 className="h1Info">
+            <span className="text">Productos</span>
+            <FaFireExtinguisher className="icons"></FaFireExtinguisher>
+          </h1>
+          <div>
+            <article className="articleInfo">
+              La empresa ExtinSur y sus empleados se encuentran
+              capacitados para ofrecer servicios de mantenimiento,
+              cambio de agen
+
+            </article>
+
+            <article className="articleInfo">
+
+            </article>
+
+            <article className="articleInfo">
+              Coordenadas exactas:
+              <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
+            </article>
+          </div>
+        </nav>
+
         <footer className="footerInicio">
           <div>
             <div>
@@ -147,7 +204,7 @@ export default function Home() {
           </div>
 
           <div>
-            <h1>Redes Sociales <FaIcons className="icons"></FaIcons></h1>
+
             <div>
               <h2>Instagram <FaInstagram className="icons"></FaInstagram></h2>
               <div>

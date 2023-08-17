@@ -1,16 +1,30 @@
 import Link from "next/link";
 import router from "next/router";
 import { useState } from 'react';
-import{ FaEye, FaReply } from 'react-icons/fa';
+import { FaEye, FaReply } from 'react-icons/fa';
 
 export default function IndexInicioSesion() {
     const [VerContrasena, setVerContrasena] = useState(false);
     const [Password, setPassword] = useState('');
+    const [Email, setEmail] = useState('');
     const [SelectedOption, setSelectedOption] = useState('Opciones');
 
     const InicioLinkClick = (event: { preventDefault: () => void }) => {
         event.preventDefault();
         router.push("/");
+    };
+
+    const handleLogin = () => {
+         
+
+        if (!Email.trim() || !Password.trim()) {
+            alert('Por favor, completa todos los campos.');
+            return;
+        }
+
+
+        const redirectTo = SelectedOption === 'Gerente' ? '/IndexGerenteInicio' : '/IndexEmpleadoInicio';
+        console.log('Iniciar sesión y redireccionar a:', redirectTo);
     };
 
     const verContraseña = () => {
@@ -26,17 +40,23 @@ export default function IndexInicioSesion() {
             <div className="FondoInicioSecion">
                 <nav className="navegationSecion">
                     <Link href="#" className="buttonBorderAtras" onClick={InicioLinkClick}>
-                       
+
                         <FaReply className="icons"></FaReply>
                     </Link>
-                    
+
                 </nav>
                 <div className="contenedorInicio">
                     <form className="contenedorFormulario">
                         <h1 className="titulo">ExtinSur Login</h1>
                         <div className="caja">
                             <h3 className="texto">Email</h3>
-                            <input type="text" className="input" />
+                            <input
+                                type="text"
+                                className="input"
+                                value={Email}
+                                onChange={(e) => setEmail(e.target.value)}
+
+                            />
                         </div>
                         <div className="caja">
                             <h3 className="texto" >Contraseña</h3>
@@ -63,8 +83,8 @@ export default function IndexInicioSesion() {
                             </div>
                         </div>
                         <div className="cajax">
-                            <a className="IniciarSecionLink" href={SelectedOption === 'Gerente' ? '/IndexGerenteInicio' : '/IndexEmpleadoInicio'}>Iniciar Sesión</a>
-      
+                            <a className="IniciarSecionLink" onClick={handleLogin}>Iniciar Sesión</a>
+
                         </div>
 
                     </form>
