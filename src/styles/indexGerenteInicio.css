@@ -14,7 +14,7 @@
     padding-bottom: 2em;
 
     justify-content: center;
-    
+
 }
 
 .tituloGerente {
@@ -34,29 +34,134 @@
     filter: drop-shadow(0px 0px 5px rgba(14, 11, 11, 0.8));
 }
 
-.Botonera {
-    display: flex;
-    flex-direction: column;
+
+.iconsGerente {
     align-items: center;
+    text-align: center;
+    margin-left: 40%;
+    height: 40px;
 }
 
-.Botonera button {
-    
+.iconsGerente2 {
+    align-items: center;
+    text-align: center;
+    margin-left: 45%;
+    height: 40px;
+}
+
+.iconsSalir {
+    font-size: 40px;
+}
+
+
+
+.flex {
+
+    text-align: center;
+
+    bottom: 0;
+    width: 95%;
+    font-size: 40px;
     font-family: "Josefin_Sans";
-    margin: 20px;
-    padding: 15px 20px;
-    font-size: 20px;
-    background-color: #007bff44; /* Color de fondo del botón */
-    color: #fff; /* Color del texto del botón */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    color: #fff;
+
+    display: flex;
+    justify-content: space-between;
 }
 
-.Botonera button:hover {
-    background-color: #0056b3; /* Color de fondo del botón al pasar el cursor */
-    transform: scale(1.05); /* Efecto de escala al pasar el cursor */
+.flex>div {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.column {
+    /*index*/
+    background: rgba(255, 255, 255, 0.326);
+    color: #333;
+    border: 1px solid #333;
+    margin-left: 6%;
+    margin-bottom: 1%;
+    margin-top: 3%;
+    padding: 0.8%;
+    border-radius: 8px;
+    box-shadow: 8px 8px 5px #d90c0c;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    ;
+
+}
+
+.column:hover {
+    background: linear-gradient(to bottom, #ff9500, #ffcc00, #ffe600);
+    color: #fff;
+    box-shadow: 8px 8px 10px #d90c0c;
+}
+
+.button {
+    align-items: center;
+    text-align: center;
 }
 
 
+@media (max-width: 768px) {
+    .FondoGerenteInicio {
+        background-size: contain;
+        padding-bottom: 0;
+    }
+
+    .tituloGerente {
+        font-size: 24px;
+    }
+
+    .iconsGerente,
+    .iconsGerente2 {
+        margin-left: 10%;
+    }
+
+    .iconsSalir {
+        font-size: 30px;
+    }
+
+    .flex {
+        flex-direction: column;
+        align-items: center;
+        font-size: 28px;
+    }
+
+    .flex>div {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .column {
+        margin-left: 2%;
+        margin-bottom: 5%;
+        margin-top: 2%;
+        padding: 5%;
+        border-radius: 8px;
+        box-shadow: 5px 5px 5px #d90c0c;
+    }
+
+    .column:hover {
+        background: linear-gradient(to bottom, #ff9500, #ffcc00, #ffe600);
+        color: #fff;
+        box-shadow: 5px 5px 10px #d90c0c;
+    }
+
+    .button {
+        align-items: center;
+        text-align: center;
+        margin-top: 10px;  
+        padding: 10px 20px;  
+        font-size: 18px;  
+        border: none;
+        border-radius: 5px;
+        background-color: #ff9500;  
+        color: #fff;  
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .button:hover {
+        background-color: #ffcc00;  
+    }
+}

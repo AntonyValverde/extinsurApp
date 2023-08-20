@@ -1,38 +1,5 @@
-.h1Info {
-  font-family: "Josefin_Sans";
-  font-size: 32px;
-  margin-bottom: 20px;
-}
+/*Head and body-----------------------------------------------------------------------------------------------------------------*/
 
-.articleInfo {
-  font-family: "Josefin_Sans";
-  font-size: 20px;
-  margin-bottom: 20px;
-  padding-left: 20px;
-}
-
-.linkMaps {
-  color: #1284c7;
-  font-family: "Josefin_Sans";
-}
-
-.etiqueta {
-  /*Head*/
-  background-color: #aa1d1d;
-  color: #d9d9d9;
-  font-size: 32px;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-bottom: -10px;
-  text-align: left;
-  font-family: "Josefin_Sans";
-  padding: 15px;
-}
-
-/* Responsive Styles head */
-
-/* Establecer la imagen de fondo */
 .body {
   background-image: url('/indexInicio/extintores_fuego.jpg');
   background-size: cover;
@@ -48,12 +15,22 @@
   padding-bottom: 2em;
 }
 
+
+@media (max-width: 767px) {
+  .body {
+    height: 600vh;
+    width: 200vh;
+    padding-bottom: 0;
+  }
+}
+
+
 .conteinerInicio {
   background-color: rgba(239, 220, 220, 0.8);
   width: 80%;
-  /* Ancho del contenedor */
+
   margin: 0 auto;
-  /* Margen horizontal automático para centrar el contenedor */
+
   padding: 20px;
   padding-top: 30px;
   padding-right: 20px;
@@ -63,13 +40,6 @@
   border: 1px solid #140303;
 }
 
-/* Estilos adicionales para el contenido */
-.nombreEmpresa {
-  font-family: 'Josefin Sans', sans-serif;
-  font-family: 'Roboto Slab', serif;
-  font-size: 28px;
-}
-
 .Header {
   position: absolute;
   top: 0;
@@ -77,21 +47,25 @@
   width: 100%;
   background-color: transparent;
   color: #100101;
-  padding: 20px 100px;
+  padding: 20px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 99;
 }
 
-.navegation {
-  position: relative;
-  font-size: 1.1em;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 40px;
+@media (min-width: 768px) {
+  .Header {
+    flex-direction: row;
+    padding: 5px 5%;
+    justify-content: space-between;
+  }
+}
 
+.nombreEmpresa {
+  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Roboto Slab', serif;
+  font-size: 28px;
 }
 
 .contenedorBusqueda {
@@ -100,12 +74,14 @@
   position: relative;
 }
 
-.contactos {
-  /*footer*/
-  font-family: "Josefin_Sans";
-  font-size: 20px;
-  margin-inline: 35px;
-  color: #d9d9d9;
+.navegation {
+  position: relative;
+  font-size: 1.1em;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 20px;
+
 }
 
 .lupa {
@@ -113,7 +89,7 @@
   height: 30px;
   margin-top: -3px;
   position: absolute;
-  right: 3px;
+  right: 5%;
   cursor: pointer;
 }
 
@@ -129,9 +105,11 @@
   font-size: 20px;
   font-family: "Josefin_Sans";
   opacity: 0.8;
+  width: 100%;
 }
-.icons{
-  display:inline-block;
+
+.icons {
+  display: inline-block;
   padding: 1px;
 }
 
@@ -167,7 +145,274 @@
 
 }
 
- 
+/*Nav----------------------------------------------------------------------------------------------------------------------------*/
+
+.navIndex {
+  font-family: "Josefin_Sans";
+  font-size: 50px; 
+}
+
+.navInfo {
+  position: absolute;
+  top: 150px;
+
+  right: 60%;
+
+  width: 500px;
+
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.h1Info {
+  font-family: "Josefin_Sans";
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.text {
+  margin-right: 8px;
+}
+
+.icons {
+  margin-left: 8px;
+}
+
+.articleInfo {
+  font-family: "Josefin_Sans";
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.linkMaps {
+  color: #1284c7;
+  font-family: "Josefin_Sans";
+}
+
+.navInfoFotos {
+  position: absolute;
+  top: 150px;
+
+  right: 10%;
+
+  width: 500px;
+
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navDireccion {
+  position: absolute;
+  top: 850px;
+
+  right: 60%;
+  width: 500px;
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navProductos {
+  position: absolute;
+  top: 1550px;
+
+  right: 10%;
+
+  width: 500px;
+
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navServicios {
+  position: absolute;
+  top: 1550px;
+
+  right: 60%;
+
+  width: 500px;
+
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+.navServiciosImagenes {
+  position: absolute;
+  top: 850px;
+
+  right: 10%;
+
+  width: 500px;
+
+  height: 500px;
+  background-color: rgba(255, 254, 254, 0.166);
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+}
+
+@media (max-width: 768px) {
+  .navIndex {
+    font-size: 30px;
+     
+    align-content: center;
+    
+  }
+
+   
+  .navInfo{
+     
+    top: 20vh;
+    position: absolute;
+    width: auto;
+    max-width: none;
+    height: auto;
+    display: 10px;
+
+    right: 20%;
+    left: 20%;
+     
+    background-color: rgba(255, 254, 254, 0.166);
+    border: 1px solid #100d0d;
+    padding: 50px;
+    overflow: auto;
+    margin-bottom: 5%;
+  }
+
+  .navInfoFotos{
+    top: 100vh;
+    position: absolute;
+    width: auto;
+    max-width: none;
+    height: auto;
+    display: 10px;
+
+    right: 20%;
+    left: 20%;
+     
+    background-color: rgba(255, 254, 254, 0.166);
+    border: 1px solid #100d0d;
+    padding: 50px;
+    overflow: auto;
+    margin-bottom: 5%;
+     
+  }
+
+  .navDireccion{
+    top: 245vh;
+    position: absolute;
+    width: auto;
+    max-width: none;
+    height: auto;
+    display: 10px;
+    
+    right: 20%;
+    left: 20%;
+     
+    background-color: rgba(255, 254, 254, 0.166);
+    border: 1px solid #100d0d;
+    padding: 50px;
+    overflow: auto;
+    margin-bottom: 5%;
+    
+  }
+
+  .navProductos{
+    top: 310vh;
+    position: absolute;
+    width: auto;
+    max-width: none;
+    height: auto;
+    display: 10px;
+    
+    right: 20%;
+    left: 20%;
+     
+    background-color: rgba(255, 254, 254, 0.166);
+    border: 1px solid #100d0d;
+    padding: 50px;
+    overflow: auto;
+    margin-bottom: 5%;
+     
+  }
+
+  .navServicios{
+    top: 385vh;
+    position: absolute;
+    width: auto;
+    max-width: none;
+    height: auto;
+    display: 10px;
+  
+    right: 20%;
+    left: 20%;
+     
+    background-color: rgba(255, 254, 254, 0.166);
+    border: 1px solid #100d0d;
+    padding: 50px;
+    overflow: auto;
+    margin-bottom: 5%;
+     
+  }
+
+  .navServiciosImagenes {
+    top: 455vh;
+    position: absolute;
+    width: auto;
+    max-width: none;
+    height: auto;
+    display: 10px;
+
+    right: 20%;
+    left: 20%;
+     
+    background-color: rgba(255, 254, 254, 0.166);
+    border: 1px solid #100d0d;
+    padding: 50px;
+    overflow: auto;
+    margin-bottom: 5%;
+     
+  }
+}
+
+
+/*Footer-------------------------------------------------------------------------------------------------------------------------*/
+
+.etiqueta {
+  background-color: #aa1d1d;
+  color: #d9d9d9;
+  font-size: 32px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: -10px;
+  text-align: left;
+  font-family: "Josefin_Sans";
+  padding: 15px;
+}
+
+.contactos {
+  font-family: "Josefin_Sans";
+  font-size: 20px;
+  margin-inline: 35px;
+  color: #d9d9d9;
+}
+
 .linkInicio {
   margin-left: 35%;
   font-size: 28px;
@@ -180,8 +425,6 @@
   background-color: #454545;
   color: #2ce3f7;
 }
-
-
 
 .footerInicio {
   background-color: #100101;
@@ -196,255 +439,44 @@
 
   display: flex;
   justify-content: space-between;
-   
+
 }
 
-.footerInicio > div {
-  flex: 1;  
-  margin-right: 20px;  
+.footerInicio>div {
+  flex: 1;
+  margin-right: 20px;
 }
 
- 
-h2, h3 {
-  margin-left: 10px; /* Sangría para los niveles de encabezado */
+
+h2,
+h3 {
+  margin-left: 10px;
+
 }
 
 .linkMaps {
-  display: block; /* Convertir el enlace en un bloque para ocupar el espacio disponible */
-  margin-top: 5px; /* Espaciado superior para los enlaces */
+  display: block;
+
+  margin-top: 5px;
+
 }
 
-
-.navInfo {
-  position: absolute;
-  top: 150px;
-   
-  right: 60%;
-  
-  width: 500px;
-   
-  height: 500px;
-  background-color: rgba(255, 254, 254, 0.166);
-  border: 1px solid #100d0d;
-  padding: 10px;
-  overflow: auto;
-}
-
-.navInfoFotos {
-  position: absolute;
-  top: 150px;
-   
-  right: 10%;
-  
-  width: 500px;
-   
-  height: 500px;
-  background-color: rgba(255, 254, 254, 0.166);
-  border: 1px solid #100d0d;
-  padding: 10px;
-  overflow: auto;
-}
-
-.navDireccion {
-  position: absolute;
-  top: 850px;
-  
-  right: 60%;
-  width: 500px; 
-  height: 500px;
-  background-color: rgba(255, 254, 254, 0.166);
-  border: 1px solid #100d0d;
-  padding: 10px;
-  overflow: auto;
-}
-
-.navProductos {
-  position: absolute;
-  top: 1550px;
-  
-  right: 10%;
-   
-  width: 500px;
-   
-  height: 500px;
-  background-color: rgba(255, 254, 254, 0.166);
-  border: 1px solid #100d0d;
-  padding: 10px;
-  overflow: auto;
-}
-
-.navServicios {
-  position: absolute;
-  top: 1550px;
-   
-  right: 60%;
-  
-  width: 500px;
- 
-  height: 500px;
-  background-color: rgba(255, 254, 254, 0.166);
-  border: 1px solid #100d0d;
-  padding: 10px;
-  overflow: auto;
-}
-
-.navServiciosImagenes {
-  position: absolute;
-  top: 850px;
-   
-  right: 10%;
-   
-  width: 500px;
-   
-  height: 500px;
-  background-color: rgba(255, 254, 254, 0.166);
-  border: 1px solid #100d0d;
-  padding: 10px;
-  overflow: auto;
-}
-
-.text {
-  margin-right: 8px;  
-}
-
-.icons {
-  margin-left: 8px;  
-}
-
-
-@media screen and (max-width: 768px) {
-  .h1Info {
+@media (max-width: 768px) {
+  .etiqueta {
     font-size: 24px;
   }
 
-  .articleInfo {
-    font-size: 16px;
+  .contactos {
+    font-size: 18px;
+    margin: 0 20px;
   }
 
-
-  .conteinerInicio {
-    width: 90%;
-    padding: 10px;
-  }
-
- 
-  .navInfo,
-  .navDireccion,
-  .navServicios,
-  .navServiciosImagenes {
-    position: static;
-    width: 100%;
-    top: auto;
-    right: auto;
-    height: auto;
-    margin-top: 20px;
-    /* Agregar espacio entre secciones */
-  }
-
-
-  .Header {
-    padding: 10px;
-  }
-
-  .navegation {
-    font-size: 0.9em;
-    margin-left: 20px;
-  }
-
-  
-  .buttonBorder {
-    font-size: 14px;
-  }
-
- 
-  .navInfo,
-  .navDireccion,
-  .navServicios,
-  .navServiciosImagenes {
-    width: 90%;
-    margin: 20px auto;
-    padding: 5px;
-  }
-
-  .Header {
-    padding: 10px;
-  }
-
-  .navegation {
-    font-size: 0.9em;
-    margin-left: 20px;
-  }
-
-  /* Ajustar estilos de .contenedorBusqueda, .lupa y .barraBusqueda si es necesario */
-
-  /* Estilos para .buttonBorder y otros botones */
-  .buttonBorder {
-    font-size: 14px;
-  }
-
-  .navInfo,
-  .navDireccion,
-  .navServicios,
-  .navServiciosImagenes {
-    width: 90%;
-    margin: 20px auto;
-    padding: 5px;
-  }
-
-  /* Estilos para .nombreEmpresa y otros elementos similares */
-  .nombreEmpresa {
+  .linkInicio {
     font-size: 24px;
+    margin-left: 20%;
   }
 
-
-  .buttonBorder {
-    font-size: 14px;
-  }
-
-  /* Ajustar estilos de .footerInicio y .linkInicio si es necesario */
-
-  /* Estilos para las secciones .navInfo, .navDireccion, .navServicios y .navServiciosImagenes */
-  .navInfo,
-  .navDireccion,
-  .navServicios,
-  .navServiciosImagenes {
-    width: 90%;
-    margin: 20px auto;
-    padding: 5px;
-  }
-
-  .buttonBorder {
-    font-size: 14px;
-  }
-
-  
-  .navInfo,
-  .navDireccion,
-  .navServicios,
-  .navServiciosImagenes {
-    width: 90%;
-    margin: 20px auto;
-    padding: 5px;
-  }
-
-  /* Estilos para .body y .conteinerInicio */
-  .body {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: auto;
-    padding-bottom: 2em;
-  }
-
-  .conteinerInicio {
-    width: 90%;
-    padding: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
- 
-  .buttonBorder {
-    font-size: 14px;
+  .footerInicio {
+    font-size: 24px;
   }
 }

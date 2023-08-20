@@ -16,6 +16,15 @@ export default function IndexEmpleadoInicio() {
                     </Link>
                 </nav>
                 <h1 className="tituloGerente">Empleados ExtinSur</h1>
+                <nav>
+                    <div className="column">
+                        <h3 className="title">Date Units</h3>
+                        
+                        <Link href="/indexCita" className="button">
+                            Citas Unidades
+                        </Link>
+                    </div>
+                </nav>
 
                 <nav className="Botonera">
                     <button>Inventario</button>

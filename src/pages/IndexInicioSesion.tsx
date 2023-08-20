@@ -1,7 +1,8 @@
+import { FaReply, FaEye} from 'react-icons/fa'
 import Link from "next/link";
+import React, { useState } from 'react';
 import router from "next/router";
-import { useState } from 'react';
-import { FaEye, FaReply } from 'react-icons/fa';
+
 
 export default function IndexInicioSesion() {
     const [VerContrasena, setVerContrasena] = useState(false);
@@ -15,7 +16,7 @@ export default function IndexInicioSesion() {
     };
 
     const handleLogin = () => {
-         
+
 
         if (!Email.trim() || !Password.trim()) {
             alert('Por favor, completa todos los campos.');
@@ -41,9 +42,8 @@ export default function IndexInicioSesion() {
                 <nav className="navegationSecion">
                     <Link href="#" className="buttonBorderAtras" onClick={InicioLinkClick}>
 
-                        <FaReply className="icons"></FaReply>
+                        <FaReply className="iconsSalir"></FaReply>
                     </Link>
-
                 </nav>
                 <div className="contenedorInicio">
                     <form className="contenedorFormulario">
@@ -55,7 +55,6 @@ export default function IndexInicioSesion() {
                                 className="input"
                                 value={Email}
                                 onChange={(e) => setEmail(e.target.value)}
-
                             />
                         </div>
                         <div className="caja">
@@ -83,15 +82,10 @@ export default function IndexInicioSesion() {
                             </div>
                         </div>
                         <div className="cajax">
-                            <a className="IniciarSecionLink" onClick={handleLogin}>Iniciar Sesión</a>
-
+                            <a className="IniciarSecionLink" href="/IndexGerenteInicio">Iniciar Sesión</a>
                         </div>
-
                     </form>
-
-
                 </div>
-
             </div>
         </>
     );
