@@ -54,18 +54,55 @@
   z-index: 99;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .Header {
+    background-color: #01ddff; 
     flex-direction: row;
-    padding: 5px 5%;
+    padding: 55px 5%;
     justify-content: space-between;
+     
+  }
+
+  .navegation {
+    position: relative;
+    font-size: 5.1em;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 20px;
+  
+  }
+
+  .text {
+    margin-right: 8px;
+    font-size: 0px;
+    color: transparent;
+  }
+
+  .icons {
+    display: inline-block;
+    padding: 3px;
+    font-size: 60px;
+  }
+
+  .nombreEmpresa {
+    font-family: 'Josefin Sans', sans-serif;
+    font-family: 'Roboto Slab', serif;
+    font-size: 50px;
+    position: relative;
+  }
+  
+  .contenedorBusqueda {
+    display: flex;
+    align-items: center;
+    position: relative;
   }
 }
 
 .nombreEmpresa {
   font-family: 'Josefin Sans', sans-serif;
   font-family: 'Roboto Slab', serif;
-  font-size: 28px;
+  font-size: 58px;
 }
 
 .contenedorBusqueda {
@@ -149,7 +186,7 @@
 
 .navIndex {
   font-family: "Josefin_Sans";
-  font-size: 50px; 
+  font-size: 50px;
 }
 
 .navInfo {
@@ -212,8 +249,11 @@
   position: absolute;
   top: 850px;
 
-  right: 60%;
-  width: 500px;
+  right: 9%;
+  left: 9%;
+
+  width: auto;
+  
   height: 500px;
   background-color: rgba(255, 254, 254, 0.166);
   border: 1px solid #100d0d;
@@ -269,25 +309,24 @@
 @media (max-width: 768px) {
   .navIndex {
     font-size: 30px;
-     
     align-content: center;
-    
   }
 
    
   .navInfo{
+    font-size: 34px;
      
-    top: 20vh;
+    top: 40vh;
     position: absolute;
     width: auto;
     max-width: none;
     height: auto;
     display: 10px;
 
-    right: 20%;
-    left: 20%;
+    right: 3%;
+    left: 3%;
      
-    background-color: rgba(255, 254, 254, 0.166);
+    background-color: rgba(255, 254, 254, 0.666);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -295,7 +334,7 @@
   }
 
   .navInfoFotos{
-    top: 100vh;
+    top: 150vh;
     position: absolute;
     width: auto;
     max-width: none;
@@ -305,7 +344,7 @@
     right: 20%;
     left: 20%;
      
-    background-color: rgba(255, 254, 254, 0.166);
+    background-color: rgba(255, 254, 254, 0.666);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -314,17 +353,17 @@
   }
 
   .navDireccion{
-    top: 245vh;
+    top: 280vh;
     position: absolute;
     width: auto;
     max-width: none;
     height: auto;
     display: 10px;
     
-    right: 20%;
-    left: 20%;
+    right: 3%;
+    left: 3%;
      
-    background-color: rgba(255, 254, 254, 0.166);
+    background-color: rgba(255, 254, 254, 0.666);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -333,17 +372,17 @@
   }
 
   .navProductos{
-    top: 310vh;
+    top: 370vh;
     position: absolute;
     width: auto;
     max-width: none;
     height: auto;
     display: 10px;
     
-    right: 20%;
-    left: 20%;
+    right: 3%;
+    left: 3%;
      
-    background-color: rgba(255, 254, 254, 0.166);
+    background-color: rgba(255, 254, 254, 0.666);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -352,17 +391,17 @@
   }
 
   .navServicios{
-    top: 385vh;
+    top: 470vh;
     position: absolute;
     width: auto;
     max-width: none;
     height: auto;
     display: 10px;
   
-    right: 20%;
-    left: 20%;
+    right: 3%;
+    left: 3%;
      
-    background-color: rgba(255, 254, 254, 0.166);
+    background-color: rgba(255, 254, 254, 0.666);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -370,23 +409,31 @@
      
   }
 
-  .navServiciosImagenes {
-    top: 455vh;
-    position: absolute;
-    width: auto;
-    max-width: none;
-    height: auto;
-    display: 10px;
+   
 
-    right: 20%;
-    left: 20%;
-     
-    background-color: rgba(255, 254, 254, 0.166);
-    border: 1px solid #100d0d;
-    padding: 50px;
-    overflow: auto;
-    margin-bottom: 5%;
-     
+  .h1Info {
+    font-family: "Josefin_Sans";
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  .icons {
+    margin-left: 8px;
+  }
+  
+  .articleInfo {
+    font-family: "Josefin_Sans";
+    font-size: 40px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+  }
+  
+  .linkMaps {
+    font-size: 38px;
+    color: #1284c7;
+    font-family: "Josefin_Sans";
   }
 }
 
@@ -467,16 +514,16 @@ h3 {
   }
 
   .contactos {
-    font-size: 18px;
+    font-size: 32px;
     margin: 0 20px;
   }
 
   .linkInicio {
-    font-size: 24px;
+    font-size: 34px;
     margin-left: 20%;
   }
 
   .footerInicio {
-    font-size: 24px;
+    font-size: 34px;
   }
 }

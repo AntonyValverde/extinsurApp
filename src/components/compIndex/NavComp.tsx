@@ -107,23 +107,7 @@ const Nav_index = ({ }) => {
                 </div>
             </nav>
 
-            <nav className="navServiciosImagenes">
-                <h1 className="h1Info">Puestos de venta</h1>
-                <div>
-                    <article className="articleInfo">
-
-                    </article>
-
-                    <article className="articleInfo">
-
-                    </article>
-
-                    <article className="articleInfo">
-                        Coordenadas exactas:
-                        <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
-                    </article>
-                </div>
-            </nav>
+             
 
             <nav className="navProductos">
                 <h1 className="h1Info">
