@@ -28,6 +28,7 @@ const Nav_index = ({ }) => {
                         Coordenadas exactas:
                         <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
                     </article>
+                    
                 </div>
             </nav>
 
@@ -48,7 +49,7 @@ const Nav_index = ({ }) => {
                             <img className='fotos' src="/indexInicio/extintor_rotulo.png" alt="Imagen 1" />
                         </div>
                         <div>
-                            <img className='fotos'  src="/indexInicio/varios_extintores.jpg" alt="Imagen 2" />
+                            <img className='fotos' src="/indexInicio/varios_extintores.jpg" alt="Imagen 2" />
                         </div>
                         <div>
                             <img className='fotos' src="/indexInicio/extintor-para-incendios-abc.jpg" alt="Imagen 2" />
@@ -92,6 +93,7 @@ const Nav_index = ({ }) => {
                 </div>
             </nav>
 
+
             <nav className="navServicios">
                 <h1 className="h1Info">
                     <span className="text">Servicios</span>
@@ -101,21 +103,21 @@ const Nav_index = ({ }) => {
                     <article className="articleInfo">
                         <Link href="/IndexInicioSesion" className="buttonBorder">
                             <span className="textOpcionesPro">Mantenimiento</span>
-                            <FaFireExtinguisher className="iconsInicio"></FaFireExtinguisher>
+                            <FaFireExtinguisher className="iconsPro"></FaFireExtinguisher>
                         </Link>
                     </article>
 
                     <article className="articleInfo">
                         <Link href="/IndexInicioSesion" className="buttonBorder">
                             <span className="textOpcionesPro">Recarga</span>
-                            <FaFireExtinguisher className="iconsInicio"></FaFireExtinguisher>
+                            <FaFireExtinguisher className="iconsPro"></FaFireExtinguisher>
                         </Link>
                     </article>
 
                     <article className="articleInfo">
                         <Link href="/IndexInicioSesion" className="buttonBorder">
                             <span className="textOpcionesPro">Revisión</span>
-                            <FaFireExtinguisher className="iconsInicio"></FaFireExtinguisher>
+                            <FaFireExtinguisher className="iconsPro"></FaFireExtinguisher>
                         </Link>
                     </article>
                 </div>
@@ -132,23 +134,18 @@ const Nav_index = ({ }) => {
                     <article className="articleInfo">
                         <Link href="/IndexInicioSesion" className="buttonBorder">
                             <span className="textOpcionesPro">Extintores</span>
-                            <FaFireExtinguisher className="iconsInicio"></FaFireExtinguisher>
+                            <FaFireExtinguisher className="iconsPro"></FaFireExtinguisher>
                         </Link>
 
                     </article>
                     <article className='articleInfo'>
                         <Link href="/IndexInicioSesion" className="buttonBorder">
                             <span className="textOpcionesPro">Rotulos</span>
-                            <FaDirections className="iconsInicio"></FaDirections>
+                            <FaDirections className="iconsPro"></FaDirections>
                         </Link>
-                    </article>
-
-                    <article className="articleInfo">
-
                     </article>
                 </div>
             </nav>
-
 
         </>
     );

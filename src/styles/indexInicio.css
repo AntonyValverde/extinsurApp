@@ -177,6 +177,7 @@
   background-color: transparent;
   color: rgb(14, 12, 0);
   border: none;
+  border-radius: 40%;
   position: relative;
   overflow: hidden;
   font-size: 20px;
@@ -220,9 +221,9 @@
 
   right: 60%;
 
-  width: 500px;
+  width: 30vw;
 
-  height: 500px;
+  height: 60vh;
   background-color: rgba(255, 254, 254, 0.166);
   border: 1px solid #100d0d;
   padding: 10px;
@@ -246,13 +247,20 @@
 
 .textOpcionesPro{
   margin-right: 8px;
-  font-size: 40px;
+  font-size: 30px;
 }
 
 .icons {
   margin-left: 8px;
+  
 }
 
+.iconsPro {
+   
+  display: inline-block;
+  padding: 3px;
+  font-size: 35px;
+}
 .articleInfo {
   font-family: "Josefin_Sans";
   font-size: 20px;
@@ -271,9 +279,9 @@
 
   right: 10%;
 
-  width: 500px;
+  width: 30vw;
 
-  height: 500px;
+  height: 60vh;
   background-color: rgba(255, 254, 254, 0.166);
   border: 1px solid #100d0d;
   padding: 10px;
@@ -287,9 +295,9 @@
   right: 9%;
   left: 9%;
 
-  width: auto;
+  width: 80vw;
 
-  height: 500px;
+  height: 60vh;
   background-color: rgba(255, 254, 254, 0.166);
   border: 1px solid #100d0d;
   padding: 10px;
@@ -302,14 +310,15 @@
 
   right: 10%;
 
-  width: 500px;
+  width: 30vw;
 
-  height: 500px;
+  height: 50vh;
   background-color: rgba(255, 254, 254, 0.166);
   border: 1px solid #100d0d;
   padding: 10px;
   overflow: auto;
 }
+ 
 
 .navServicios {
   position: absolute;
@@ -317,9 +326,9 @@
 
   right: 60%;
 
-  width: 500px;
+  width: 30vw;
 
-  height: 500px;
+  height: 50vh;
   background-color: rgba(255, 254, 254, 0.166);
   border: 1px solid #100d0d;
   padding: 10px;
@@ -332,9 +341,9 @@
 
   right: 10%;
 
-  width: 500px;
+  width: 30vw;
 
-  height: 500px;
+  height: 60vh;
   background-color: rgba(255, 254, 254, 0.166);
   border: 1px solid #100d0d;
   padding: 10px;
@@ -362,11 +371,19 @@
   background-color: #f2f2f2;
 }
 
+.fotos{
+  max-width: 100%;
+}
+
 @media (max-width: 768px) {
   .tablaUbication {
     border-collapse: collapse;
     width: 100%;
     border: 1px solid #070505;
+  }
+
+  .fotos{
+    max-width: 100%;
   }
   
   .tablaUbication th, .tablaUbication td {
@@ -413,6 +430,7 @@
   }
 
   .navInfoFotos {
+    display: none;
     top: 25%;
     position: absolute;
     width: auto;
@@ -488,8 +506,6 @@
     margin-bottom: 5%;
 
   }
-
-
 
   .h1Info {
     font-family: "Josefin_Sans";
