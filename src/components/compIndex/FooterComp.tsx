@@ -11,6 +11,7 @@ const Footer_index = ({ }) => {
                         <h3>8324-4323</h3>
                         <h3>4342-5924</h3>
                     </div>
+                     
                 </div>
             </div>
 

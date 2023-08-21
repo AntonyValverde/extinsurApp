@@ -176,7 +176,7 @@
 }
 
 .botonVer {
-     
+
     text-align: center;
     bottom: 0;
     color: #0e0b0b;
@@ -189,10 +189,11 @@
 .inputContenedor {
     display: flex;
     align-items: center;
-    margin-left: 6px; /* Puedes ajustar el valor según tu diseño */
+    margin-left: 6px;
+    /* Puedes ajustar el valor según tu diseño */
 }
 
-.ojoPNG{
+.ojoPNG {
     width: 40px;
     height: 35px;
 }
@@ -249,15 +250,17 @@
     flex-direction: column;
 }
 
-.IniciarSecionLink{
+.IniciarSecionLink {
     text-decoration: none;
-    border-bottom: 2px solid #000; /* Ajusta el color según tu preferencia */
+    border-bottom: 2px solid #000;
+    /* Ajusta el color según tu preferencia */
     padding-bottom: 5px;
 }
 
 
 /* Estilos para dispositivos móviles */
 @media only screen and (max-width: 600px) {
+
     .contenedorFormulario,
     .contenedorInicio {
         width: 90%;
@@ -265,6 +268,7 @@
     }
 
     .titulo {
+        top: 10px;
         font-size: 28px;
     }
 
@@ -277,25 +281,48 @@
         font-size: 14px;
     }
 
-    .buttonBorderAtras,
+    .buttonBorderAtras {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: transparent;
+        color: rgb(14, 12, 0);
+        border: none;
+        position: relative;
+        overflow: hidden;
+        font-size: 20px;
+        font-family: "Josefin_Sans";
+    }
+
     .botonVer,
     .botonOpcion {
         font-size: 14px;
     }
 
     .navegationSecion {
-        font-size: 16px;
+        font-size: 12px;
         margin-left: 20px;
+        top: 0;
+        position: absolute;
+        font-size: 1.1em;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 40px;
     }
 
     .caja {
-        grid-template-columns: 1fr; /* Cambiamos a una sola columna */
-        grid-gap: 10px; /* Reducimos el espacio entre elementos */
-        padding: 15px; /* Ajustamos el espacio interno */
+        grid-template-columns: 1fr;
+        /* Cambiamos a una sola columna */
+        grid-gap: 10px;
+        /* Reducimos el espacio entre elementos */
+        padding: 15px;
+        /* Ajustamos el espacio interno */
     }
 
     .caja .inputContenedor {
-        margin-left: 0; /* Eliminamos el margen izquierdo */
+        margin-left: 0;
+        /* Eliminamos el margen izquierdo */
     }
 
     .ojoPNG {
@@ -304,30 +331,37 @@
     }
 
     .contenedorOpcion {
-        display: block; /* Mostramos la lista desplegable a pantalla completa */
+        display: block;
+        /* Mostramos la lista desplegable a pantalla completa */
     }
 
     .opcionContenido {
-        position: static; /* Eliminamos la posición absoluta */
+        position: static;
+        /* Eliminamos la posición absoluta */
         background-color: transparent;
         box-shadow: none;
         border-radius: 0;
-        margin-top: 5px; /* Agregamos margen arriba */
+        margin-top: 5px;
+        /* Agregamos margen arriba */
     }
 
     .opcionContenido a {
-        padding: 8px 16px; /* Reducimos el padding */
+        padding: 8px 16px;
+        /* Reducimos el padding */
         text-align: center;
     }
 
     .navegationSecion {
-        margin-left: 0; /* Eliminamos el margen izquierdo */
-        margin-top: 10px; /* Agregamos margen arriba */
+        margin-left: 0;
+        /* Eliminamos el margen izquierdo */
+        margin-top: 10px;
+        /* Agregamos margen arriba */
         text-align: center;
     }
 
     .IniciarSecionLink {
-        display: block; /* Ocupar el ancho completo */
+        display: block;
+        /* Ocupar el ancho completo */
         text-align: center;
     }
 
@@ -345,5 +379,5 @@
         margin-top: 10px;
     }
 
-    
+
 }

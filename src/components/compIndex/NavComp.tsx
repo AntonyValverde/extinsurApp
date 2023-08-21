@@ -1,4 +1,4 @@
-import { FaRegUserCircle, FaFire, FaMapMarked, FaTools, FaSistrix, FaFacebook, FaInstagram, FaFireExtinguisher, FaEnvelopeOpenText, FaWhatsapp, FaPortrait, FaIcons } from 'react-icons/fa'
+import { FaStore, FaFire, FaMapMarked, FaTools, FaDirections, FaFireExtinguisher, FaEnvelopeOpenText, FaWhatsapp, FaPortrait, FaIcons } from 'react-icons/fa'
 import Link from "next/link";
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
@@ -68,17 +68,27 @@ const Nav_index = ({ }) => {
                 </h1>
                 <div>
                     <article className="articleInfo">
+                        <table className="tablaUbication">
+                            <thead>
+                                <tr>
+                                    <th>Ubicación</th>
+                                     
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href=' https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7'> Ciudad Neily frente al instituto cated </a> </td>
+                                </tr>
+                                <tr>
+                                     
+                                    <td><a href=' https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6'> Rio claro frente la bomba </a> </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
                     </article>
 
-                    <article className="articleInfo">
 
-                    </article>
-
-                    <article className="articleInfo">
-                        Coordenadas exactas:
-                        <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
-                    </article>
                 </div>
             </nav>
 
@@ -90,45 +100,51 @@ const Nav_index = ({ }) => {
                 <div>
                     <article className="articleInfo">
                         <Link href="/IndexInicioSesion" className="buttonBorder">
-                            <span className="text"></span>
-                            <FaRegUserCircle className="icons"></FaRegUserCircle>
+                            <span className="textOpcionesPro">Mantenimiento</span>
+                            <FaFireExtinguisher className="iconsInicio"></FaFireExtinguisher>
                         </Link>
-
                     </article>
 
                     <article className="articleInfo">
-
+                        <Link href="/IndexInicioSesion" className="buttonBorder">
+                            <span className="textOpcionesPro">Recarga</span>
+                            <FaFireExtinguisher className="iconsInicio"></FaFireExtinguisher>
+                        </Link>
                     </article>
 
                     <article className="articleInfo">
-                        Coordenadas exactas:
-                        <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
+                        <Link href="/IndexInicioSesion" className="buttonBorder">
+                            <span className="textOpcionesPro">Revisión</span>
+                            <FaFireExtinguisher className="iconsInicio"></FaFireExtinguisher>
+                        </Link>
                     </article>
                 </div>
             </nav>
 
-             
+
 
             <nav className="navProductos">
                 <h1 className="h1Info">
                     <span className="text">Productos</span>
-                    <FaFireExtinguisher className="icons"></FaFireExtinguisher>
+                    <FaStore className="icons"></FaStore>
                 </h1>
                 <div>
                     <article className="articleInfo">
-                        La empresa ExtinSur y sus empleados se encuentran
-                        capacitados para ofrecer servicios de mantenimiento,
-                        cambio de agen
+                        <Link href="/IndexInicioSesion" className="buttonBorder">
+                            <span className="textOpcionesPro">Extintores</span>
+                            <FaFireExtinguisher className="iconsInicio"></FaFireExtinguisher>
+                        </Link>
 
+                    </article>
+                    <article className='articleInfo'>
+                        <Link href="/IndexInicioSesion" className="buttonBorder">
+                            <span className="textOpcionesPro">Rotulos</span>
+                            <FaDirections className="iconsInicio"></FaDirections>
+                        </Link>
                     </article>
 
                     <article className="articleInfo">
 
-                    </article>
-
-                    <article className="articleInfo">
-                        Coordenadas exactas:
-                        <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
                     </article>
                 </div>
             </nav>

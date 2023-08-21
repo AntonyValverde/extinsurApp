@@ -19,14 +19,14 @@
 @media (max-width: 767px) {
   .body {
     height: 600vh;
-    width: 200vh;
+    width: 180vh;
     padding-bottom: 0;
   }
 }
 
 
 .conteinerInicio {
-  background-color: rgba(239, 220, 220, 0.8);
+  background-color: rgba(239, 220, 220, 0.879);
   width: 80%;
 
   margin: 0 auto;
@@ -54,13 +54,20 @@
   z-index: 99;
 }
 
+.iconsInicio {
+  display: inline-block;
+  padding: 3px;
+  font-size: 60px;
+}
+
 @media (max-width: 768px) {
   .Header {
-    background-color: #01ddff; 
+    background-color: #01ddff;
     flex-direction: row;
     padding: 55px 5%;
     justify-content: space-between;
-     
+    position: absolute;
+
   }
 
   .navegation {
@@ -70,16 +77,14 @@
     text-decoration: none;
     font-weight: 500;
     margin-left: 20px;
-  
+
   }
 
-  .text {
-    margin-right: 8px;
-    font-size: 0px;
-    color: transparent;
+  .textInicio {
+    display: none;
   }
 
-  .icons {
+  .iconsInicio {
     display: inline-block;
     padding: 3px;
     font-size: 60px;
@@ -91,11 +96,26 @@
     font-size: 50px;
     position: relative;
   }
-  
+
   .contenedorBusqueda {
     display: flex;
     align-items: center;
     position: relative;
+  }
+
+  .barraBusqueda {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(248, 246, 246, 0.5);
+    color: rgb(10, 10, 3);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    font-size: 40px;
+    font-family: "Josefin_Sans";
+    opacity: 0.8;
+    width: 100%;
   }
 }
 
@@ -139,7 +159,7 @@
   border: none;
   position: relative;
   overflow: hidden;
-  font-size: 20px;
+  font-size: 40px;
   font-family: "Josefin_Sans";
   opacity: 0.8;
   width: 100%;
@@ -182,6 +202,11 @@
 
 }
 
+.textInicio {
+  margin-right: 8px;
+  font-size: 30px;
+}
+
 /*Nav----------------------------------------------------------------------------------------------------------------------------*/
 
 .navIndex {
@@ -212,6 +237,16 @@
 
 .text {
   margin-right: 8px;
+}
+
+.textOpciones{
+  margin-right: 8px;
+  font-size: 50px;
+}
+
+.textOpcionesPro{
+  margin-right: 8px;
+  font-size: 40px;
 }
 
 .icons {
@@ -253,7 +288,7 @@
   left: 9%;
 
   width: auto;
-  
+
   height: 500px;
   background-color: rgba(255, 254, 254, 0.166);
   border: 1px solid #100d0d;
@@ -306,17 +341,61 @@
   overflow: auto;
 }
 
+/*Tabla*/
+.tablaUbication {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid #000000;
+}
+
+.tablaUbication th, .tablaUbication td {
+  border: 2px solid #090000;
+  padding: 8px;
+  text-align: center;
+}
+
+.tablaUbication th {
+  background-color: #f2f2f2;
+}
+
+.tablaUbication tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
 @media (max-width: 768px) {
-  .navIndex {
-    font-size: 30px;
-    align-content: center;
+  .tablaUbication {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #070505;
+  }
+  
+  .tablaUbication th, .tablaUbication td {
+    border: 1px solid #0d0000;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .tablaUbication th {
+    background-color: #fa000083;
+  }
+  
+  .tablaUbication tr:nth-child(even) {
+    background-color: #f2f2f2;
   }
 
-   
-  .navInfo{
-    font-size: 34px;
+  .navIndex {
      
-    top: 40vh;
+    align-content: center;
+  }
+  .textOpcionesPro{
+    margin-right: 8px;
+    font-size: 40px;
+  }
+
+  .navInfo {
+    font-size: 50px;
+
+    top: 35vh;
     position: absolute;
     width: auto;
     max-width: none;
@@ -325,16 +404,16 @@
 
     right: 3%;
     left: 3%;
-     
-    background-color: rgba(255, 254, 254, 0.666);
+
+    background-color: rgba(255, 254, 254, 0.744);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
     margin-bottom: 5%;
   }
 
-  .navInfoFotos{
-    top: 150vh;
+  .navInfoFotos {
+    top: 165vh;
     position: absolute;
     width: auto;
     max-width: none;
@@ -343,95 +422,95 @@
 
     right: 20%;
     left: 20%;
-     
-    background-color: rgba(255, 254, 254, 0.666);
+
+    background-color: rgba(255, 254, 254, 0.744);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
     margin-bottom: 5%;
-     
+
   }
 
-  .navDireccion{
-    top: 280vh;
+  .navDireccion {
+    top: 277vh;
+    position: absolute;
+    width: auto;
+    max-width: none;
+    height: 620px;
+    display: 10px;
+
+    right: 3%;
+    left: 3%;
+
+    background-color: rgba(255, 254, 254, 0.744);
+    border: 1px solid #100d0d;
+    padding: 50px;
+    overflow: auto;
+    margin-bottom: 5%;
+
+  }
+
+  .navProductos {
+    top: 380vh;
     position: absolute;
     width: auto;
     max-width: none;
     height: auto;
     display: 10px;
-    
+
     right: 3%;
     left: 3%;
-     
-    background-color: rgba(255, 254, 254, 0.666);
+
+    background-color: rgba(255, 254, 254, 0.744);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
     margin-bottom: 5%;
-    
+
   }
 
-  .navProductos{
-    top: 370vh;
+  .navServicios {
+    top: 455vh;
     position: absolute;
     width: auto;
     max-width: none;
     height: auto;
     display: 10px;
-    
+
     right: 3%;
     left: 3%;
-     
-    background-color: rgba(255, 254, 254, 0.666);
+
+    background-color: rgba(255, 254, 254, 0.744);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
     margin-bottom: 5%;
-     
+
   }
 
-  .navServicios{
-    top: 470vh;
-    position: absolute;
-    width: auto;
-    max-width: none;
-    height: auto;
-    display: 10px;
-  
-    right: 3%;
-    left: 3%;
-     
-    background-color: rgba(255, 254, 254, 0.666);
-    border: 1px solid #100d0d;
-    padding: 50px;
-    overflow: auto;
-    margin-bottom: 5%;
-     
-  }
 
-   
 
   .h1Info {
     font-family: "Josefin_Sans";
-    font-size: 42px;
+    font-size: 52px;
     margin-bottom: 20px;
   }
-  
-  
-  
+
+
+
   .icons {
     margin-left: 8px;
   }
-  
+
   .articleInfo {
     font-family: "Josefin_Sans";
-    font-size: 40px;
+    font-size: 50px;
     margin-bottom: 20px;
     padding-left: 20px;
   }
-  
+
   .linkMaps {
-    font-size: 38px;
+    font-size: 40px;
     color: #1284c7;
     font-family: "Josefin_Sans";
   }

@@ -1,4 +1,4 @@
-import { FaReply, FaEye} from 'react-icons/fa'
+import { FaReply, FaEye } from 'react-icons/fa'
 import Link from "next/link";
 import React, { useState } from 'react';
 import router from "next/router";
@@ -24,7 +24,7 @@ export default function IndexInicioSesion() {
         }
 
 
-        const redirectTo = SelectedOption === 'Gerente' ? '/IndexGerenteInicio' : '/IndexEmpleadoInicio';
+        const redirectTo = SelectedOption == 'Gerente' ? '/IndexGerenteInicio' : '/IndexEmpleadoInicio';
         console.log('Iniciar sesión y redireccionar a:', redirectTo);
     };
 
@@ -39,13 +39,14 @@ export default function IndexInicioSesion() {
     return (
         <>
             <div className="FondoInicioSecion">
-                <nav className="navegationSecion">
-                    <Link href="#" className="buttonBorderAtras" onClick={InicioLinkClick}>
 
-                        <FaReply className="iconsSalir"></FaReply>
-                    </Link>
-                </nav>
                 <div className="contenedorInicio">
+                    <nav className="navegationSecion">
+                        <Link href="#" className="buttonBorderAtras" onClick={InicioLinkClick}>
+
+                            <FaReply className="iconsSalir"></FaReply>
+                        </Link>
+                    </nav>
                     <form className="contenedorFormulario">
                         <h1 className="titulo">ExtinSur Login</h1>
                         <div className="caja">
