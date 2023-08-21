@@ -259,16 +259,19 @@
 
 
 /* Estilos para dispositivos móviles */
-@media only screen and (max-width: 600px) {
+@media (max-width: 768px) {
 
-    .contenedorFormulario,
+    .contenedorFormulario{
+        width: 90%;
+        height: auto;
+    }
     .contenedorInicio {
         width: 90%;
         max-width: 100%;
     }
 
     .titulo {
-        top: 10px;
+        top: 25vb;
         font-size: 28px;
     }
 
@@ -300,7 +303,7 @@
     }
 
     .navegationSecion {
-        font-size: 12px;
+        font-size: 10px;
         margin-left: 20px;
         top: 0;
         position: absolute;

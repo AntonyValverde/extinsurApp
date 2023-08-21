@@ -1,6 +1,6 @@
 import Link from "next/link";
 import router from "next/router";
-import {FaUser, FaUserTie, FaReplyAll, FaImages, FaFireExtinguisher, FaBook, FaChartBar, FaMapMarkerAlt, FaWhmcs } from 'react-icons/fa'
+import { FaUser, FaUserTie, FaReplyAll, FaImages, FaFireExtinguisher, FaBook, FaChartBar, FaMapMarkerAlt, FaWhmcs } from 'react-icons/fa'
 
 
 export default function IndexGerenteInicio() {
@@ -12,12 +12,16 @@ export default function IndexGerenteInicio() {
     return (
         <>
             <div className="FondoGerenteInicio">
+                 
                 <nav className="navegationSecion">
                     <Link href="#" className="buttonBorderAtras" onClick={InicioLinkClick}>
                         <FaReplyAll className="iconsSalir"></FaReplyAll>
                     </Link>
+
                 </nav>
-                <h1 className="tituloGerente">Gerencia ExtinSur</h1>
+                <nav>
+                    <h1 className="tituloGerente">Gerencia ExtinSur</h1>
+                </nav>
 
                 <nav className="flex" >
                     <div className="column">
@@ -43,7 +47,7 @@ export default function IndexGerenteInicio() {
                     </div>
 
                 </nav>
-                <nav  className="flex" >
+                <nav className="flex" >
                     <div className="column">
                         <FaChartBar className="iconsGerente"></FaChartBar>
 
@@ -67,7 +71,7 @@ export default function IndexGerenteInicio() {
                     </div>
 
                 </nav>
-                <nav  className="flex" >
+                <nav className="flex" >
                     <div className="column">
                         <FaImages className="iconsGerente2"></FaImages>
 
@@ -82,7 +86,7 @@ export default function IndexGerenteInicio() {
                             Extintores
                         </Link>
                     </div>
-                     
+
 
                 </nav>
 

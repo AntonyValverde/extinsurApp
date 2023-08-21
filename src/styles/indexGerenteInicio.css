@@ -1,14 +1,20 @@
 .FondoGerenteInicio {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 
-    background-image: url('/indexInicio/extintores_fuego.jpg');
+
+    min-height: 100vh;
+
+    background: linear-gradient(to bottom, #ff9999, #ff0000, #ff9500);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
     width: 100%;
     height: 100vh;
-    margin: 0;
-    padding: 0;
+
+
 
     position: fixed;
     padding-bottom: 2em;
@@ -18,18 +24,16 @@
 }
 
 .tituloGerente {
-
-    padding: 1em 0;
     text-align: center;
     bottom: 0;
-    font-size: 38px;
+    font-size: 48px;
     font-family: "Josefin_Sans";
     color: #111010;
     cursor: default;
 
     color: transparent;
     /* Hacemos el color del texto transparente */
-    -webkit-text-stroke: 2px #fa0606e2;
+    -webkit-text-stroke: 2px #fffffde2;
     /* Para navegadores basados en WebKit */
     filter: drop-shadow(0px 0px 5px rgba(14, 11, 11, 0.8));
 }
@@ -104,8 +108,23 @@
 
 @media (max-width: 768px) {
     .FondoGerenteInicio {
+        background-color: #fff;
         background-size: contain;
+        position: relative;
         padding-bottom: 0;
+
+        
+        margin: 0;
+        padding: 0;
+
+
+        min-height: 200vh;
+
+        background: linear-gradient(to bottom, #ff9999, #ff0000, #ff9500);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+         
     }
 
     .tituloGerente {
@@ -114,7 +133,7 @@
 
     .iconsGerente,
     .iconsGerente2 {
-        margin-left: 10%;
+         align-items: center;
     }
 
     .iconsSalir {
@@ -137,6 +156,7 @@
         margin-bottom: 5%;
         margin-top: 2%;
         padding: 5%;
+        align-items: center;
         border-radius: 8px;
         box-shadow: 5px 5px 5px #d90c0c;
     }
@@ -150,18 +170,18 @@
     .button {
         align-items: center;
         text-align: center;
-        margin-top: 10px;  
-        padding: 10px 20px;  
-        font-size: 18px;  
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 18px;
         border: none;
         border-radius: 5px;
-        background-color: #ff9500;  
-        color: #fff;  
+        background-color: #ff9500;
+        color: #fff;
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
-    
+
     .button:hover {
-        background-color: #ffcc00;  
+        background-color: #ffcc00;
     }
 }

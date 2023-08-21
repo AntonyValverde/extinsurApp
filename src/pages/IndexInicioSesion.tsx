@@ -24,8 +24,20 @@ export default function IndexInicioSesion() {
         }
 
 
-        const redirectTo = SelectedOption == 'Gerente' ? '/IndexGerenteInicio' : '/IndexEmpleadoInicio';
-        console.log('Iniciar sesión y redireccionar a:', redirectTo);
+         
+         
+        if(SelectedOption === ""){
+            console.log('Ingresa un rol')
+            
+        }else if(SelectedOption === "Gerente"){
+            <a href="/IndexGerenteInicio"></a>
+            console.log('Gerente', SelectedOption)
+        }else if(SelectedOption === "Empleado"){
+            <a href="/IndexEmpleadoInicio"></a>
+            console.log('Empleado', SelectedOption)
+        }
+        
+        
     };
 
     const verContraseña = () => {
@@ -83,7 +95,7 @@ export default function IndexInicioSesion() {
                             </div>
                         </div>
                         <div className="cajax">
-                            <a className="IniciarSecionLink" href="/IndexGerenteInicio">Iniciar Sesión</a>
+                            <a className="IniciarSecionLink" /*</div>onClick={handleLogin}*/ href='/IndexGerenteInicio' >Iniciar Sesión</a>
                         </div>
                     </form>
                 </div>
