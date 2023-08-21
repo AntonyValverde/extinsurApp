@@ -413,7 +413,7 @@
   }
 
   .navInfoFotos {
-    top: 165vh;
+    top: 25%;
     position: absolute;
     width: auto;
     max-width: none;
@@ -449,6 +449,7 @@
     margin-bottom: 5%;
 
   }
+  
 
   .navProductos {
     top: 380vh;

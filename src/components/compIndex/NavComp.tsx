@@ -33,32 +33,32 @@ const Nav_index = ({ }) => {
 
             <nav className="navInfoFotos">
 
-                <div>
 
-                    <article>
 
-                        <Carousel
-                            autoPlay={true}
-                            interval={4000}
-                            infiniteLoop={true}
-                            showThumbs={false}
+                <article>
 
-                        >
-                            <div>
-                                <img src="/indexInicio/extintor_rotulo.png" alt="Imagen 1" />
-                            </div>
-                            <div>
-                                <img src="/indexInicio/varios_extintores.jpg" alt="Imagen 2" />
-                            </div>
-                            <div>
-                                <img src="/indexInicio/extintor-para-incendios-abc.jpg" alt="Imagen 2" />
-                            </div>
+                    <Carousel
+                        autoPlay={true}
+                        interval={4000}
+                        infiniteLoop={true}
+                        showThumbs={false}
 
-                        </Carousel>
+                    >
+                        <div>
+                            <img className='fotos' src="/indexInicio/extintor_rotulo.png" alt="Imagen 1" />
+                        </div>
+                        <div>
+                            <img className='fotos'  src="/indexInicio/varios_extintores.jpg" alt="Imagen 2" />
+                        </div>
+                        <div>
+                            <img className='fotos' src="/indexInicio/extintor-para-incendios-abc.jpg" alt="Imagen 2" />
+                        </div>
 
-                    </article>
+                    </Carousel>
 
-                </div>
+                </article>
+
+
             </nav>
 
             <nav className="navDireccion">
@@ -72,7 +72,7 @@ const Nav_index = ({ }) => {
                             <thead>
                                 <tr>
                                     <th>Ubicación</th>
-                                     
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,7 +80,7 @@ const Nav_index = ({ }) => {
                                     <td><a href=' https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7'> Ciudad Neily frente al instituto cated </a> </td>
                                 </tr>
                                 <tr>
-                                     
+
                                     <td><a href=' https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6'> Rio claro frente la bomba </a> </td>
                                 </tr>
                             </tbody>
