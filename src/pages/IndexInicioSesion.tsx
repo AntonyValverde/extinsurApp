@@ -95,7 +95,7 @@ export default function IndexInicioSesion() {
                             </div>
                         </div>
                         <div className="cajax">
-                            <Link className="IniciarSecionLink" /*</div>onClick={handleLogin}*/ href='/IndexInicioSesion' >Iniciar Sesión</Link>
+                            <Link className="IniciarSecionLink" /*</div>onClick={handleLogin}*/ href='/IndexEmpleadoInicio' >Iniciar Sesión</Link>
                         </div>
                     </form>
                 </div>
