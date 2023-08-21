@@ -28,7 +28,31 @@ const Nav_index = ({ }) => {
                         Coordenadas exactas:
                         <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
                     </article>
-                    
+                    <article className='caruselResponsive'>
+
+                        <Carousel
+                            autoPlay={true}
+                            interval={4000}
+                            infiniteLoop={true}
+                            showThumbs={false}
+
+                        >
+                            <div>
+                                <img className='fotos' src="/indexInicio/extintor_rotulo.png" alt="Imagen 1" />
+                            </div>
+                            <div>
+                                <img className='fotos' src="/indexInicio/varios_extintores.jpg" alt="Imagen 2" />
+                            </div>
+                            <div>
+                                <img className='fotos' src="/indexInicio/extintor-para-incendios-abc.jpg" alt="Imagen 2" />
+                            </div>
+
+                        </Carousel>
+
+                    </article>
+
+
+
                 </div>
             </nav>
 

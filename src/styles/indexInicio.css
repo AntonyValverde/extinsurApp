@@ -240,27 +240,28 @@
   margin-right: 8px;
 }
 
-.textOpciones{
+.textOpciones {
   margin-right: 8px;
   font-size: 50px;
 }
 
-.textOpcionesPro{
+.textOpcionesPro {
   margin-right: 8px;
   font-size: 30px;
 }
 
 .icons {
   margin-left: 8px;
-  
+
 }
 
 .iconsPro {
-   
+
   display: inline-block;
   padding: 3px;
   font-size: 35px;
 }
+
 .articleInfo {
   font-family: "Josefin_Sans";
   font-size: 20px;
@@ -286,6 +287,10 @@
   border: 1px solid #100d0d;
   padding: 10px;
   overflow: auto;
+}
+
+.caruselResponsive {
+  display: none;
 }
 
 .navDireccion {
@@ -318,7 +323,7 @@
   padding: 10px;
   overflow: auto;
 }
- 
+
 
 .navServicios {
   position: absolute;
@@ -357,7 +362,8 @@
   border: 2px solid #000000;
 }
 
-.tablaUbication th, .tablaUbication td {
+.tablaUbication th,
+.tablaUbication td {
   border: 2px solid #090000;
   padding: 8px;
   text-align: center;
@@ -371,7 +377,7 @@
   background-color: #f2f2f2;
 }
 
-.fotos{
+.fotos {
   max-width: 100%;
 }
 
@@ -382,29 +388,35 @@
     border: 1px solid #070505;
   }
 
-  .fotos{
+  .caruselResponsive{
+    display: inline;
+  }
+
+  .fotos {
     max-width: 100%;
   }
-  
-  .tablaUbication th, .tablaUbication td {
+
+  .tablaUbication th,
+  .tablaUbication td {
     border: 1px solid #0d0000;
     padding: 8px;
     text-align: center;
   }
-  
+
   .tablaUbication th {
     background-color: #fa000083;
   }
-  
+
   .tablaUbication tr:nth-child(even) {
     background-color: #f2f2f2;
   }
 
   .navIndex {
-     
+
     align-content: center;
   }
-  .textOpcionesPro{
+
+  .textOpcionesPro {
     margin-right: 8px;
     font-size: 40px;
   }
@@ -414,9 +426,9 @@
 
     top: 35vh;
     position: absolute;
-    width: auto;
+    width: 163vb;
     max-width: none;
-    height: auto;
+    height: 230vh;
     display: 10px;
 
     right: 3%;
@@ -431,28 +443,14 @@
 
   .navInfoFotos {
     display: none;
-    top: 25%;
-    position: absolute;
-    width: auto;
-    max-width: none;
-    height: auto;
-    display: 10px;
 
-    right: 20%;
-    left: 20%;
-
-    background-color: rgba(255, 254, 254, 0.744);
-    border: 1px solid #100d0d;
-    padding: 50px;
-    overflow: auto;
-    margin-bottom: 5%;
 
   }
 
   .navDireccion {
-    top: 277vh;
+    top: 270vh;
     position: absolute;
-    width: auto;
+    width: 163vb;
     max-width: none;
     height: 620px;
     display: 10px;
@@ -467,12 +465,12 @@
     margin-bottom: 5%;
 
   }
-  
+
 
   .navProductos {
-    top: 380vh;
+    top: 370vh;
     position: absolute;
-    width: auto;
+    width: 163vb;
     max-width: none;
     height: auto;
     display: 10px;
@@ -489,9 +487,9 @@
   }
 
   .navServicios {
-    top: 455vh;
+    top: 445vh;
     position: absolute;
-    width: auto;
+    width: 163vb;
     max-width: none;
     height: auto;
     display: 10px;
