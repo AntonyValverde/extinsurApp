@@ -177,7 +177,7 @@
   background-color: transparent;
   color: rgb(14, 12, 0);
   border: none;
-  border-radius: 40%;
+  border-radius: 20px;
   position: relative;
   overflow: hidden;
   font-size: 20px;
@@ -217,7 +217,7 @@
 
 .navInfo {
   position: absolute;
-  top: 150px;
+  top: 20vb;
 
   right: 60%;
 
@@ -275,7 +275,7 @@
 
 .navInfoFotos {
   position: absolute;
-  top: 150px;
+  top: 20vb;
 
   right: 10%;
 
@@ -290,7 +290,7 @@
 
 .navDireccion {
   position: absolute;
-  top: 850px;
+  top: 90vb;
 
   right: 9%;
   left: 9%;
@@ -306,7 +306,7 @@
 
 .navProductos {
   position: absolute;
-  top: 1550px;
+  top: 160vb;
 
   right: 10%;
 
@@ -322,7 +322,7 @@
 
 .navServicios {
   position: absolute;
-  top: 1550px;
+  top: 160vb;
 
   right: 60%;
 
