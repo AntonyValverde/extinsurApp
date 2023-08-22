@@ -5,8 +5,6 @@ import { FaReplyAll } from 'react-icons/fa'
 
 export default function RegistrarEmpleados() {
 
-
-
     const [step, setStep] = useState(1);
 
     const nextStep = () => {
