@@ -1,8 +1,9 @@
+"use client"
 import React, { useState } from 'react';
 import { FaReplyAll } from 'react-icons/fa'
 
 
-export default function registrarEmpleado() {
+export default function RegistrarEmpleados() {
 
 
 
@@ -63,7 +64,7 @@ export default function registrarEmpleado() {
                     <div className='contenedorRegistro'>
                         <h2 className='textUno'>Paso 4: Cédula y Rol</h2>
                         <div className='contenedorInput'>
-                        <h3 className='textDos'>Día<input type="text" className='inputRes'/></h3>
+                        
                             <h3 className='textDos'>Tipo de cédula<input type="text" className='inputRes'/></h3>
                             <h3 className='textDos'>Cédula<input type="text" className='inputRes'/></h3>
                             <h3 className='textDos'>Rol<input type="text" className='inputRes'/></h3>

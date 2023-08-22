@@ -36,7 +36,7 @@ export default function Empleados() {
                         {/* <button className="addbuttonE" onClick={handleModalOpen}>
                             Agregar Usuario
                         </button> */}
-                        <a href="./registrarEmpleados"> Registrar</a>
+                        <a href="./RegistrarEmpleados"> Registrar</a>
                     </nav>
                     <section>
                         <nav>
