@@ -39,17 +39,11 @@
 }
 
 
-.iconsGerente {
-    align-items: center;
-    text-align: center;
-    margin-left: 40%;
-    height: 40px;
-}
-
+.iconsGerente,
 .iconsGerente2 {
     align-items: center;
     text-align: center;
-    margin-left: 45%;
+    margin-left: 40%;
     height: 40px;
 }
 
@@ -133,7 +127,7 @@
 
     .iconsGerente,
     .iconsGerente2 {
-         align-items: center;
+        align-items: center;
     }
 
     .iconsSalir {

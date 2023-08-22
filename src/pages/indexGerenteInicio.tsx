@@ -27,7 +27,7 @@ export default function IndexGerenteInicio() {
                     <div className="column">
                         <FaUser className="iconsGerente"></FaUser>
 
-                        <Link href="/indexCita" className="button">
+                        <Link href="/Gerentes/Empleados" className="button">
                             Empleados
                         </Link>
                     </div>

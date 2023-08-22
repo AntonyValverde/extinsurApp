@@ -1,0 +1,144 @@
+.FondoModal {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+    min-height: 100vh;
+
+    background: linear-gradient(to right, #000000, #140620, #1e0b39, #0a053b);
+
+
+    width: 100%;
+    height: 100vh;
+
+    position: fixed;
+    padding-bottom: 2em;
+
+    justify-content: center;
+
+}
+
+.line {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    width: 80%;
+    height: 1px;
+    background-color: #ff0000;
+    /* Color de la línea */
+    animation: lineAnimation 6s linear infinite;
+    /* Duración y tipo de animación */
+}
+
+.line2 {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 80%;
+    height: 1px;
+    background-color: #ddff00;
+    /* Color de la línea */
+    animation: lineAnimation 7s linear infinite;
+    /* Duración y tipo de animación */
+}
+
+.line3 {
+    position: absolute;
+    top: 75%;
+    left: 0;
+    width: 80%;
+    height: 1px;
+    background-color: #eca205;
+    /* Color de la línea */
+    animation: lineAnimation 8s linear infinite;
+    /* Duración y tipo de animación */
+}
+
+@keyframes lineAnimation {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.contenedorInput {
+    margin-bottom: 60px;
+}
+
+.textDos {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.inputRes {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.botonRes {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 5vh;
+}
+
+.botonRes:hover {
+    background-color: #0056b3;
+}
+
+.contenedorRegistro {
+    position: absolute;
+    top: 20vb;
+
+    right: 70vh;
+
+    width: 30vw;
+    height: 60vh;
+    background-color: rgb(248, 248, 250);
+    border: 1px solid #100d0d;
+    padding: 10px;
+    overflow: auto;
+}
+
+.iconsSalirRegistro {
+    color: aliceblue;
+    font-size: 40px;
+
+
+}
+
+.buttonBorderAtrasRegister {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    font-size: 20px;
+    font-family: "Josefin_Sans";
+}
+
+.textUno {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    
+}
