@@ -68,71 +68,76 @@ export default function Empleados() {
                         <section>
 
                             <h1 className="tituloEmpleados">Empleados</h1>
-                            <a className="botonAgregar" href="./RegistrarEmpleados"> Registrar</a>
-
+                            <div className="sidebar_linkCuatro" >
+                                <a href="./RegistrarEmpleados"> Registrar</a>
+                            </div>
                             <div className="linea"></div>
-                            <table className="TablaEmpleados">
+                            <div className="tabla-container">
+                                <table className="TablaEmpleados">
 
 
-                                <thead>
-                                    <tr>
-                                        <th>Cédula</th>
-                                        <th>Nombre</th>
-                                        <th>Primer Apellido</th>
-                                        <th>Segundo Apellido</th>
-                                        <th>Email</th>
-                                        <th>Contraseña</th>
-                                        <th>Tipo</th>
-                                        <th></th>
+                                    <thead>
+                                        <tr>
+                                            <th>Cédula</th>
+                                            <th>Nombre</th>
+                                            <th>Primer Apellido</th>
+                                            <th>Segundo Apellido</th>
+                                            <th>Email</th>
+                                            <th>Contraseña</th>
+                                            <th>Tipo</th>
+                                            <th></th>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>623145890</td>
-                                        <td>Antony</td>
-                                        <td>Valverde</td>
-                                        <td>Rojas</td>
-                                        <td>antony.valverde@gmail.com</td>
-                                        <td>Tgas3839</td>
-                                        <td>Empleado</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>623145890</td>
+                                            <td>Antony</td>
+                                            <td>Valverde</td>
+                                            <td>Rojas</td>
+                                            <td>antony.valverde@gmail.com</td>
+                                            <td>Tgas3839</td>
+                                            <td>Empleado</td>
 
-                                        <td>
-                                            <FaEdit className="iconsEdit" title="Editar." />
-                                            <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
-                                            <FaTrash className="iconsEliminar" title="Eliminar." />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>234515830</td>
-                                        <td>Ronaldo</td>
-                                        <td>Perez</td>
-                                        <td>Rivas</td>
-                                        <td>ronaldo_rivas425@gmail.com</td>
-                                        <td>ksas2672</td>
-                                        <td>Empleado</td>
-                                        <td>
-                                            <FaEdit className="iconsEdit" title="Editar." />
-                                            <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
-                                            <FaTrash className="iconsEliminar" title="Eliminar." />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>105594530</td>
-                                        <td>Carlos</td>
-                                        <td>Flores</td>
-                                        <td>Flores</td>
-                                        <td>Carlos/-/flores1990@gmail.com</td>
-                                        <td>Kisaa90</td>
-                                        <td>Gerente</td>
-                                        <td>
-                                            <FaEdit className="iconsEdit" title="Editar." />
-                                            <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
-                                            <FaTrash className="iconsEliminar" title="Eliminar." />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            <td>
+                                                <FaEdit className="iconsEdit" title="Editar." />
+                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
+                                                <FaTrash className="iconsEliminar" title="Eliminar." />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>234515830</td>
+                                            <td>Ronaldo</td>
+                                            <td>Perez</td>
+                                            <td>Rivas</td>
+                                            <td>ronaldo_rivas425@gmail.com</td>
+                                            <td>ksas2672</td>
+                                            <td>Empleado</td>
+                                            <td>
+                                                <FaEdit className="iconsEdit" title="Editar." />
+                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
+                                                <FaTrash className="iconsEliminar" title="Eliminar." />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>105594530</td>
+                                            <td>Carlos</td>
+                                            <td>Flores</td>
+                                            <td>Flores</td>
+                                            <td>Carlos/-/flores1990@gmail.com</td>
+                                            <td>Kisaa90</td>
+                                            <td>Gerente</td>
+                                            <td>
+                                                <FaEdit className="iconsEdit" title="Editar." />
+                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
+                                                <FaTrash className="iconsEliminar" title="Eliminar." />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
 
 
                         </section>
@@ -182,6 +187,17 @@ export default function Empleados() {
                             )}
                         </section>
                         <div className="linea"></div>
+                        <section>
+                            <div className="containerButton">
+                                <Link className="sidebar_linkTres" href="/Gerentes/Empleados">Empleados</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Productos">Productos</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">Movimientos</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
+
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,80 @@
+.containerButton {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 8px;
+    text-align: center;
+
+}
+
+.sidebar_linkDos {
+    display: none;
+}
+
+.sidebar_linkTres {
+    display: none;
+}
+
+.sidebar_linkCuatro {
+    margin-top: 0.2rem;
+    font-family: fantasy;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #000000;
+    padding: 0.3rem 1rem;
+    display: flex;
+    border: 2px solid #050606;
+    background-color: #eadcfb;
+    margin-left: 1rem;
+    margin-right: 50rem;
+    margin-bottom: 0.3rem;
+    border-radius: 0.8rem;
+}
+
+@media (max-width: 768px) {
+
+    .sidebar_linkDos {
+        margin-top: 0.4rem;
+        display: inline-block;
+        font-family: fantasy;
+        font-size: 1.2rem;
+        text-decoration: none;
+        color: #000000;
+        padding: 0.8rem 1rem;
+        display: flex;
+        border: 2px solid #050606;
+        background-color: #eadcfb;
+        margin-bottom: 0.3rem;
+        border-radius: 0.8rem;
+    }
+
+    .sidebar_linkTres {
+        margin-top: 0.4rem;
+        display: inline-block;
+        font-family: fantasy;
+        font-size: 1rem;
+        text-decoration: none;
+        color: #000000;
+        padding: 0.8rem 1rem;
+        display: flex;
+        border: 2px solid #050606;
+        background-color: #eadcfb;
+        margin-bottom: 0.3rem;
+        border-radius: 0.8rem;
+    }
+
+    .sidebar_linkCuatro {
+        margin-top: -0.4rem;
+        font-family: fantasy;
+        font-size: 1rem;
+        text-decoration: none;
+        color: #000000;
+        padding: 0.3rem 1rem;
+        display: flex;
+        border: 2px solid #050606;
+        background-color: #eadcfb;
+        margin-left: 1rem;
+        margin-right: 12rem;
+        margin-bottom: 0.3rem;
+        border-radius: 0.8rem;
+    }
+}

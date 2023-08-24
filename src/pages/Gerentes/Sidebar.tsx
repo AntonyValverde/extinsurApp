@@ -51,32 +51,37 @@ export default function Sidebar() {
 
     return (
         <>
-
+            <button className="btnDos" onClick={toogleSidevarColapseHandler}>
+                <FaAngleRight></FaAngleRight>
+            </button>
             <div className="sidebar_wrapper">
+
                 <aside className="asideGerente" data-collapse={isCollapsedSidebar}>
                     <button className="btn" onClick={toogleSidevarColapseHandler}>
                         <FaAngleRight></FaAngleRight>
                     </button>
 
-                    <div className="logo">
-                        <Image width="30" height="30" className="sidebar_logo" src="/favicon copy.png" alt="11" />
-                        <p className="sidebar_logo-name">ExtinSur</p>
-                    </div>
-                    <ul className="sidebar_list">
-                        {sidebarItems.map(({ name, href, icon: Icon }) => (
-                            <li className="sidebar_item" key={name}>
+                    <div className="content">
+                        <div className="logo">
+                            <Image width="30" height="30" className="sidebar_logo" src="/favicon copy.png" alt="11" />
+                            <p className="sidebar_logo-name">ExtinSur</p>
+                        </div>
+                        <ul className="sidebar_list">
+                            {sidebarItems.map(({ name, href, icon: Icon }) => (
+                                <li className="sidebar_item" key={name}>
 
-                                <Link href={href} className="sidebar_link">
-                                    <span className="sidebar_icon">
-                                        <Icon />
-                                    </span>
-                                    <span className="sidebar_name">{name}</span>
-                                </Link>
-                            </li>
-                        ))}
+                                    <Link href={href} className="sidebar_link">
+                                        <span className="sidebar_icon">
+                                            <Icon />
+                                        </span>
+                                        <span className="sidebar_name">{name}</span>
+                                    </Link>
+                                </li>
+                            ))}
 
 
-                    </ul>
+                        </ul></div>
+
 
                 </aside>
 

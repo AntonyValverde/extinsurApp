@@ -13,26 +13,9 @@ export default function IndexGerenteInicioDos() {
                 <div className="asideSidebar">
                     <Sidebar/>
                 </div>
-                
-                <div>
-                   
-                     
-                     
-                     
-
-                </div>
-
             </div>
         </div>
 
         
     )
 }
-
-
-/*<Link href="">Trabajadores</Link><FaUserTie className="iconsGerente"></FaUserTie>
-<Link href="">Productos </Link> <FaFireExtinguisher className="iconsGerente2"></FaFireExtinguisher>
-<Link href="">Movimientos </Link><FaBook className="iconsGerente"></FaBook>
-<Link href="">Mantenimiento</Link><FaWhmcs className="iconsGerente"></FaWhmcs>
-<Link href="">Grafica</Link><FaChartBar className="iconsGerente"></FaChartBar>
-<Link href="">Ubicación</Link><FaMapMarkerAlt className="iconsGerente"></FaMapMarkerAlt>*/

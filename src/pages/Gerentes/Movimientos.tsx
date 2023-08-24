@@ -1,4 +1,4 @@
-import { FaEdit, FaTrash, FaReplyAll } from "react-icons/fa";
+import { FaEdit, FaTrash} from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -122,10 +122,13 @@ export default function Movimientos() {
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
+                                        
                                     </tbody>
                                 </table>
+
                             </div>
                         </section>
+
                         <section>
                             {isModalOpen && (
 
@@ -172,6 +175,17 @@ export default function Movimientos() {
                             )}
                         </section>
                         <div className="linea"></div>
+                        <section>
+                            <div className="containerButton">
+                                <Link className="sidebar_linkDos" href="/Gerentes/Empleados">Empleados</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Productos">Productos</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Movimientos">Movimientos</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">Ubicación</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Graficas">Gráficas</Link>
+                                 
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
