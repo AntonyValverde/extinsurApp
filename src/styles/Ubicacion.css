@@ -1,0 +1,51 @@
+ 
+
+/* Estilo para el contenedor de la dirección */
+.address-container {
+    margin-top: 20px;
+}
+
+.contenedorUbicacion{
+    text-align: center;
+    align-content: center;
+    padding: 20px;
+    height:25.5rem;
+    background-color: #00537d;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.tituloUbicacion {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.textColocar {
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #fff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.inputColocar {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.btnAgregar {
+    background-color: #007bff;
+    margin-left: 20px;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.icon-close{
+    font-size: 1.5rem;
+}

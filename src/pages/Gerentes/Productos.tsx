@@ -5,7 +5,8 @@ import Link from "next/link";
 import router from "next/router";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 
-export default function Empleados() {
+
+export default function Productos() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenDos, setIsModalOpenDos] = useState(false);
     const [isModalOpenTres, setIsModalOpenTres] = useState(false);
@@ -67,35 +68,33 @@ export default function Empleados() {
 
                         <section>
 
-                            <h1 className="tituloEmpleados">Empleados</h1>
-                            <a className="botonAgregar" href="./RegistrarEmpleados"> Registrar</a>
-
+                            <h1 className="tituloEmpleados">Productos</h1>
+                            <h1 className="botonAgregar" onClick={handleModalOpenTres}>Agregar</h1>
                             <div className="linea"></div>
                             <table className="TablaEmpleados">
 
-
                                 <thead>
                                     <tr>
-                                        <th>Cédula</th>
-                                        <th>Nombre</th>
-                                        <th>Primer Apellido</th>
-                                        <th>Segundo Apellido</th>
-                                        <th>Email</th>
-                                        <th>Contraseña</th>
+                                        <th>Código</th>
                                         <th>Tipo</th>
+                                        <th>Nombre</th>
+                                        <th>Bodega</th>
+                                        <th>Ingresó</th>
+                                        <th>Precio compra</th>
+                                        <th>Precio venta</th>
                                         <th></th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>623145890</td>
-                                        <td>Antony</td>
-                                        <td>Valverde</td>
-                                        <td>Rojas</td>
-                                        <td>antony.valverde@gmail.com</td>
-                                        <td>Tgas3839</td>
-                                        <td>Empleado</td>
+                                        <td className="code">623144</td>
+                                        <td>Rotulo</td>
+                                        <td>Salida de emergencia</td>
+                                        <td>4</td>
+                                        <td>24/03/2022</td>
+                                        <td>500</td>
+                                        <td>1500</td>
 
                                         <td>
                                             <FaEdit className="iconsEdit" title="Editar." />
@@ -104,13 +103,13 @@ export default function Empleados() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>234515830</td>
-                                        <td>Ronaldo</td>
-                                        <td>Perez</td>
-                                        <td>Rivas</td>
-                                        <td>ronaldo_rivas425@gmail.com</td>
-                                        <td>ksas2672</td>
-                                        <td>Empleado</td>
+                                        <td className="code">392630</td>
+                                        <td>Extintor</td>
+                                        <td>Extintor de tipo abc</td>
+                                        <td>2</td>
+                                        <td>14/04/2021</td>
+                                        <td>5000</td>
+                                        <td>15000</td>
                                         <td>
                                             <FaEdit className="iconsEdit" title="Editar." />
                                             <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
@@ -118,13 +117,13 @@ export default function Empleados() {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>105594530</td>
-                                        <td>Carlos</td>
-                                        <td>Flores</td>
-                                        <td>Flores</td>
-                                        <td>Carlos/-/flores1990@gmail.com</td>
-                                        <td>Kisaa90</td>
-                                        <td>Gerente</td>
+                                        <td className="code">592834</td>
+                                        <td>Pieza</td>
+                                        <td>Anillos de sello</td>
+                                        <td>1</td>
+                                        <td>04/11/2020</td>
+                                        <td>500</td>
+                                        <td>1500</td>
                                         <td>
                                             <FaEdit className="iconsEdit" title="Editar." />
                                             <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
@@ -181,7 +180,7 @@ export default function Empleados() {
 
                             )}
                         </section>
-                        <div className="linea"></div>
+
                     </div>
                 </div>
             </div>

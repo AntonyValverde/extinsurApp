@@ -1,8 +1,9 @@
-import { FaStore, FaFire, FaMapMarked, FaTools, FaDirections, FaFireExtinguisher, FaEnvelopeOpenText, FaWhatsapp, FaPortrait, FaIcons } from 'react-icons/fa'
+import { FaStore, FaFire, FaMapMarked, FaBroom, FaBriefcase, FaCogs, FaTools, FaDirections, FaFireExtinguisher, FaEnvelopeOpenText, FaWhatsapp, FaPortrait, FaIcons } from 'react-icons/fa'
 import Link from "next/link";
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Image from "next/image";
 
 const Nav_index = ({ }) => {
     return (
@@ -26,7 +27,7 @@ const Nav_index = ({ }) => {
 
                     <article className="articleInfo">
                         Coordenadas exactas:
-                        <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 </a>
+                        <a className="linkMaps" href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "> Oficinas ExtinSur </a>
                     </article>
                     <article className='caruselResponsive'>
 
@@ -38,13 +39,16 @@ const Nav_index = ({ }) => {
 
                         >
                             <div>
-                                <img className='fotos' src="/indexInicio/extintor_rotulo.png" alt="Imagen 1" />
+
+                                <Image width="300" height="300" className="fotos" src="/indexInicio/extintor_rotulo.png" alt="11" />
                             </div>
                             <div>
-                                <img className='fotos' src="/indexInicio/varios_extintores.jpg" alt="Imagen 2" />
+
+                                <Image width="300" height="300" className="fotos" src="/indexInicio/varios_extintores.jpg" alt="11" />
                             </div>
                             <div>
-                                <img className='fotos' src="/indexInicio/extintor-para-incendios-abc.jpg" alt="Imagen 2" />
+
+                                <Image width="300" height="300" className="fotos" src="/indexInicio/extintor-para-incendios-abc.jpg" alt="11" />
                             </div>
 
                         </Carousel>
@@ -70,13 +74,16 @@ const Nav_index = ({ }) => {
 
                     >
                         <div>
-                            <img className='fotos' src="/indexInicio/extintor_rotulo.png" alt="Imagen 1" />
+
+                            <Image width="300" height="300" className="fotos" src="/indexInicio/extintor_rotulo.png" alt="11" />
                         </div>
                         <div>
-                            <img className='fotos' src="/indexInicio/varios_extintores.jpg" alt="Imagen 2" />
+
+                            <Image width="300" height="300" className="fotos" src="/indexInicio/varios_extintores.jpg" alt="11" />
                         </div>
                         <div>
-                            <img className='fotos' src="/indexInicio/extintor-para-incendios-abc.jpg" alt="Imagen 2" />
+
+                            <Image width="300" height="300" className="fotos" src="/indexInicio/extintor-para-incendios-abc.jpg" alt="11" />
                         </div>
 
                     </Carousel>
@@ -102,11 +109,11 @@ const Nav_index = ({ }) => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><a href=' https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7'> Ciudad Neily frente al instituto cated </a> </td>
+                                    <td className='filas'><a className='textUbicacion' href=' https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7'> Ciudad Neily frente al instituto cated </a> </td>
                                 </tr>
                                 <tr>
 
-                                    <td><a href=' https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6'> Rio claro frente la bomba </a> </td>
+                                    <td className='filas'><a className='textUbicacion' href=' https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6'> Rio claro frente la bomba </a> </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -127,21 +134,21 @@ const Nav_index = ({ }) => {
                     <article className="articleInfo">
                         <Link href="/IndexInicioSesion" className="buttonBorder">
                             <span className="textOpcionesPro">Mantenimiento</span>
-                            <FaFireExtinguisher className="iconsPro"></FaFireExtinguisher>
+                            <FaCogs className="iconsPro"></FaCogs>
                         </Link>
                     </article>
 
                     <article className="articleInfo">
                         <Link href="/IndexInicioSesion" className="buttonBorder">
                             <span className="textOpcionesPro">Recarga</span>
-                            <FaFireExtinguisher className="iconsPro"></FaFireExtinguisher>
+                            <FaBroom className="iconsPro"></FaBroom>
                         </Link>
                     </article>
 
                     <article className="articleInfo">
                         <Link href="/IndexInicioSesion" className="buttonBorder">
                             <span className="textOpcionesPro">Revisión</span>
-                            <FaFireExtinguisher className="iconsPro"></FaFireExtinguisher>
+                            <FaBriefcase className="iconsPro"></FaBriefcase>
                         </Link>
                     </article>
                 </div>

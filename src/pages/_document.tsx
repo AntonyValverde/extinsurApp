@@ -5,8 +5,11 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body>
+        <script
+          src={`https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`}
+        ></script>
         <title>ExtinSur</title>
-        <Main/>
+        <Main />
         <NextScript />
       </body>
 

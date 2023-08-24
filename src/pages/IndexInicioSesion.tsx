@@ -21,10 +21,7 @@ export default function IndexInicioSesion() {
         if (!Email.trim() || !Password.trim()) {
             alert('Por favor, completa todos los campos.');
             return;
-        }
-
-
-         
+        }  
          
         if(SelectedOption === ""){
             console.log('Ingresa un rol')
@@ -95,7 +92,7 @@ export default function IndexInicioSesion() {
                             </div>
                         </div>
                         <div className="cajax">
-                            <a href='/IndexGerenteInicio' className="IniciarSecionLink">Iniciar Sesión</a>
+                            <Link href='/Gerentes/Empleados' className="IniciarSecionLink">Iniciar Sesión</Link>
                         </div>
                     </form>
                 </div>

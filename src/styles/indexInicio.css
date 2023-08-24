@@ -49,7 +49,7 @@
   width: 100%;
   background-color: #0b0c0c;
   color: #100101;
-  padding: 20px 5%;
+  padding: 10px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -61,6 +61,13 @@
   padding: 3px;
   font-size: 60px;
 }
+.iconsInicioSesion{
+  display: inline-block;
+  padding: 3px;
+  font-size: 50px;
+  color: white;
+}
+
 
 @media (max-width: 768px) {
   .Header {
@@ -124,6 +131,7 @@
 .nombreEmpresa {
   font-family: 'Josefin Sans', sans-serif;
   font-family: 'Roboto Slab', serif;
+  color: white;
   font-size: 58px;
 }
 
@@ -141,30 +149,6 @@
   font-weight: 500;
   margin-left: 20px;
 
-}
-
-.lupa {
-  width: 30px;
-  height: 30px;
-  margin-top: -3px;
-  position: absolute;
-  right: 5%;
-  cursor: pointer;
-}
-
-.barraBusqueda {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: rgba(248, 246, 246, 0.5);
-  color: rgb(10, 10, 3);
-  border: none;
-  position: relative;
-  overflow: hidden;
-  font-size: 40px;
-  font-family: "Josefin_Sans";
-  opacity: 0.8;
-  width: 100%;
 }
 
 .icons {
@@ -222,12 +206,13 @@
   position: absolute;
   top: 20vb;
 
-  right: 60%;
+  right: 55%;
 
   width: 30vw;
 
-  height: 60vh;
-  background-color: rgba(255, 254, 254, 0.166);
+  height: 61vh;
+  background-color: rgba(2, 3, 69, 0.467);
+  border-radius: 20px;
   border: 1px solid #100d0d;
   padding: 10px;
   overflow: auto;
@@ -237,43 +222,49 @@
   font-family: "Josefin_Sans";
   font-size: 32px;
   margin-bottom: 20px;
+  align-content: center;
 }
 
 .text {
+  color: #fff;
+  
   margin-right: 8px;
 }
 
 .textOpciones {
+  color: #fff;
   margin-right: 8px;
   font-size: 50px;
 }
 
 .textOpcionesPro {
+  color: #fff;
   margin-right: 8px;
   font-size: 30px;
 }
 
 .icons {
   margin-left: 8px;
-
+  color: white;
 }
 
 .iconsPro {
-
+  color: white;
   display: inline-block;
   padding: 3px;
   font-size: 35px;
 }
 
 .articleInfo {
+  color: white;
   font-family: "Josefin_Sans";
-  font-size: 20px;
+  font-size: 25px;
   margin-bottom: 20px;
   padding-left: 20px;
 }
 
 .linkMaps {
-  color: #1284c7;
+  color: #080b0c;
   font-family: "Josefin_Sans";
 }
 
@@ -281,32 +272,41 @@
   position: absolute;
   top: 20vb;
 
-  right: 10%;
-
+  right: 15%;
   width: 30vw;
 
-  height: 60vh;
-  background-color: rgba(255, 254, 254, 0.166);
+  height: 61vh;
+  background-color: rgb(255, 254, 254);
   border: 1px solid #100d0d;
+  border-radius: 20px;
   padding: 10px;
   overflow: auto;
+}
+.fotos {
+  max-width: 90%;
 }
 
 .caruselResponsive {
   display: none;
 }
 
+.textUbicacion{
+  color: #130b0b;
+
+}
+
 .navDireccion {
   position: absolute;
   top: 90vb;
 
-  right: 9%;
-  left: 9%;
+  
+  left: 20%;
 
-  width: 80vw;
+  width: 60vw;
 
   height: 60vh;
-  background-color: rgba(255, 254, 254, 0.166);
+  background-color: rgba(2, 3, 69, 0.467);
+  border-radius: 20px;
   border: 1px solid #100d0d;
   padding: 10px;
   overflow: auto;
@@ -316,12 +316,13 @@
   position: absolute;
   top: 160vb;
 
-  right: 10%;
+  right: 15%;
 
   width: 30vw;
 
   height: 50vh;
-  background-color: rgba(255, 254, 254, 0.166);
+  background-color: rgba(2, 3, 69, 0.648);
+  border-radius: 20px;
   border: 1px solid #100d0d;
   padding: 10px;
   overflow: auto;
@@ -330,14 +331,16 @@
 
 .navServicios {
   position: absolute;
+  border-radius: 20px;
   top: 160vb;
 
-  right: 60%;
+  right: 55%;
 
   width: 30vw;
+  border-radius: 20px;
 
   height: 50vh;
-  background-color: rgba(255, 254, 254, 0.166);
+  background-color: rgba(2, 3, 69, 0.648);
   border: 1px solid #100d0d;
   padding: 10px;
   overflow: auto;
@@ -346,13 +349,15 @@
 .navServiciosImagenes {
   position: absolute;
   top: 850px;
+  border-radius: 20px;
+  
 
   right: 10%;
 
   width: 30vw;
 
   height: 60vh;
-  background-color: rgba(255, 254, 254, 0.166);
+  background-color: rgb(255, 254, 254);
   border: 1px solid #100d0d;
   padding: 10px;
   overflow: auto;
@@ -373,16 +378,24 @@
 }
 
 .tablaUbication th {
-  background-color: #f2f2f2;
+  color: white;
+  background-color: #170303;
 }
 
-.tablaUbication tr:nth-child(even) {
-  background-color: #f2f2f2;
+.tablaUbication tr {
+  background-color: white;
+  transition: background-color 0.3s; /* Agregamos una transición suave */
+  color: white;
 }
 
-.fotos {
-  max-width: 100%;
+.textUbicacion:hover{
+  color: white;
 }
+.tablaUbication tr:hover {
+  background-color: #fc5151; /* Cambiamos el color de fondo al pasar el cursor */
+  
+}
+
 
 @media (max-width: 768px) {
   .tablaUbication {
@@ -437,7 +450,7 @@
     right: 3%;
     left: 3%;
 
-    background-color: rgba(255, 254, 254, 0.744);
+    background-color: rgba(2, 3, 69, 0.648);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -461,7 +474,7 @@
     right: 3%;
     left: 3%;
 
-    background-color: rgba(255, 254, 254, 0.744);
+    background-color: rgba(2, 3, 69, 0.648);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -481,7 +494,7 @@
     right: 3%;
     left: 3%;
 
-    background-color: rgba(255, 254, 254, 0.744);
+    background-color: rgba(2, 3, 69, 0.648);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -500,7 +513,7 @@
     right: 3%;
     left: 3%;
 
-    background-color: rgba(255, 254, 254, 0.744);
+    background-color: rgba(2, 3, 69, 0.648);
     border: 1px solid #100d0d;
     padding: 50px;
     overflow: auto;
@@ -600,7 +613,7 @@ h3 {
 
 .linkMaps {
   display: block;
-
+  color: darkblue;
   margin-top: 5px;
 
 }
