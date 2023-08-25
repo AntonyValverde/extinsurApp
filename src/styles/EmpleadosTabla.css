@@ -1,3 +1,12 @@
+.bodyProductos {
+    background-color: #fff;
+    width: 60rem;
+    height: 30rem;
+    margin-top: 2rem;
+    margin-left: 6%;
+    box-shadow: 2px 1px 2px 4px #bdbdbd;
+    border-radius: 25px;
+}
 .bodyEmpleados {
     background-color: #fff;
     width: 60rem;
@@ -112,9 +121,17 @@ th {
     
     .bodyEmpleados {
         width: 90%;
-        height: auto;
+        height: 50rem;
         margin: 1rem ;
         padding: 1rem;
+         
+    }
+    .bodyProductos {
+        width: 90%;
+        height: 45rem;
+        margin: 1rem ;
+        padding: 1rem;
+         
     }
 
     .tituloEmpleados {
@@ -126,14 +143,21 @@ th {
         font-size: 19px;
     }
 
-    /* Otros ajustes de estilos para pantallas pequeñas */
+    .bodySidebar {
+        height: auto;  
+         
+    }
+
+    
+     
 }
  
- 
-
-
-
-
+.bodySidebarDos {
+    margin: 0;
+    padding: 0;
+    height: 100vb;
+    overflow: hidden;
+}
 
 .modal {
     display: flex;
@@ -149,7 +173,6 @@ th {
 
 .modal-content {
     background: var(--bg-gradient);
-    /*rgb(40, 235 , 140, 0.7);*/
     width: 90vw;
     height: 60vh;
     margin-top: 0vw;
@@ -158,13 +181,6 @@ th {
     overflow: auto;
     border-radius: 10px 10px 0 0;
 }
-
-
-
-
-
-
-
 
 
 .fondoEmpleados {
@@ -223,13 +239,6 @@ th {
     width: 100%;
 
 }
-
- 
-
-
-
-
-
 
 
 .contenedorTabla {

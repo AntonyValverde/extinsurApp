@@ -60,21 +60,9 @@
         background-color: #eadcfb;
         margin-bottom: 0.3rem;
         border-radius: 0.8rem;
+
+
     }
 
-    .sidebar_linkCuatro {
-        margin-top: -0.4rem;
-        font-family: fantasy;
-        font-size: 1rem;
-        text-decoration: none;
-        color: #000000;
-        padding: 0.3rem 1rem;
-        display: flex;
-        border: 2px solid #050606;
-        background-color: #eadcfb;
-        margin-left: 1rem;
-        margin-right: 12rem;
-        margin-bottom: 0.3rem;
-        border-radius: 0.8rem;
-    }
+     
 }

@@ -63,15 +63,13 @@ export default function Productos() {
                     <div><IndexGerenteInicioDos /></div>
 
 
-                    <div className="bodyEmpleados">
+                    <div className="bodyProductos">
 
 
                         <section>
 
                             <h1 className="tituloEmpleados">Productos</h1>
-                            <div className="sidebar_linkCuatro" onClick={handleModalOpenTres}>
-                                <h1>Agregar</h1>
-                            </div>
+                            
 
                             <div className="linea"></div>
                             <div className="contenedorTabla">
@@ -143,13 +141,16 @@ export default function Productos() {
                         </section>
                         <section>
                             <div className="containerButton">
+                                <div className="sidebar_linkTres" onClick={handleModalOpenTres}>
+                                    <h1>Agregar</h1>
+                                </div>
                                 <Link className="sidebar_linkTres" href="/Gerentes/Empleados">Empleados</Link>
                                 <Link className="sidebar_linkTres" href="/Gerentes/Productos">Productos</Link>
                                 <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">Movimientos</Link>
                                 <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
                                 <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
                                 <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
-
+                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Inicio</Link>
                             </div>
                         </section>
                         <section>

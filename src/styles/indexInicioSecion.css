@@ -116,7 +116,7 @@
     padding: 1em 0;
     text-align: center;
     bottom: 0;
-    font-size: 22px;
+    font-size: 2rem;
     font-family: "Josefin_Sans";
     color: #0e0b0b;
     cursor: default;
@@ -183,7 +183,7 @@
     bottom: 0;
     color: #0e0b0b;
 
-    margin-top: 5px;
+    margin-left: 1rem;
     border-radius: 18px;
     border: 2px solid #050505;
 }

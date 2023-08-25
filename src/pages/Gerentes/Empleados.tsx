@@ -68,9 +68,7 @@ export default function Empleados() {
                         <section>
 
                             <h1 className="tituloEmpleados">Empleados</h1>
-                            <div className="sidebar_linkCuatro" >
-                                <a href="./RegistrarEmpleados"> Registrar</a>
-                            </div>
+
                             <div className="linea"></div>
                             <div className="tabla-container">
                                 <table className="TablaEmpleados">
@@ -195,6 +193,12 @@ export default function Empleados() {
                                 <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
                                 <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
                                 <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
+
+                                <div className="sidebar_linkTres center-button" >
+                                    <a href="./RegistrarEmpleados"> Registrar</a>
+                                </div>
+
+                                <Link className="sidebar_linkTres" href="/">Inicio</Link>
 
                             </div>
                         </section>
