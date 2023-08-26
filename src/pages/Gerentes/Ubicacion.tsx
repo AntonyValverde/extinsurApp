@@ -2,6 +2,7 @@ import { FaEdit, FaTrash, FaDoorOpen } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
+import Link from "next/link";
 
 export default function Ubicacion() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,33 +69,28 @@ export default function Ubicacion() {
                         <section>
 
                             <h1 className="tituloEmpleados">Ubicación</h1>
-                            <h1 className="botonAgregar" onClick={handleModalOpenTres}>Agregar</h1>
                             <div className="linea"></div>
                             <div className="contenedorTabla">
                                 <table className="TablaEmpleados">
 
                                     <thead>
                                         <tr>
-                                            <th>Código</th>
-                                            <th>Tipo</th>
-                                            <th>Nombre</th>
-                                            <th>Bodega</th>
-                                            <th>Ingresó</th>
-                                            <th>Precio compra</th>
-                                            <th>Precio venta</th>
-                                            <th>Botones</th>
+                                            <th>Fecha</th>
+                                            <th>Ubicación</th>
+                                            <th>Dirección</th>
+                                            <th>Tiempo</th>
+                                            <th></th>
+                                             
 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td className="code">623144</td>
-                                            <td>Rotulo</td>
-                                            <td>Salida de emergencia</td>
-                                            <td>4</td>
-                                            <td>24/03/2022</td>
-                                            <td>500</td>
-                                            <td>1500</td>
+                                            <td >24/03/2022</td>
+                                            <td>Ciudad Neily frente al instituto cated</td>
+                                            <td>https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7</td>
+                                            <td>4 Horas</td>
+                                             
 
                                             <td>
                                                 <FaEdit className="iconsEdit" title="Editar." />
@@ -103,117 +99,18 @@ export default function Ubicacion() {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="code">392630</td>
-                                            <td>Extintor</td>
-                                            <td>Extintor de tipo abc</td>
-                                            <td>2</td>
                                             <td>14/04/2021</td>
-                                            <td>5000</td>
-                                            <td>15000</td>
+                                            <td>Rio claro frente la bomba</td>
+                                            <td>https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6</td>
+                                            <td>6 horas</td>
+                                             
                                             <td>
                                                 <FaEdit className="iconsEdit" title="Editar." />
                                                 <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td className="code">592834</td>
-                                            <td>Pieza</td>
-                                            <td>Anillos de sello</td>
-                                            <td>1</td>
-                                            <td>04/11/2020</td>
-                                            <td>500</td>
-                                            <td>1500</td>
-                                            <td>
-                                                <FaEdit onClick={handleModalOpenDos} className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp onClick={handleModalOpen} className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="code">392630</td>
-                                            <td>Extintor</td>
-                                            <td>Extintor de tipo abc</td>
-                                            <td>2</td>
-                                            <td>14/04/2021</td>
-                                            <td>5000</td>
-                                            <td>15000</td>
-                                            <td>
-                                                <FaEdit className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="code">592834</td>
-                                            <td>Pieza</td>
-                                            <td>Anillos de sello</td>
-                                            <td>1</td>
-                                            <td>04/11/2020</td>
-                                            <td>500</td>
-                                            <td>1500</td>
-                                            <td>
-                                                <FaEdit onClick={handleModalOpenDos} className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp onClick={handleModalOpen} className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="code">392630</td>
-                                            <td>Extintor</td>
-                                            <td>Extintor de tipo abc</td>
-                                            <td>2</td>
-                                            <td>14/04/2021</td>
-                                            <td>5000</td>
-                                            <td>15000</td>
-                                            <td>
-                                                <FaEdit className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="code">392630</td>
-                                            <td>Extintor</td>
-                                            <td>Extintor de tipo abc</td>
-                                            <td>2</td>
-                                            <td>14/04/2021</td>
-                                            <td>5000</td>
-                                            <td>15000</td>
-                                            <td>
-                                                <FaEdit className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="code">592834</td>
-                                            <td>Pieza</td>
-                                            <td>Anillos de sello</td>
-                                            <td>1</td>
-                                            <td>04/11/2020</td>
-                                            <td>500</td>
-                                            <td>1500</td>
-                                            <td>
-                                                <FaEdit onClick={handleModalOpenDos} className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp onClick={handleModalOpen} className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="code">592834</td>
-                                            <td>Pieza</td>
-                                            <td>Anillos de sello</td>
-                                            <td>1</td>
-                                            <td>04/11/2020</td>
-                                            <td>500</td>
-                                            <td>1500</td>
-                                            <td>
-                                                <FaEdit onClick={handleModalOpenDos} className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp onClick={handleModalOpen} className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
-                                            </td>
-                                        </tr>
+                                         
 
                                     </tbody>
 
@@ -285,6 +182,23 @@ export default function Ubicacion() {
                             )}
                         </section>
                         <div className="linea"></div>
+                        <section>
+                            <div className="containerButton">
+                                <Link className="sidebar_linkTres" href="/Gerentes/Empleados">Empleados</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Productos">Productos</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">Movimientos</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
+
+                                <div className="sidebar_linkTres center-button" >
+                                    <a href="./RegistrarEmpleados"> Agregar</a>
+                                </div>
+
+                                <Link className="sidebar_linkTres" href="/">Inicio</Link>
+
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>

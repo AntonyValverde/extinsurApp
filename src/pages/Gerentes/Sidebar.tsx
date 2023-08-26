@@ -23,7 +23,7 @@ const sidebarItems = [
     },
     {
         name: "Mantenimiento",
-        href: "/",
+        href: "/Gerentes/Mantenimiento",
         icon: FaWhmcs,
     },
     {
@@ -63,7 +63,7 @@ export default function Sidebar() {
 
                     <div className="content">
                         <div className="logo">
-                            <Image width="30" height="30" className="sidebar_logo" src="/favicon copy.png" alt="11" />
+                            <Image width="750" height="750" className="sidebar_logo" src="/favicon copy.png" alt="11" />
                             <p className="sidebar_logo-name">ExtinSur</p>
                         </div>
                         <ul className="sidebar_list">

@@ -2,7 +2,7 @@ import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import router from "next/router";
+ 
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 
 
@@ -99,9 +99,9 @@ export default function Productos() {
                                             <td>1500</td>
 
                                             <td>
-                                            <FaPenSquare className="iconsEdit" title="Editar." />
+                                             
                                                 <FaInfo className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
+                                                 
                                             </td>
                                         </tr>
                                         <tr>
@@ -113,9 +113,9 @@ export default function Productos() {
                                             <td>5000</td>
                                             <td>15000</td>
                                             <td>
-                                            <FaPenSquare className="iconsEdit" title="Editar." />
+                                             
                                                 <FaInfo className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
+                                                
                                             </td>
                                         </tr>
                                         <tr>
@@ -127,9 +127,9 @@ export default function Productos() {
                                             <td>500</td>
                                             <td>1500</td>
                                             <td>
-                                            <FaPenSquare className="iconsEdit" title="Editar." />
+                                             
                                                 <FaInfo className="iconsInfo" title="Más Información." />
-                                                <FaTrash className="iconsEliminar" title="Eliminar." />
+                                                
                                             </td>
                                         </tr>
                                     </tbody>
@@ -144,13 +144,12 @@ export default function Productos() {
                                 <div className="sidebar_linkTres" onClick={handleModalOpenTres}>
                                     <h1>Agregar</h1>
                                 </div>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Empleados">Empleados</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Productos">Productos</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">Movimientos</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Inicio</Link>
+                                <Link className="sidebar_linkTres" href="/Empleados/ProductosEmpleados">Productos</Link>
+                                <Link className="sidebar_linkTres" href="/Empleados/MovimientosEmpleados">Movimientos</Link>
+                                <Link className="sidebar_linkTres" href="/Empleados/MantenimientoEmpleados">Mantenimiento</Link>
+                                <Link className="sidebar_linkTres" href="/Empleados/UbicacionEmpleados">Ubicación</Link>
+                                <Link className="sidebar_linkTres" href="/Empleados/GráficasEmpleados">Gráficas</Link>
+                                <Link className="sidebar_linkTres" href="/">Inicio</Link>
                             </div>
                         </section>
                         <section>

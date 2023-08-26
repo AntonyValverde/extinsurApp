@@ -1,4 +1,4 @@
-import { FaEdit, FaTrash, FaReplyAll } from "react-icons/fa";
+import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -98,8 +98,8 @@ export default function Empleados() {
                                             <td>Empleado</td>
 
                                             <td>
-                                                <FaEdit className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
+                                                <FaInfo className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
@@ -112,8 +112,8 @@ export default function Empleados() {
                                             <td>ksas2672</td>
                                             <td>Empleado</td>
                                             <td>
-                                                <FaEdit className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
+                                                <FaInfo className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
@@ -126,8 +126,8 @@ export default function Empleados() {
                                             <td>Kisaa90</td>
                                             <td>Gerente</td>
                                             <td>
-                                                <FaEdit className="iconsEdit" title="Editar." />
-                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
+                                                <FaInfo className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>

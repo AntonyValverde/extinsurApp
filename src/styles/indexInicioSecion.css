@@ -174,7 +174,7 @@
     /* Puedes ajustar esto según tus necesidades */
     grid-gap: 20px;
     /* Espacio entre los elementos */
-    padding: 30px;
+    padding: 0.5rem;
 }
 
 .botonVer {
@@ -297,11 +297,14 @@
         border: none;
         position: relative;
         overflow: hidden;
-        font-size: 20px;
+         
         font-family: "Josefin_Sans";
     }
 
-    .botonVer,
+    .botonVer{
+        margin-left: 1rem;
+        font-size: 34px;
+    }
     .botonOpcion {
         font-size: 14px;
     }

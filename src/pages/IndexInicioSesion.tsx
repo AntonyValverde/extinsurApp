@@ -27,10 +27,10 @@ export default function IndexInicioSesion() {
             console.log('Ingresa un rol')
             
         }else if(SelectedOption === "Gerente"){
-            <a href="/IndexGerenteInicio"></a>
+            router.push("/Gerentes/Empleados"); 
             console.log('Gerente', SelectedOption)
         }else if(SelectedOption === "Empleado"){
-            <a href="/IndexEmpleadoInicio"></a>
+            router.push("/IndexEmpleadoInicio");  
             console.log('Empleado', SelectedOption)
         }
         
@@ -92,7 +92,8 @@ export default function IndexInicioSesion() {
                             </div>
                         </div>
                         <div className="cajax">
-                            <Link href='/Gerentes/Empleados' className="IniciarSecionLink">Iniciar Sesión</Link>
+                            <button  className="IniciarSecionLink" onClick={handleLogin}>Iniciar Sesión</button>
+
                         </div>
                     </form>
                 </div>

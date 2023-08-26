@@ -5,8 +5,7 @@ import Link from "next/link";
 import router from "next/router";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 
-
-export default function Productos() {
+export default function Empleados() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenDos, setIsModalOpenDos] = useState(false);
     const [isModalOpenTres, setIsModalOpenTres] = useState(false);
@@ -63,71 +62,71 @@ export default function Productos() {
                     <div><IndexGerenteInicioDos /></div>
 
 
-                    <div className="bodyProductos">
+                    <div className="bodyEmpleados">
 
 
                         <section>
 
-                            <h1 className="tituloEmpleados">Productos</h1>
-                            
+                            <h1 className="tituloEmpleados">Mantenimiento</h1>
 
                             <div className="linea"></div>
-                            <div className="contenedorTabla">
+                            <div className="tabla-container">
                                 <table className="TablaEmpleados">
+
 
                                     <thead>
                                         <tr>
-                                            <th>Código</th>
-                                            <th>Tipo</th>
+                                            <th>Cédula</th>
                                             <th>Nombre</th>
-                                            <th>Bodega</th>
-                                            <th>Ingresó</th>
-                                            <th>Precio compra</th>
-                                            <th>Precio venta</th>
+                                            <th>Primer Apellido</th>
+                                            <th>Segundo Apellido</th>
+                                            <th>Email</th>
+                                            <th>Contraseña</th>
+                                            <th>Tipo</th>
                                             <th></th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td className="code">623144</td>
-                                            <td>Rotulo</td>
-                                            <td>Salida de emergencia</td>
-                                            <td>4</td>
-                                            <td>24/03/2022</td>
-                                            <td>500</td>
-                                            <td>1500</td>
+                                            <td>623145890</td>
+                                            <td>Antony</td>
+                                            <td>Valverde</td>
+                                            <td>Rojas</td>
+                                            <td>antony.valverde@gmail.com</td>
+                                            <td>Tgas3839</td>
+                                            <td>Empleado</td>
 
                                             <td>
-                                            <FaPenSquare className="iconsEdit" title="Editar." />
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
                                                 <FaInfo className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="code">392630</td>
-                                            <td>Extintor</td>
-                                            <td>Extintor de tipo abc</td>
-                                            <td>2</td>
-                                            <td>14/04/2021</td>
-                                            <td>5000</td>
-                                            <td>15000</td>
+                                            <td>234515830</td>
+                                            <td>Ronaldo</td>
+                                            <td>Perez</td>
+                                            <td>Rivas</td>
+                                            <td>ronaldo_rivas425@gmail.com</td>
+                                            <td>ksas2672</td>
+                                            <td>Empleado</td>
                                             <td>
-                                            <FaPenSquare className="iconsEdit" title="Editar." />
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
                                                 <FaInfo className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="code">592834</td>
-                                            <td>Pieza</td>
-                                            <td>Anillos de sello</td>
-                                            <td>1</td>
-                                            <td>04/11/2020</td>
-                                            <td>500</td>
-                                            <td>1500</td>
+                                            <td>105594530</td>
+                                            <td>Carlos</td>
+                                            <td>Flores</td>
+                                            <td>Flores</td>
+                                            <td>Carlos/-/flores1990@gmail.com</td>
+                                            <td>Kisaa90</td>
+                                            <td>Gerente</td>
                                             <td>
-                                            <FaPenSquare className="iconsEdit" title="Editar." />
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
                                                 <FaInfo className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
@@ -135,23 +134,10 @@ export default function Productos() {
                                     </tbody>
                                 </table>
 
-                            </div>
-                            <div className="linea"></div>
 
-                        </section>
-                        <section>
-                            <div className="containerButton">
-                                <div className="sidebar_linkTres" onClick={handleModalOpenTres}>
-                                    <h1>Agregar</h1>
-                                </div>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Empleados">Empleados</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Productos">Productos</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">Movimientos</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Inicio</Link>
                             </div>
+
+
                         </section>
                         <section>
                             {isModalOpen && (
@@ -198,7 +184,24 @@ export default function Productos() {
 
                             )}
                         </section>
+                        <div className="linea"></div>
+                        <section>
+                            <div className="containerButton">
+                                <Link className="sidebar_linkTres" href="/Gerentes/Empleados">Empleados</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Productos">Productos</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">Movimientos</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
 
+                                <div className="sidebar_linkTres center-button" >
+                                    <a href="./RegistrarEmpleados"> Registrar</a>
+                                </div>
+
+                                <Link className="sidebar_linkTres" href="/">Inicio</Link>
+
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
