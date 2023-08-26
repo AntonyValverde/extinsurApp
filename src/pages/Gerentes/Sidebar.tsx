@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaUser, FaAngleRight, FaHome, FaChartBar, FaIdBadge, FaMapMarkerAlt, FaFireExtinguisher, FaBook, FaWhmcs } from 'react-icons/fa'
 import React, { useContext, useState } from 'react';
-import { convertTypeAcquisitionFromJson } from "typescript";
 import { SidebarContext } from "./SidebarContext";
 
 const sidebarItems = [
@@ -93,10 +92,4 @@ export default function Sidebar() {
     )
 }
 
-
-/*<Link href="">Trabajadores</Link><FaUserTie className="iconsGerente"></FaUserTie>
-<Link href="">Productos </Link> <FaFireExtinguisher className="iconsGerente2"></FaFireExtinguisher>
-<Link href="">Movimientos </Link><FaBook className="iconsGerente"></FaBook>
-<Link href="">Mantenimiento</Link><FaWhmcs className="iconsGerente"></FaWhmcs>
-<Link href="">Grafica</Link><FaChartBar className="iconsGerente"></FaChartBar>
-<Link href="">Ubicación</Link><FaMapMarkerAlt className="iconsGerente"></FaMapMarkerAlt>*/
+ 

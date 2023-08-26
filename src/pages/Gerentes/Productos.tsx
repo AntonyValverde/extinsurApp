@@ -1,8 +1,6 @@
-import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa";
-import { IoInformationCircleSharp } from "react-icons/io5";
+import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa"; 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import router from "next/router";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 
 
