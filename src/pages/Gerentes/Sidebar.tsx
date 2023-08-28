@@ -32,7 +32,7 @@ const sidebarItems = [
     },
     {
         name: "Grafica",
-        href: "/Grtentes/Grafica",
+        href: "/Gerentes/Grafica",
         icon: FaChartBar,
     },
     {

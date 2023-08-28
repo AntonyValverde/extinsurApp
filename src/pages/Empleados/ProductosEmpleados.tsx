@@ -1,5 +1,4 @@
 import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa";
-import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
  
