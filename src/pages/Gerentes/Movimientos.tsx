@@ -1,4 +1,4 @@
-import { FaEdit, FaTrash} from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -56,6 +56,34 @@ export default function Movimientos() {
         handleModalClose;
     };
 
+
+    const [backgroundColor, setBackgroundColor] = useState<string>('white');
+    const colors = ['white', 'lightblue', 'lightgreen', 'lightpink'];
+
+    const changeBackgroundColor = (selectedColor: string) => {
+        setBackgroundColor(selectedColor);
+
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('backgroundColor', selectedColor);
+        }
+    };
+
+    useEffect(() => {
+
+        document.querySelector('.containerSidebar')?.setAttribute('style', `background: ${backgroundColor}`);
+    }, [backgroundColor]);
+
+    useEffect(() => {
+
+        if (typeof window !== 'undefined') {
+            const storedBackgroundColor = localStorage.getItem('backgroundColor');
+            if (storedBackgroundColor) {
+                setBackgroundColor(storedBackgroundColor);
+            }
+        }
+    }, []);
+
+
     return (
         <>
             <div className="bodySidebar">
@@ -71,6 +99,21 @@ export default function Movimientos() {
                             <h1 className="tituloEmpleados">Movimientos</h1>
                             <div className="linea"></div>
                             <div className="contenedorTabla">
+                                <div className="buscadorContainer">
+                                    <input type="text" className="BuscadorInput" placeholder="Buscar..." />
+                                    <div className="RegistrarButton">
+                                        <div className="colorPalette">
+                                            {colors.map((color) => (
+                                                <div
+                                                    key={color}
+                                                    className="colorBox"
+                                                    style={{ backgroundColor: color }}
+                                                    onClick={() => changeBackgroundColor(color)}
+                                                ></div>
+                                            ))}
+                                            </div>
+                                    </div>
+                                </div>
                                 <table className="TablaEmpleados">
 
                                     <thead>
@@ -122,7 +165,7 @@ export default function Movimientos() {
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
-                                        
+
                                     </tbody>
                                 </table>
 
@@ -183,7 +226,7 @@ export default function Movimientos() {
                                 <Link className="sidebar_linkDos" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
                                 <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">Ubicación</Link>
                                 <Link className="sidebar_linkDos" href="/Gerentes/Graficas">Gráficas</Link>
-                                 
+
                             </div>
                         </section>
                     </div>

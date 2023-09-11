@@ -56,6 +56,34 @@ export default function Ubicacion() {
         handleModalClose;
     };
 
+
+
+    const [backgroundColor, setBackgroundColor] = useState<string>('white');
+    const colors = ['white', 'lightblue', 'lightgreen', 'lightpink'];
+
+    const changeBackgroundColor = (selectedColor: string) => {
+        setBackgroundColor(selectedColor);
+
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('backgroundColor', selectedColor);
+        }
+    };
+
+    useEffect(() => {
+
+        document.querySelector('.containerSidebar')?.setAttribute('style', `background: ${backgroundColor}`);
+    }, [backgroundColor]);
+
+    useEffect(() => {
+
+        if (typeof window !== 'undefined') {
+            const storedBackgroundColor = localStorage.getItem('backgroundColor');
+            if (storedBackgroundColor) {
+                setBackgroundColor(storedBackgroundColor);
+            }
+        }
+    }, []);
+
     return (
         <>
             <div className="bodySidebar">
@@ -71,6 +99,22 @@ export default function Ubicacion() {
                             <h1 className="tituloEmpleados">Ubicación</h1>
                             <div className="linea"></div>
                             <div className="contenedorTabla">
+                                <div className="buscadorContainer">
+                                    <input type="text" className="BuscadorInput" placeholder="Buscar..." />
+                                    <button onClick={handleModalOpenTres} className="RegistrarButton">Registrar</button>
+                                    <div className="RegistrarButton">
+                                        <div className="colorPalette">
+                                            {colors.map((color) => (
+                                                <div
+                                                    key={color}
+                                                    className="colorBox"
+                                                    style={{ backgroundColor: color }}
+                                                    onClick={() => changeBackgroundColor(color)}
+                                                ></div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                                 <table className="TablaEmpleados">
 
                                     <thead>
@@ -80,7 +124,7 @@ export default function Ubicacion() {
                                             <th>Dirección</th>
                                             <th>Tiempo</th>
                                             <th></th>
-                                             
+
 
                                         </tr>
                                     </thead>
@@ -90,7 +134,7 @@ export default function Ubicacion() {
                                             <td>Ciudad Neily frente al instituto cated</td>
                                             <td>https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7</td>
                                             <td>4 Horas</td>
-                                             
+
 
                                             <td>
                                                 <FaEdit className="iconsEdit" title="Editar." />
@@ -103,14 +147,14 @@ export default function Ubicacion() {
                                             <td>Rio claro frente la bomba</td>
                                             <td>https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6</td>
                                             <td>6 horas</td>
-                                             
+
                                             <td>
                                                 <FaEdit className="iconsEdit" title="Editar." />
                                                 <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
-                                         
+
 
                                     </tbody>
 

@@ -1,23 +1,144 @@
-import { FaReply, FaEye } from 'react-icons/fa'
-import Link from "next/link";
-import React, { useState } from 'react';
-import router from "next/router";
+import { FaReply, FaEye, FaTimes } from 'react-icons/fa'
+import { useState } from 'react';
+import { useRouter } from "next/router";
+import "firebase/firestore";
+import "firebase/compat/firestore";
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    where,
+    query,
+} from "firebase/firestore";
+import firebaseConfig from '@/firebase/config';
+import { initializeApp } from 'firebase/app';
 
 
 export default function IndexInicioSesion() {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     const [VerContrasena, setVerContrasena] = useState(false);
     const [Password, setPassword] = useState('');
     const [Email, setEmail] = useState('');
     const [SelectedOption, setSelectedOption] = useState('Opciones');
+    const router = useRouter();
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isModalOpenError, setIsModalOpenError] = useState(false);
+    const [dateUser, setDateUser] = useState("");
+
+
+    const handleLogin = async () => {
+        /*try {
+            
+            // Validación de campos vacíos y opción seleccionada
+            if (Email.trim() === "" || Password.trim() === "" || SelectedOption === 'Opciones') {
+                
+                setErrorMessage("Por favor, ingrese todos los datos.");
+                setIsModalOpenError(true);
+                return; // Detiene la ejecución si falta algún dato.
+            } else {
+                 
+                const usersRef = collection(db, "usuarios");
+                
+                 
+                const querySnapshot = await getDocs(
+                    query(
+                        usersRef,
+                        where("email", "==", Email),
+                        where("contrasena", "==", Password)  
+                    )
+                );
+                console.log(querySnapshot);
+                if (!querySnapshot.empty) {
+                    const userDoc = querySnapshot.docs[0];
+                    const userData = userDoc.data();
+                    setDateUser(dateUser);
+                     
+                    if (userData.tipo === "Empleado") {
+                         
+
+                    } else if (userData.tipo === "Gerente") {
+                        
+                    } else {
+
+                        setErrorMessage("Usuario no encontrado.");
+                       
+                        setIsModalOpenError(true);
+                    }
+                } else {
+                    setErrorMessage("Usuario o contraseña incorrectos. ");
+                    setIsModalOpenError(true);
+                }
+
+            }
+
+
+        } catch (error) {
+            console.log(error);
+        }*/
+
+
+        try {
+            if (Email.trim() === "" || Password.trim() === "") {
+                setErrorMessage("Por favor, ingrese todos los datos.");
+                setIsModalOpenError(true);
+                return;
+            }
+            const usersRef = collection(db, "usuarios");
+            const querySnapshot = await getDocs(
+                query(
+                    usersRef,
+                    where("email", "==", Email),
+                    where("contrasena", "==", Password)
+                )
+            );
+
+            if (!querySnapshot.empty) {
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+                setDateUser(dateUser);
+                if (userData.tipo === "Empleado") {
+                    router.push("/IndexEmpleadoInicio");
+                } else if (userData.tipo === "Gerente") {
+                    router.push("/indexClients");
+                } else {
+                    setErrorMessage("Usuario no encontrado.");
+                }
+            } else {
+                setErrorMessage("Usuario o contraseña incorrectos.");
+
+                setIsModalOpenError(true);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+
+
+    const closeModalError = () => {
+        setIsModalOpenError(false);
+        setErrorMessage("hola");
+    };
+
+
+
+
+
+
+
+
 
     const InicioLinkClick = (event: { preventDefault: () => void }) => {
         event.preventDefault();
         router.push("/");
     };
 
-    const handleLogin = () => {
-
-
+    /*const handleLogin = () => {
+    
+    
         if (!Email.trim() || !Password.trim()) {
             alert('Por favor, completa todos los campos.');
             return;
@@ -35,7 +156,7 @@ export default function IndexInicioSesion() {
         }
         
         
-    };
+    };*/
 
     const verContraseña = () => {
         setVerContrasena(!VerContrasena);
@@ -51,10 +172,10 @@ export default function IndexInicioSesion() {
 
                 <div className="contenedorInicio">
                     <nav className="navegationSecion">
-                        <Link href="#" className="buttonBorderAtras" onClick={InicioLinkClick}>
+                        <button className="buttonBorderAtras" onClick={InicioLinkClick}>
 
                             <FaReply className="iconsSalir"></FaReply>
-                        </Link>
+                        </button>
                     </nav>
                     <form className="contenedorFormulario">
                         <h1 className="titulo">ExtinSur Login</h1>
@@ -84,16 +205,30 @@ export default function IndexInicioSesion() {
                         </div>
                         <div className="caja">
                             <div className="contenedorOpcion">
-                                <button className="botonOpcion">{SelectedOption} <></> </button>
+                                <button className="botonOpcion">{SelectedOption}<></></button>
                                 <div className="opcionContenido">
-                                    <a href="#" onClick={() => opcionElegida('Empleado')}>Empleado</a>
-                                    <a href="#" onClick={() => opcionElegida('Gerente')}>Gerente</a>
+                                    <a onClick={() => opcionElegida('Empleado')}>Empleado</a>
+                                    <a onClick={() => opcionElegida('Gerente')}>Gerente</a>
                                 </div>
                             </div>
                         </div>
                         <div className="cajax">
-                            <button  className="IniciarSecionLink" onClick={handleLogin}>Iniciar Sesión</button>
+                            <a className="IniciarSecionLink" onClick={handleLogin}>Iniciar Sesión</a>
+                            {isModalOpenError && (
+                                <div className="modalError">
+                                    <div className="modal-contentError">
+                                        <p className="pconte">
+                                            {errorMessage}
+                                            <button
+                                                className="closeError"
+                                                onClick={closeModalError}>
+                                                <FaTimes />
+                                            </button>
+                                        </p>
 
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </form>
                 </div>

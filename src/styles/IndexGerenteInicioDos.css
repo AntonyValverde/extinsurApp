@@ -8,10 +8,37 @@
 }
 
 .containerSidebar {
-  background: linear-gradient(to top, #f2c53d, 40%, #f27329, #d92a1a);
   display: flex;
   height: 100%;
   overflow: hidden;
+  transition: background 0.3s ease;
+   
+}
+
+
+
+
+.colorPalette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.colorBox {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+
+
+select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
 }
 
 .asideSidebar {
@@ -119,7 +146,7 @@
   color: #000000;
   padding: 0.8rem 1rem;
   display: flex;
-  background-color: #f5ecff;
+  background-color: #efe2fd;
   margin-bottom: 1rem;
   border-radius: 0.8rem;
 }

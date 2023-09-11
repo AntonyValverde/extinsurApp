@@ -55,6 +55,33 @@ export default function Empleados() {
         handleModalClose;
     };
 
+
+    const [backgroundColor, setBackgroundColor] = useState<string>('white');
+    const colors = ['white', 'lightblue', 'lightgreen', 'lightpink'];
+
+    const changeBackgroundColor = (selectedColor: string) => {
+        setBackgroundColor(selectedColor);
+
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('backgroundColor', selectedColor);
+        }
+    };
+
+    useEffect(() => {
+
+        document.querySelector('.containerSidebar')?.setAttribute('style', `background: ${backgroundColor}`);
+    }, [backgroundColor]);
+
+    useEffect(() => {
+
+        if (typeof window !== 'undefined') {
+            const storedBackgroundColor = localStorage.getItem('backgroundColor');
+            if (storedBackgroundColor) {
+                setBackgroundColor(storedBackgroundColor);
+            }
+        }
+    }, []);
+
     return (
         <>
             <div className="bodySidebar">
@@ -71,6 +98,22 @@ export default function Empleados() {
 
                             <div className="linea"></div>
                             <div className="tabla-container">
+                                <div className="buscadorContainer">
+                                    <input type="text" className="BuscadorInput" placeholder="Buscar..." />
+                                    <button className="RegistrarButton">Registrar</button>
+                                    <div className="RegistrarButton">
+                                        <div className="colorPalette">
+                                            {colors.map((color) => (
+                                                <div
+                                                    key={color}
+                                                    className="colorBox"
+                                                    style={{ backgroundColor: color }}
+                                                    onClick={() => changeBackgroundColor(color)}
+                                                ></div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                                 <table className="TablaEmpleados">
 
 

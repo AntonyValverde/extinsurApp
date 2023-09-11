@@ -17,7 +17,7 @@ const SidebarProvider = ({children}: Props) => {
     const toogleSidevarColapseHandler = () =>{
         setIsCollapsedSidebar((prev) => !prev)
     }
-    {/*36:51 del video*/}
+     
     return (
         <SidebarContext.Provider 
             value={{isCollapsedSidebar,toogleSidevarColapseHandler}}

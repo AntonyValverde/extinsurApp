@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FaUser, FaAngleRight, FaHome, FaChartBar, FaIdBadge, FaMapMarkerAlt, FaFireExtinguisher, FaBook, FaWhmcs } from 'react-icons/fa'
 import React, { useContext, useState } from 'react';
 import { SidebarContext } from "./SidebarContext";
+import { useEffect } from "react";
 
 const sidebarItems = [
     {
@@ -41,10 +42,14 @@ const sidebarItems = [
         icon: FaHome,
     },
 
+
 ];
+
+ 
 
 
 export default function Sidebar() {
+
     const { isCollapsedSidebar, toogleSidevarColapseHandler } =
         useContext(SidebarContext)
 
@@ -62,8 +67,11 @@ export default function Sidebar() {
 
                     <div className="content">
                         <div className="logo">
-                            <Image width="750" height="750" className="sidebar_logo" src="/favicon copy.png" alt="11" />
+                            <Image width="300" height="300" className="sidebar_logo" src="/favicon copy.png" alt="11" />
                             <p className="sidebar_logo-name">ExtinSur</p>
+                             
+
+
                         </div>
                         <ul className="sidebar_list">
                             {sidebarItems.map(({ name, href, icon: Icon }) => (
@@ -92,4 +100,3 @@ export default function Sidebar() {
     )
 }
 
- 

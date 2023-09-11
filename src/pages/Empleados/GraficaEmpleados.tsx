@@ -5,3 +5,5 @@ export const GraficaEmpleados = () => {
     <div>GraficaEmpleados</div>
   )
 }
+
+export default GraficaEmpleados;

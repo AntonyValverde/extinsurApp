@@ -11,10 +11,12 @@ export default function Home() {
         <header>
           <Header_index></Header_index>
         </header>
-
-        <article className='navIndex'>
-          <Nav_index></Nav_index>
-        </article>
+        <div className='navCompIndex'>
+          <article className='navIndex'>
+            <Nav_index></Nav_index>
+          </article>
+        </div>
+        
         
         <footer className="footerInicio">
           <Footer_index></Footer_index>

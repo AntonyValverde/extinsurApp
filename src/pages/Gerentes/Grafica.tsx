@@ -1,5 +1,4 @@
 import { FaEdit, FaTrash, FaDoorOpen } from "react-icons/fa";
-import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 import Link from "next/link";
@@ -9,56 +8,9 @@ import { ResponsiveContainer, BarChart, XAxis, YAxis, RadialBar, RadialBarChart,
 
 
 export default function Grafica() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isModalOpenDos, setIsModalOpenDos] = useState(false);
-    const [isModalOpenTres, setIsModalOpenTres] = useState(false);
+     
 
 
-
-    useEffect(() => {
-        if (isModalOpen) {
-
-        }
-    }, [isModalOpen]);
-    const handleModalOpen = () => {
-        setIsModalOpen(true);
-    };
-    const handleModalClose = () => {
-        setIsModalOpen(false);
-
-    };
-
-
-    useEffect(() => {
-        if (isModalOpenDos) {
-
-        }
-    }, [isModalOpenDos]);
-    const handleModalOpenDos = () => {
-        setIsModalOpenDos(true);
-    };
-    const handleModalCloseDos = () => {
-        setIsModalOpenDos(false);
-
-    };
-
-    useEffect(() => {
-        if (isModalOpenTres) {
-
-        }
-    }, [isModalOpenTres]);
-    const handleModalOpenTres = () => {
-        setIsModalOpenTres(true);
-    };
-    const handleModalCloseTres = () => {
-        setIsModalOpenTres(false);
-
-    };
-
-    const handleFormSubmit = (event: { preventDefault: () => void }) => {
-        event.preventDefault();
-        handleModalClose;
-    };
 
     const datos = [
         { fecha: "23/03/22", Total: 35000, IVA: 4550, Costo: 8000, Ganancias: 22450 }, /*35000 total*/
@@ -128,41 +80,7 @@ export default function Grafica() {
         },
     ];
 
-    const data = [
-        
-        {
-          "name": "Jarol",
-          "uv": 4000,
-          "pv": 40,
-          "fill": "#82ca9d"
-        },
-        
-        {
-          "name": "Ana",
-          "uv": 53000,
-          "pv": 5300,
-          "fill": "#a4de6c"
-        },
-        
-        {
-          "name": "Carlos",
-          "uv": 201000,
-          "pv": 20100,
-          "fill": "#d0ed57"
-        },
-        {
-          "name": "Ronaldo",
-          "uv": 302000,
-          "pv": 30200,
-          "fill": "#ffc658"
-        },
-        {
-            "name": "Antony",
-            "uv": 429000,
-            "pv": 42900,
-            "fill": "#82ca9d"
-        },
-      ]
+     
 
 
     return (
@@ -178,6 +96,7 @@ export default function Grafica() {
                         <section>
 
                             <h1 className="tituloEmpleados">Graficas</h1>
+                             
                             <div className="linea"></div>
                             <div className="contenedorTablaGrafica">
 
@@ -236,89 +155,16 @@ export default function Grafica() {
                                             </AreaChart>
                                         </ResponsiveContainer>
                                     </div>
+                                    
 
 
                                 </div>
-                                <div className="barras">
-                                    <RadialBarChart
-                                        width={730}
-                                        height={250}
-                                        innerRadius="10%"
-                                        outerRadius="80%"
-                                        data={data}
-                                        margin={{
-                                            top: 50,
-                                        }}
-                                        startAngle={180}
-                                        endAngle={0}
-                                    >
-                                        <RadialBar label={{ fill: '#666', position: 'insideStart' }} background dataKey='uv' />
-                                        <Legend iconSize={10} width={120} height={140} layout='vertical' verticalAlign='middle' align="right" />
-                                        <Tooltip />
-                                    </RadialBarChart>
-                                </div>
+                                
 
                             </div>
 
                         </section>
-                        <section>
-                            {isModalOpen && (
 
-                                <div className="modal">
-                                    <div className="modal-content">
-                                        <button
-                                            className="icon-close"
-                                            onClick={handleModalClose}
-                                        >SALIR</button>
-
-                                    </div>
-                                </div>
-
-                            )}
-                        </section>
-                        <section>
-                            {isModalOpenDos && (
-
-                                <div className="modal">
-                                    <div className="modal-content">
-                                        <button
-                                            className="icon-close"
-                                            onClick={handleModalCloseDos}
-                                        >SALIR</button>
-
-                                    </div>
-                                </div>
-
-                            )}
-                        </section>
-                        <section>
-                            {isModalOpenTres && (
-
-                                <div className="modal">
-                                    <div className="modal-content">
-                                        <div>
-                                            <button
-                                                className="icon-close"
-                                                onClick={handleModalCloseTres}
-                                            ><FaDoorOpen></FaDoorOpen></button>
-                                        </div>
-
-                                        <form className="contenedorUbicacion">
-
-                                            <h1 className="tituloUbicacion">Ubicación</h1>
-                                            <h2 className="textColocar">Colocar Dirección</h2>
-                                            <input className="inputColocar" type="text" />
-                                            <h2 className="textColocar">Colocar Descripción</h2>
-                                            <input className="inputColocar" type="text" />
-                                            <button className="btnAgregar">Agregar</button>
-
-                                        </form>
-
-                                    </div>
-                                </div>
-
-                            )}
-                        </section>
                         <div className="linea"></div>
                         <section>
                             <div className="containerButton">
