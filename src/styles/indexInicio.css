@@ -20,7 +20,7 @@
 
 @media (max-width: 767px) {
   .body {
-    height: 600vh;
+    height: 550vh;
     width: 180vh;
     background-image: white;
     padding-bottom: 0;
@@ -489,6 +489,24 @@ body.modal-open .modalNavExtintor {
 
 
 @media (max-width: 768px) {
+  .navCompIndex{
+    position: absolute;
+    top: 27vb;
+  
+    width: 360vw;
+    
+    height: 450vh;
+    background-color: rgba(2, 3, 69, 0.467);
+    border-radius: 10px;
+    border: 1px solid #100d0d;
+    padding: 10px;
+    overflow: auto;
+    display: flex; /* Establecer el contenedor como flexbox */
+    justify-content: center; /* Centrar horizontalmente los elementos */
+    align-items: center;
+  
+  }
+
   .tablaUbication {
     border-collapse: collapse;
     width: 100%;
@@ -531,14 +549,14 @@ body.modal-open .modalNavExtintor {
   .navInfo {
     font-size: 48px;
 
-    top: 37vh;
+    top: 8vh;
     position: absolute;
-    width: 160vb;
+    width: 155vb;
     max-width: none;
     height: 190vh;
     display: 10px;
 
-
+     
     right: 3%;
     left: 3%;
 
@@ -556,9 +574,9 @@ body.modal-open .modalNavExtintor {
   }
 
   .navDireccion {
-    top: 270vh;
+    top: 210vh;
     position: absolute;
-    width: 163vb;
+    width: 155vb;
     max-width: none;
     height: 620px;
     display: 10px;
@@ -576,9 +594,9 @@ body.modal-open .modalNavExtintor {
 
 
   .navProductos {
-    top: 370vh;
+    top: 300vh;
     position: absolute;
-    width: 163vb;
+    width: 155vb;
     max-width: none;
     height: auto;
     display: 10px;
@@ -595,9 +613,9 @@ body.modal-open .modalNavExtintor {
   }
 
   .navServicios {
-    top: 445vh;
+    top: 360vh;
     position: absolute;
-    width: 163vb;
+    width: 155vb;
     max-width: none;
     height: auto;
     display: 10px;
@@ -677,7 +695,7 @@ body.modal-open .modalNavExtintor {
 
 .footerInicio {
   background-color: #100101;
-  padding: 1em 0;
+  padding: 0em 0;
   text-align: center;
   position: absolute;
   bottom: 0;
@@ -692,8 +710,7 @@ body.modal-open .modalNavExtintor {
 
 .footerInicio>div {
   flex: 1;
-  margin-right: 20px;
-  margin-top: 90px;
+  margin-top: 10px;
 }
 
 
@@ -728,6 +745,9 @@ h3 {
   }
 
   .footerInicio {
+    font-size: 34px;
+  }
+  .linkMaps{
     font-size: 34px;
   }
 }
