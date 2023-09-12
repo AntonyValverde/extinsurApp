@@ -493,7 +493,7 @@ body.modal-open .modalNavExtintor {
     position: absolute;
     top: 27vb;
   
-    width: 360vw;
+    width: 90%;
     
     height: 450vh;
     background-color: rgba(2, 3, 69, 0.467);
@@ -580,7 +580,7 @@ body.modal-open .modalNavExtintor {
     max-width: none;
     height: 620px;
     display: 10px;
-
+    margin-top: 20px;
     right: 3%;
     left: 3%;
 
@@ -600,7 +600,7 @@ body.modal-open .modalNavExtintor {
     max-width: none;
     height: auto;
     display: 10px;
-
+    margin-top: 20px;
     right: 3%;
     left: 3%;
 
@@ -619,7 +619,7 @@ body.modal-open .modalNavExtintor {
     max-width: none;
     height: auto;
     display: 10px;
-
+    margin-top: 20px;
     right: 3%;
     left: 3%;
 
