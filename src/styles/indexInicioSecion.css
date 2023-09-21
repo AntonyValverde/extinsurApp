@@ -22,8 +22,8 @@
     /* Coloca el punto de referencia en el centro horizontal */
     transform: translate(-50%, -50%);
 
-    width: 1000px;
-    height: 650px;
+    width: 60%;
+    height: 84vh;
 
     background-color: #c9c3d0de;
     border: 1px solid #100d0d;
@@ -85,8 +85,8 @@
     /* Coloca el punto de referencia en el centro horizontal */
     transform: translate(-50%, -50%);
 
-    width: 800px;
-    height: 640px;
+    width: 95%;
+    height: 100%;
 
     background-color: transparent;
 
@@ -101,29 +101,30 @@
     text-align: center;
     bottom: 0;
     font-size: 38px;
-    font-family: "Josefin_Sans";
+    font-family: 'Playfair Display', serif;
     color: #0e0b0b;
     cursor: default;
 
-    color: transparent;
+    color: black;
     /* Hacemos el color del texto transparente */
-    -webkit-text-stroke: 2px #0e0b0b;
+     
     /* Para navegadores basados en WebKit */
     filter: drop-shadow(0px 0px 5px rgba(14, 11, 11, 0.8));
 }
 
 .texto {
+    
     padding: 1em 0;
     text-align: center;
     bottom: 0;
     font-size: 2rem;
-    font-family: "Josefin_Sans";
+     
     color: #0e0b0b;
     cursor: default;
-
-    color: transparent;
+    font-family: 'Playfair Display', serif;
+    color: #0e0b0b;
     /* Hacemos el color del texto transparente */
-    -webkit-text-stroke: 2px #0e0b0b;
+     
     /* Para navegadores basados en WebKit */
     filter: drop-shadow(0px 0px 5px rgba(219, 243, 4, 0.8));
 
@@ -147,7 +148,7 @@
 
 .input {
     width: 100%;
-    padding: 5px;
+    padding: 0.5em;
     border: 3px solid #464d73;
     background-color: transparent;
     border-radius: 8px;
@@ -270,6 +271,7 @@
     }
     .contenedorInicio {
         width: 90%;
+        top: 41vh;
         max-width: 100%;
     }
 

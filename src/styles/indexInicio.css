@@ -108,7 +108,7 @@
 
   .nombreEmpresa {
     font-family: 'Josefin Sans', sans-serif;
-    font-family: 'Roboto Slab', serif;
+     
     font-size: 50px;
     position: relative;
   }
@@ -137,7 +137,7 @@
 
 .nombreEmpresa {
   font-family: 'Josefin Sans', sans-serif;
-  font-family: 'Roboto Slab', serif;
+  
   color: white;
   font-size: 58px;
 }
@@ -169,16 +169,16 @@
   font-size: 16px;
   background-color: transparent;
   color: rgb(14, 12, 0);
-  border: none;
+  border: 1px solid white;
   border-radius: 20px;
   position: relative;
   overflow: hidden;
-
+  
   font-family: "Josefin_Sans";
 }
 
 .buttonBorder::before {
-  content: "";
+   
   position: absolute;
   top: 0;
   left: 0;
@@ -243,7 +243,7 @@
 
   width: 90vw;
 
-  height: 230vh;
+  height: 248vh;
   background-color: rgba(2, 3, 69, 0.467);
   border-radius: 20px;
   border: 1px solid #100d0d;
@@ -257,18 +257,32 @@
 
 .navInfo {
   position: absolute;
-  top: 10vb;
 
-  right: 49rem;
+  top: 2%;
+  width: 95%;
 
-  width: 30vw;
-
-  height: 70vh;
+  height: 95%;
   background-color: rgba(2, 3, 69, 0.467);
   border-radius: 20px;
   border: 1px solid #100d0d;
   padding: 10px;
   overflow: auto;
+}
+
+.navInfoDos{
+  position: absolute;
+   
+
+  margin-left: 30%;
+  width: 30vw;
+
+  height: 30vw;
+  background-color: rgba(255, 254, 254, 0);
+   
+  border-radius: 20px;
+  padding: 10px;
+  overflow: auto;
+
 }
 
 .h1Info {
@@ -308,7 +322,23 @@
   font-size: 35px;
 }
 
+.articleDos {
+  display: inline-block;
+  width: 48%; /* Establece el ancho deseado para los elementos */
+  margin-right: 2%; /* Agrega un pequeño margen derecho entre los elementos */
+  vertical-align: top; /* Alinea los elementos en la parte superior */
+}
+
+/* Estilo adicional para los elementos si es necesario */
+.articleDos {
+   
+  padding: 10px;
+   
+}
+
+
 .articleInfo {
+  margin-top: 5vb;
   color: white;
   font-family: "Josefin_Sans";
   font-size: 25px;
@@ -323,12 +353,10 @@
 
 .navInfoFotos {
   position: absolute;
-  top: 10vb;
-
   right: 13rem;
   width: 30vw;
 
-  height: 70vh;
+  height: 30vw;
   background-color: rgb(255, 254, 254);
   border: 1px solid #100d0d;
   border-radius: 20px;
@@ -489,6 +517,12 @@ body.modal-open .modalNavExtintor {
 
 
 @media (max-width: 768px) {
+  .Center{
+    display: flex; /* Establecer el contenedor como flexbox */
+    justify-content: center; /* Centrar horizontalmente los elementos */
+    align-items: center;
+  }
+
   .navCompIndex{
     position: absolute;
     top: 27vb;
@@ -553,7 +587,7 @@ body.modal-open .modalNavExtintor {
     position: absolute;
     width: 155vb;
     max-width: none;
-    height: 190vh;
+    height: 420vh;
     display: 10px;
 
      
@@ -571,6 +605,9 @@ body.modal-open .modalNavExtintor {
     display: none;
 
 
+  }
+  .navInfoDos{
+    display: none;
   }
 
   .navDireccion {
@@ -645,7 +682,7 @@ body.modal-open .modalNavExtintor {
 
   .articleInfo {
     font-family: monospace;
-    font-size: 50px;
+    font-size: 120%;
     margin-bottom: 20px;
     padding-left: 20px;
   }

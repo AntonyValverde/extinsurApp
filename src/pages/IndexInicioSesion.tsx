@@ -9,14 +9,16 @@ import {
     getDocs,
     where,
     query,
-} from "firebase/firestore";
+} from "@firebase/firestore";
 import firebaseConfig from '@/firebase/config';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
 
 
 export default function IndexInicioSesion() {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
 
     const [VerContrasena, setVerContrasena] = useState(false);
     const [Password, setPassword] = useState('');
@@ -29,91 +31,42 @@ export default function IndexInicioSesion() {
 
 
     const handleLogin = async () => {
-        /*try {
-            
-            // Validación de campos vacíos y opción seleccionada
-            if (Email.trim() === "" || Password.trim() === "" || SelectedOption === 'Opciones') {
-                
-                setErrorMessage("Por favor, ingrese todos los datos.");
-                setIsModalOpenError(true);
-                return; // Detiene la ejecución si falta algún dato.
-            } else {
-                 
-                const usersRef = collection(db, "usuarios");
-                
-                 
-                const querySnapshot = await getDocs(
-                    query(
-                        usersRef,
-                        where("email", "==", Email),
-                        where("contrasena", "==", Password)  
-                    )
-                );
-                console.log(querySnapshot);
-                if (!querySnapshot.empty) {
-                    const userDoc = querySnapshot.docs[0];
-                    const userData = userDoc.data();
-                    setDateUser(dateUser);
-                     
-                    if (userData.tipo === "Empleado") {
-                         
-
-                    } else if (userData.tipo === "Gerente") {
-                        
-                    } else {
-
-                        setErrorMessage("Usuario no encontrado.");
-                       
-                        setIsModalOpenError(true);
-                    }
-                } else {
-                    setErrorMessage("Usuario o contraseña incorrectos. ");
-                    setIsModalOpenError(true);
-                }
-
-            }
-
-
-        } catch (error) {
-            console.log(error);
-        }*/
-
-
         try {
             if (Email.trim() === "" || Password.trim() === "") {
                 setErrorMessage("Por favor, ingrese todos los datos.");
                 setIsModalOpenError(true);
                 return;
             }
-            const usersRef = collection(db, "usuarios");
+            await signInWithEmailAndPassword(auth, Email, Password);
+
+            const user = auth.currentUser;
+            const userEmail = user?.email;
+            const usersRef = collection(db, "Usuarios");
             const querySnapshot = await getDocs(
-                query(
-                    usersRef,
-                    where("email", "==", Email),
-                    where("contrasena", "==", Password)
-                )
+                query(usersRef, where("Email", "==", userEmail))
             );
 
             if (!querySnapshot.empty) {
                 const userDoc = querySnapshot.docs[0];
                 const userData = userDoc.data();
-                setDateUser(dateUser);
-                if (userData.tipo === "Empleado") {
-                    router.push("/IndexEmpleadoInicio");
-                } else if (userData.tipo === "Gerente") {
-                    router.push("/indexClients");
+                const userType = userData.Tipo;
+                if (userType === "Empleado") {
+                    router.push("/Empleados/GraficaEmpleados");
+                } else if (userType === "Gerente") {
+                    router.push("/Gerentes/Empleados");
                 } else {
-                    setErrorMessage("Usuario no encontrado.");
+                    setErrorMessage("Correo no encontrado.");
+                    setIsModalOpenError(true);
                 }
             } else {
-                setErrorMessage("Usuario o contraseña incorrectos.");
-
+                setErrorMessage("Correo/Contraseña incorrectos..");
                 setIsModalOpenError(true);
             }
         } catch (error) {
             console.log(error);
+            setErrorMessage("Correo/Contraseña incorrectos.");
+            setIsModalOpenError(true);
         }
-
     }
 
 
@@ -171,13 +124,14 @@ export default function IndexInicioSesion() {
             <div className="FondoInicioSecion">
 
                 <div className="contenedorInicio">
-                    <nav className="navegationSecion">
-                        <button className="buttonBorderAtras" onClick={InicioLinkClick}>
 
-                            <FaReply className="iconsSalir"></FaReply>
-                        </button>
-                    </nav>
                     <form className="contenedorFormulario">
+                        <nav className="navegationSecion">
+                            <button className="buttonBorderAtras" onClick={InicioLinkClick}>
+
+                                <FaReply className="iconsSalir"></FaReply>
+                            </button>
+                        </nav>
                         <h1 className="titulo">ExtinSur Login</h1>
                         <div className="caja">
                             <h3 className="texto">Email</h3>
@@ -205,7 +159,7 @@ export default function IndexInicioSesion() {
                         </div>
                         <div className="caja">
                             <div className="contenedorOpcion">
-                                <button className="botonOpcion">{SelectedOption}<></></button>
+                                <a href='#' className="botonOpcion">{SelectedOption}<></></a>
                                 <div className="opcionContenido">
                                     <a onClick={() => opcionElegida('Empleado')}>Empleado</a>
                                     <a onClick={() => opcionElegida('Gerente')}>Gerente</a>
