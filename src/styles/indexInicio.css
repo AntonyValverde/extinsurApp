@@ -525,8 +525,7 @@ body.modal-open .modalNavExtintor {
 
   .navCompIndex{
     position: absolute;
-    top: 27vb;
-  
+    top: 44vh;
     width: 90%;
     
     height: 450vh;
@@ -582,7 +581,7 @@ body.modal-open .modalNavExtintor {
 
   .navInfo {
     font-size: 48px;
-
+    
     top: 8vh;
     position: absolute;
     width: 155vb;

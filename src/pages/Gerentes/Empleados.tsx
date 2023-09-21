@@ -92,7 +92,16 @@ export default function Empleados() {
   };
 
   const [backgroundColor, setBackgroundColor] = useState<string>("#6DA5C0");
-  const colors = ["#294D61", "#6DA5C0", "#0F9690", "#0C7075", "#072E33", "#26425A", "#E1CBD7", "#C38EB4"];
+  const colors = [
+    "#294D61",
+    "#6DA5C0",
+    "#0F9690",
+    "#0C7075",
+    "#072E33",
+    "#26425A",
+    "#E1CBD7",
+    "#C38EB4",
+  ];
 
   const changeBackgroundColor = (selectedColor: string) => {
     setBackgroundColor(selectedColor);
@@ -507,6 +516,32 @@ export default function Empleados() {
                   </div>
                 </div>
               )}
+            </section>
+            <div className="linea"></div>
+            <section>
+              <div className="containerButton">
+                <Link className="sidebar_linkDos" href="/Gerentes/Empleados">
+                  Empleados
+                </Link>
+                <Link className="sidebar_linkDos" href="/Gerentes/Productos">
+                  Productos
+                </Link>
+                <Link className="sidebar_linkDos" href="/Gerentes/Movimientos">
+                  Movimientos
+                </Link>
+                <Link
+                  className="sidebar_linkDos"
+                  href="/Gerentes/Mantenimiento"
+                >
+                  Mantenimiento
+                </Link>
+                <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">
+                  Ubicación
+                </Link>
+                <Link className="sidebar_linkDos" href="/Gerentes/Graficas">
+                  Gráficas
+                </Link>
+              </div>
             </section>
           </div>
         </div>

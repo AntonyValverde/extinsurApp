@@ -270,13 +270,13 @@
         height: auto;
     }
     .contenedorInicio {
-        width: 90%;
-        top: 41vh;
+        width: 80%;
+        top: 45vh;
         max-width: 100%;
     }
 
     .titulo {
-        top: 25vb;
+        top: 5vb;
         font-size: 28px;
     }
 

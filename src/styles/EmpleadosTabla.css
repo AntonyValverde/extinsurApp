@@ -161,6 +161,14 @@ input[type="date"] {
 }
 
 @media (max-width: 768px) {
+
+    .buscadorContainer {
+         
+        height: 8rem;
+        width: 57rem;
+        
+    }
+
     .tabla-container {
         width: 100%;
         height: 90%;
@@ -169,7 +177,7 @@ input[type="date"] {
 
 
     .bodyEmpleados {
-        width: 90%;
+        width: 95%;
         height: 50rem;
         margin: 1rem;
         padding: 1rem;
@@ -202,7 +210,7 @@ input[type="date"] {
     }
 
     .bodySidebar {
-        height: auto;
+        height: 100vh;
 
     }
 
