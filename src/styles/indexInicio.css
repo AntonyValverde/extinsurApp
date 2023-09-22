@@ -9,7 +9,7 @@
   background-repeat: no-repeat;
 
   width: 100%;
-  height: 300vh;
+  height: 270vb;
   margin: 0;
   padding: 0;
 
@@ -139,7 +139,7 @@
   font-family: 'Josefin Sans', sans-serif;
   
   color: white;
-  font-size: 58px;
+  font-size: 4rem;
 }
 
 .contenedorBusqueda {
@@ -166,7 +166,7 @@
 .buttonBorder {
   display: inline-block;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 2rem;
   background-color: transparent;
   color: rgb(14, 12, 0);
   border: 1px solid white;
@@ -174,7 +174,7 @@
   position: relative;
   overflow: hidden;
   
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .buttonBorder::before {
@@ -204,7 +204,7 @@
   border-radius: 20px;
   position: relative;
   overflow: hidden;
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
   border: none; /* Estilo de borde original */
   padding: 10px 20px;
   transition: background-color 0.3s, color 0.3s; /* Transición suave */
@@ -223,7 +223,7 @@
 /*Nav----------------------------------------------------------------------------------------------------------------------------*/
 
 .navIndex {
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 50px;
 
   
@@ -244,7 +244,7 @@
 
   width: 90vw;
 
-  height: 205vh;
+  height: 195vb;
   background-color: rgba(2, 3, 69, 0.467);
   border-radius: 20px;
   border: 1px solid #100d0d;
@@ -262,7 +262,7 @@
   top: 2%;
   width: 95%;
 
-  height: 95%;
+  height: 185vb;
   background-color: rgba(2, 3, 69, 0.467);
   border-radius: 20px;
   border: 1px solid #100d0d;
@@ -287,7 +287,7 @@
 }
 
 .h1Info {
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 32px;
   margin-bottom: 20px;
   align-content: center;
@@ -341,7 +341,7 @@
 .articleInfo {
   margin-top: 2vb;
   color: white;
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 25px;
   margin-bottom: 0.5rem;
   padding-left: 20px;
@@ -349,7 +349,7 @@
 
 .linkMaps {
   color: #080b0c;
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .navInfoFotos {
@@ -669,7 +669,7 @@ body.modal-open .modalNavExtintor {
   }
 
   .h1Info {
-    font-family: "Josefin_Sans";
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 52px;
     margin-bottom: 20px;
   }
@@ -690,7 +690,7 @@ body.modal-open .modalNavExtintor {
   .linkMaps {
     font-size: 4.5rem;
     color: #000000;
-    font-family: "Josefin_Sans";
+    font-family: 'Josefin Sans', sans-serif;
   }
 }
 
@@ -706,12 +706,12 @@ body.modal-open .modalNavExtintor {
   margin-right: 0px;
   margin-bottom: -10px;
   text-align: left;
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
   padding: 15px;
 }
 
 .contactos {
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 20px;
   margin-inline: 35px;
   color: #d9d9d9;
@@ -721,7 +721,7 @@ body.modal-open .modalNavExtintor {
   margin-left: 35%;
   font-size: 28px;
   text-align: center;
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
   text-decoration: underline;
 }
 
@@ -738,31 +738,44 @@ body.modal-open .modalNavExtintor {
   bottom: 0;
   width: 100%;
   font-size: 28px;
-  font-family: "Josefin_Sans";
+  font-family: 'Josefin Sans', sans-serif;
   color: #fff;
   display: flex;
   justify-content: space-between;
+  height: 15rem;
 
 }
 
 .footerInicio>div {
   flex: 1;
-  margin-top: 10px;
+  margin-top: 1px;
 }
 
 
-h2,
-h3 {
+.h2{
   margin-left: 10px;
   margin-top: 5px;
+  
 }
+
+
+.h3 {
+  margin-left: 10px;
+  margin-top: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+ 
 
 .linkMaps {
   display: block;
   color: rgb(255, 255, 255);
   margin-top: 5px;
   border-left: yellow;
-
+  
+  margin-left: 10px;
+  text-decoration: underline;
 
 }
 

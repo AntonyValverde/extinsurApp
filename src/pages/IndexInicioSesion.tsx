@@ -47,7 +47,7 @@ export default function IndexInicioSesion() {
             );
 
             if (!querySnapshot.empty) {
-                const userDoc = querySnapshot.docs[0];
+                const userDoc = querySnapshot.docs[1];
                 const userData = userDoc.data();
                 const userType = userData.Tipo;
                 if (userType === "Empleado") {

@@ -97,7 +97,7 @@
 
 .titulo {
 
-    padding: 1em 0;
+    padding: 0.2em 0;
     text-align: center;
     bottom: 0;
     font-size: 38px;
@@ -147,15 +147,16 @@
 }
 
 .input {
-    width: 100%;
-    padding: 0.5em;
+    width: 80%;
+    padding: 0.5rem;
     border: 3px solid #464d73;
     background-color: transparent;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 0.8rem;
     color: #0a0909;
     font-family: "Josefin_Sans";
     transition: border-color 2.0s ease;
+    
 }
 
 .input::placeholder {
@@ -175,7 +176,7 @@
     /* Puedes ajustar esto según tus necesidades */
     grid-gap: 20px;
     /* Espacio entre los elementos */
-    padding: 0.5rem;
+    padding: 0rem;
 }
 
 .botonVer {
