@@ -230,6 +230,7 @@
 }
 
 .Center{
+  
   display: flex; /* Establecer el contenedor como flexbox */
   justify-content: center; /* Centrar horizontalmente los elementos */
   align-items: center;
@@ -237,13 +238,13 @@
 
 .navCompIndex{
   position: absolute;
-  top: 17vb;
+  top: 11%;
   
   right: 5%;
 
   width: 90vw;
 
-  height: 248vh;
+  height: 205vh;
   background-color: rgba(2, 3, 69, 0.467);
   border-radius: 20px;
   border: 1px solid #100d0d;
@@ -338,11 +339,11 @@
 
 
 .articleInfo {
-  margin-top: 5vb;
+  margin-top: 2vb;
   color: white;
   font-family: "Josefin_Sans";
   font-size: 25px;
-  margin-bottom: 20px;
+  margin-bottom: 0.5rem;
   padding-left: 20px;
 }
 
