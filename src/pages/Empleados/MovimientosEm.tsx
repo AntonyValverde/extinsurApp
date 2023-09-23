@@ -1,11 +1,12 @@
-import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import router from "next/router";
-import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
+import IndexGerenteInicioDos from "../IndexGerenteInicioUno";
 
-export default function Empleados() {
+
+export default function Movimientos() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenDos, setIsModalOpenDos] = useState(false);
     const [isModalOpenTres, setIsModalOpenTres] = useState(false);
@@ -82,6 +83,7 @@ export default function Empleados() {
         }
     }, []);
 
+
     return (
         <>
             <div className="bodySidebar">
@@ -94,13 +96,11 @@ export default function Empleados() {
 
                         <section>
 
-                            <h1 className="tituloEmpleados">Mantenimiento</h1>
-
+                            <h1 className="tituloEmpleados">Movimientos</h1>
                             <div className="linea"></div>
-                            <div className="tabla-container">
+                            <div className="contenedorTabla">
                                 <div className="buscadorContainer">
                                     <input type="text" className="BuscadorInput" placeholder="Buscar..." />
-                                    <button className="RegistrarButton">Registrar</button>
                                     <div className="RegistrarButton">
                                         <div className="colorPalette">
                                             {colors.map((color) => (
@@ -111,77 +111,67 @@ export default function Empleados() {
                                                     onClick={() => changeBackgroundColor(color)}
                                                 ></div>
                                             ))}
-                                        </div>
+                                            </div>
                                     </div>
                                 </div>
                                 <table className="TablaEmpleados">
 
-
                                     <thead>
                                         <tr>
-                                            <th>Cédula</th>
-                                            <th>Nombre</th>
-                                            <th>Primer Apellido</th>
-                                            <th>Segundo Apellido</th>
-                                            <th>Email</th>
-                                            <th>Contraseña</th>
-                                            <th>Tipo</th>
+                                            <th>Usuario</th>
+                                            <th>Fecha</th>
+                                            <th>Tipo de movimiento</th>
+                                            <th>Descripción</th>
+                                            <th>Total</th>
                                             <th></th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>623145890</td>
-                                            <td>Antony</td>
-                                            <td>Valverde</td>
-                                            <td>Rojas</td>
-                                            <td>antony.valverde@gmail.com</td>
-                                            <td>Tgas3839</td>
-                                            <td>Empleado</td>
+                                            <td>Jarol Flores Rojas</td>
+                                            <td>24/03/2022</td>
+                                            <td>Venta</td>
+                                            <td>Venta de productos</td>
+                                            <td>27,000</td>
 
                                             <td>
-                                                <FaPenSquare className="iconsEdit" title="Editar." />
-                                                <FaInfo className="iconsInfo" title="Más Información." />
+                                                <FaEdit className="iconsEdit" title="Editar." />
+                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>234515830</td>
-                                            <td>Ronaldo</td>
-                                            <td>Perez</td>
-                                            <td>Rivas</td>
-                                            <td>ronaldo_rivas425@gmail.com</td>
-                                            <td>ksas2672</td>
-                                            <td>Empleado</td>
+                                            <td>Teylor Valdez Tenorio</td>
+                                            <td>14/03/2022</td>
+                                            <td>Venta</td>
+                                            <td>Venta de productos</td>
+                                            <td>12,000</td>
                                             <td>
-                                                <FaPenSquare className="iconsEdit" title="Editar." />
-                                                <FaInfo className="iconsInfo" title="Más Información." />
+                                                <FaEdit className="iconsEdit" title="Editar." />
+                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>105594530</td>
-                                            <td>Carlos</td>
-                                            <td>Flores</td>
-                                            <td>Flores</td>
-                                            <td>Carlos/-/flores1990@gmail.com</td>
-                                            <td>Kisaa90</td>
-                                            <td>Gerente</td>
+                                            <td>Jarol Flores Rojas</td>
+                                            <td>04/02/2022</td>
+                                            <td>Venta</td>
+                                            <td>Venta de productos</td>
+                                            <td>18,000</td>
                                             <td>
-                                                <FaPenSquare className="iconsEdit" title="Editar." />
-                                                <FaInfo className="iconsInfo" title="Más Información." />
+                                                <FaEdit className="iconsEdit" title="Editar." />
+                                                <IoInformationCircleSharp className="iconsInfo" title="Más Información." />
                                                 <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
+
                                     </tbody>
                                 </table>
 
-
                             </div>
-
-
                         </section>
+
                         <section>
                             {isModalOpen && (
 
@@ -230,18 +220,12 @@ export default function Empleados() {
                         <div className="linea"></div>
                         <section>
                             <div className="containerButton">
-                                <Link className="sidebar_linkTres" href="/Gerentes/Empleados">Empleados</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Productos">Productos</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">Movimientos</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
-                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
-
-                                <div className="sidebar_linkTres center-button" >
-                                    <a href="./RegistrarEmpleados"> Registrar</a>
-                                </div>
-
-                                <Link className="sidebar_linkTres" href="/">Inicio</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Empleados">Empleados</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Productos">Productos</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Movimientos">Movimientos</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">Ubicación</Link>
+                                <Link className="sidebar_linkDos" href="/Gerentes/Graficas">Gráficas</Link>
 
                             </div>
                         </section>

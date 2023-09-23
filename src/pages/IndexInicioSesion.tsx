@@ -51,7 +51,7 @@ export default function IndexInicioSesion() {
                 const userData = userDoc.data();
                 const userType = userData.Tipo;
                 if (userType === "Empleado") {
-                    router.push("/Empleados/EmpleadosEm");
+                    router.push("/Empleados/ProductosEm");
                 } else if (userType === "Gerente") {
                     router.push("/Gerentes/Empleados");
                 } else {

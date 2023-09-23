@@ -1,7 +1,7 @@
 import { FaEdit, FaTrash, FaDoorOpen } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
+import IndexGerenteInicioDos from "../IndexGerenteInicioUno";
 import Link from "next/link";
 
 export default function Ubicacion() {

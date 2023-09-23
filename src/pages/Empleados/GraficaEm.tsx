@@ -1,6 +1,6 @@
 import { FaEdit, FaTrash, FaDoorOpen } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
+import IndexGerenteInicioDos from "../IndexGerenteInicioUno";
 import Link from "next/link";
 import { ResponsiveContainer, BarChart, XAxis, YAxis, RadialBar, RadialBarChart, Tooltip, Bar, Legend, PieChart, Pie, CartesianGrid, AreaChart, Line, Area, } from "recharts";
 
@@ -80,7 +80,31 @@ export default function Grafica() {
         },
     ];
 
-     
+    const [backgroundColor, setBackgroundColor] = useState<string>("white");
+    const colors = ["white", "lightblue", "lightgreen", "lightpink"];
+  
+    const changeBackgroundColor = (selectedColor: string) => {
+      setBackgroundColor(selectedColor);
+  
+      if (typeof window !== "undefined") {
+        localStorage.setItem("backgroundColor", selectedColor);
+      }
+    };
+  
+    useEffect(() => {
+      document
+        .querySelector(".containerSidebar")
+        ?.setAttribute("style", `background: ${backgroundColor}`);
+    }, [backgroundColor]);
+  
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const storedBackgroundColor = localStorage.getItem("backgroundColor");
+        if (storedBackgroundColor) {
+          setBackgroundColor(storedBackgroundColor);
+        }
+      }
+    }, []);
 
 
     return (

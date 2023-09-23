@@ -6,34 +6,30 @@ import { SidebarContext } from "./SidebarContextEm";
 import { useEffect } from "react";
 
 const sidebarItems = [
-    {
-        name: "Empleados",
-        href: "/Gerentes/Empleados",
-        icon: FaIdBadge,
-    },
+     
     {
         name: "Productos",
-        href: "/Gerentes/Productos",
+        href: "/Empleados/ProductosEm",
         icon: FaFireExtinguisher,
     },
     {
         name: "Movimientos",
-        href: "/Gerentes/Movimientos",
+        href: "/Empleados/MovimientosEm",
         icon: FaBook,
     },
     {
         name: "Mantenimiento",
-        href: "/Gerentes/Mantenimiento",
+        href: "/Empleados/MantenimientoEm",
         icon: FaWhmcs,
     },
     {
         name: "Ubicación",
-        href: "/Gerentes/Ubicacion",
+        href: "/Empleados/UbicacionEm",
         icon: FaMapMarkerAlt,
     },
     {
         name: "Grafica",
-        href: "/Gerentes/Grafica",
+        href: "/Empleados/GraficaEm",
         icon: FaChartBar,
     },
     {
