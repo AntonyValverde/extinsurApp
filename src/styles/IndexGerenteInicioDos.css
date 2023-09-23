@@ -9,7 +9,8 @@
 
 .containerSidebar {
   display: flex;
-  height: 100%;
+  height: 100vb;
+  width: 100%;
   overflow: hidden;
   transition: background 0.3s ease;
    

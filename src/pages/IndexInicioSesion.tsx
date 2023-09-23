@@ -47,11 +47,11 @@ export default function IndexInicioSesion() {
             );
 
             if (!querySnapshot.empty) {
-                const userDoc = querySnapshot.docs[1];
+                const userDoc = querySnapshot.docs[0];
                 const userData = userDoc.data();
                 const userType = userData.Tipo;
                 if (userType === "Empleado") {
-                    router.push("/Empleados/GraficaEmpleados");
+                    router.push("/Empleados/EmpleadosEm");
                 } else if (userType === "Gerente") {
                     router.push("/Gerentes/Empleados");
                 } else {
@@ -88,28 +88,6 @@ export default function IndexInicioSesion() {
         event.preventDefault();
         router.push("/");
     };
-
-    /*const handleLogin = () => {
-    
-    
-        if (!Email.trim() || !Password.trim()) {
-            alert('Por favor, completa todos los campos.');
-            return;
-        }  
-         
-        if(SelectedOption === ""){
-            console.log('Ingresa un rol')
-            
-        }else if(SelectedOption === "Gerente"){
-            router.push("/Gerentes/Empleados"); 
-            console.log('Gerente', SelectedOption)
-        }else if(SelectedOption === "Empleado"){
-            router.push("/IndexEmpleadoInicio");  
-            console.log('Empleado', SelectedOption)
-        }
-        
-        
-    };*/
 
     const verContraseña = () => {
         setVerContrasena(!VerContrasena);

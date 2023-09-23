@@ -1,7 +1,6 @@
 import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Link from "next/link";
- 
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 
 
@@ -16,6 +15,7 @@ export default function Productos() {
 
         }
     }, [isModalOpen]);
+
     const handleModalOpen = () => {
         setIsModalOpen(true);
     };
@@ -30,6 +30,8 @@ export default function Productos() {
 
         }
     }, [isModalOpenDos]);
+
+
     const handleModalOpenDos = () => {
         setIsModalOpenDos(true);
     };
@@ -55,6 +57,34 @@ export default function Productos() {
         handleModalClose;
     };
 
+
+    const [backgroundColor, setBackgroundColor] = useState<string>('white');
+    const colors = ['white', 'lightblue', 'lightgreen', 'lightpink'];
+
+    const changeBackgroundColor = (selectedColor: string) => {
+        setBackgroundColor(selectedColor);
+
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('backgroundColor', selectedColor);
+        }
+    };
+
+    useEffect(() => {
+
+        document.querySelector('.containerSidebar')?.setAttribute('style', `background: ${backgroundColor}`);
+    }, [backgroundColor]);
+
+    useEffect(() => {
+
+        if (typeof window !== 'undefined') {
+            const storedBackgroundColor = localStorage.getItem('backgroundColor');
+            if (storedBackgroundColor) {
+                setBackgroundColor(storedBackgroundColor);
+            }
+        }
+    }, []);
+
+
     return (
         <>
             <div className="bodySidebar">
@@ -68,10 +98,24 @@ export default function Productos() {
                         <section>
 
                             <h1 className="tituloEmpleados">Productos</h1>
-                            
-
                             <div className="linea"></div>
                             <div className="contenedorTabla">
+                                <div className="buscadorContainer">
+                                    <input type="text" className="BuscadorInput" placeholder="Buscar..." />
+                                    <button onClick={handleModalOpenDos} className="RegistrarButton" >Agregar</button>
+                                    <div className="RegistrarButton">
+                                        <div className="colorPalette">
+                                            {colors.map((color) => (
+                                                <div
+                                                    key={color}
+                                                    className="colorBox"
+                                                    style={{ backgroundColor: color }}
+                                                    onClick={() => changeBackgroundColor(color)}
+                                                ></div>
+                                            ))}
+                                            </div>
+                                    </div>
+                                </div>
                                 <table className="TablaEmpleados">
 
                                     <thead>
@@ -98,9 +142,9 @@ export default function Productos() {
                                             <td>1500</td>
 
                                             <td>
-                                             
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
                                                 <FaInfo className="iconsInfo" title="Más Información." />
-                                                 
+                                                <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
                                         <tr>
@@ -112,9 +156,9 @@ export default function Productos() {
                                             <td>5000</td>
                                             <td>15000</td>
                                             <td>
-                                             
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
                                                 <FaInfo className="iconsInfo" title="Más Información." />
-                                                
+                                                <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
                                         <tr>
@@ -126,9 +170,9 @@ export default function Productos() {
                                             <td>500</td>
                                             <td>1500</td>
                                             <td>
-                                             
+                                                <FaPenSquare className="iconsEdit" title="Editar." />
                                                 <FaInfo className="iconsInfo" title="Más Información." />
-                                                
+                                                <FaTrash className="iconsEliminar" title="Eliminar." />
                                             </td>
                                         </tr>
                                     </tbody>
@@ -143,12 +187,13 @@ export default function Productos() {
                                 <div className="sidebar_linkTres" onClick={handleModalOpenTres}>
                                     <h1>Agregar</h1>
                                 </div>
-                                <Link className="sidebar_linkTres" href="/Empleados/ProductosEmpleados">Productos</Link>
-                                <Link className="sidebar_linkTres" href="/Empleados/MovimientosEmpleados">Movimientos</Link>
-                                <Link className="sidebar_linkTres" href="/Empleados/MantenimientoEmpleados">Mantenimiento</Link>
-                                <Link className="sidebar_linkTres" href="/Empleados/UbicacionEmpleados">Ubicación</Link>
-                                <Link className="sidebar_linkTres" href="/Empleados/GráficasEmpleados">Gráficas</Link>
-                                <Link className="sidebar_linkTres" href="/">Inicio</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Empleados">Empleados</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Productos">Productos</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">Movimientos</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Mantenimiento">Mantenimiento</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">Ubicación</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Gráficas</Link>
+                                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">Inicio</Link>
                             </div>
                         </section>
                         <section>
@@ -169,12 +214,29 @@ export default function Productos() {
                         <section>
                             {isModalOpenDos && (
 
-                                <div className="modal">
-                                    <div className="modal-content">
+                                <div className="modalNavExtintor">
+                                    <div className="modalDivExtintor" style={{ background: "#f7f7f7", padding: "20px", borderRadius: "10px", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)" }}>
                                         <button
                                             className="icon-close"
                                             onClick={handleModalCloseDos}
                                         >SALIR</button>
+                                        <div className='contenedorRegistro'>
+                                            <h2 className='textUno'>Paso 1: Email y contraseña</h2>
+                                            <div className='contenedorInput'>
+                                                <h3 className="textDos">Email<input type="text" className="inputRes"></input></h3>
+                                                <h3 className="textDos">Contraseña<input type="password" className="inputRes"></input></h3>
+                                                <h3 className="textDos">Código<input type="text" className="inputRes"></input></h3>
+                                                <h3 className="textDos">Tipo<input type="text" className="inputRes"></input></h3>
+                                                <h3 className="textDos">Nombre<input type="text" className="inputRes"></input></h3>
+                                                <h3 className="textDos">Bodega<input type="text" className="inputRes"></input></h3>
+                                                <h3 className="textDos">Ingresó<input type="text" className="inputRes"></input></h3>
+                                                <h3 className="textDos">Precio compra<input type="text" className="inputRes"></input></h3>
+                                                <h3 className="textDos">Precio venta<input></input></h3>
+                                                <button type="submit">Agregar Producto</button>
+                                            </div>
+
+
+                                        </div>
 
                                     </div>
                                 </div>
