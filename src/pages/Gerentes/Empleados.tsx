@@ -99,8 +99,9 @@ export default function Empleados() {
     "#0C7075",
     "#072E33",
     "#26425A",
-    "#E1CBD7",
-    "#C38EB4",
+    "#AAAAAA",
+    "#808080",
+    "#555555",
   ];
 
   const changeBackgroundColor = (selectedColor: string) => {
@@ -155,6 +156,10 @@ export default function Empleados() {
       }
     }
   }, []);
+  const [showColors, setShowColors] = useState(false);
+  const toggleColorVisibility = () => {
+    setShowColors(!showColors);
+  };
 
   return (
     <>
@@ -180,7 +185,14 @@ export default function Empleados() {
                     Registrar
                   </Link>
                   <div className="RegistrarButton">
-                    <div className="colorPalette">
+                    <button onClick={toggleColorVisibility}>
+                      {showColors ? "Ocultar colores" : "Mostrar colores"}
+                    </button>
+                    <div
+                      className={`colorPalette ${
+                        showColors ? "visible" : "hidden"
+                      }`}
+                    >
                       {colors.map((color) => (
                         <div
                           key={color}

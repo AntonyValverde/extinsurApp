@@ -1,6 +1,6 @@
 import { FaEdit, FaTrash, FaDoorOpen } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import IndexGerenteInicioDos from "../IndexGerenteInicioUno";
+import IndexGerenteInicioUno from "../IndexGerenteInicioUno";
 import Link from "next/link";
 import { ResponsiveContainer, BarChart, XAxis, YAxis, RadialBar, RadialBarChart, Tooltip, Bar, Legend, PieChart, Pie, CartesianGrid, AreaChart, Line, Area, } from "recharts";
 
@@ -111,7 +111,7 @@ export default function Grafica() {
         <>
             <div className="bodySidebar">
                 <div className="containerSidebar">
-                    <div><IndexGerenteInicioDos /></div>
+                    <div><IndexGerenteInicioUno /></div>
 
 
                     <div className="bodyGrafica">

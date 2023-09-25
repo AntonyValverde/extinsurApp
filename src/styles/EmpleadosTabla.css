@@ -22,7 +22,7 @@
     text-align: center;
     bottom: 0;
     font-size: 48px;
-    font-family: "Josefin_Sans";
+    font-family: 'Josefin Sans', sans-serif;
     color: #111010;
     cursor: default;
     position: relative;
@@ -39,7 +39,7 @@
     text-align: right;
     bottom: 0;
     font-size: 28px;
-    font-family: "Josefin_Sans";
+    font-family: 'Josefin Sans', sans-serif;
 
     color: #000000;
     cursor: default;
@@ -57,7 +57,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-family: 'Josefin Sans', sans-serif;
     border: 1px solid #100d0d;
 }
 
@@ -66,7 +66,7 @@ td {
     padding: 10px;
     border: 1px;
     text-align: center;
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: #1d2262;
 }
 
@@ -75,7 +75,7 @@ th {
     font-weight: bold;
     border: 1px;
     border-bottom: 1px solid black;
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: #1d2262;
 }
 
@@ -147,7 +147,7 @@ input[type="date"] {
     color: #0d0404;
     border: none;
     border-radius: 5px;
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-family: 'Josefin Sans', sans-serif;
     padding: 7px 15px;
     margin-left: 2rem;
     cursor: pointer;
@@ -284,7 +284,7 @@ input[type="date"] {
     overflow: hidden;
     font-size: 20px;
     border-radius: 30px;
-    font-family: "Josefin_Sans";
+    font-family:'Josefin Sans', sans-serif;
 }
 
 .buttonBorderAtrasDos::before {
@@ -318,16 +318,6 @@ input[type="date"] {
     padding: 10px;
     overflow: auto;
 }
-
-
-
-
-
-
-
-
-
-
 
 @media (max-width: 768px) {
     .containertableE {

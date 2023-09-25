@@ -3,7 +3,7 @@ import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import router from "next/router";
-import IndexGerenteInicioDos from "../IndexGerenteInicioUno";
+import IndexGerenteInicioUno from "../IndexGerenteInicioUno";
 
 export default function Empleados() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -86,7 +86,7 @@ export default function Empleados() {
         <>
             <div className="bodySidebar">
                 <div className="containerSidebar">
-                    <div><IndexGerenteInicioDos /></div>
+                    <div><IndexGerenteInicioUno /></div>
 
 
                     <div className="bodyEmpleados">

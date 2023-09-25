@@ -101,7 +101,7 @@
     text-align: center;
     bottom: 0;
     font-size: 38px;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: #0e0b0b;
     cursor: default;
 
@@ -121,7 +121,7 @@
      
     color: #0e0b0b;
     cursor: default;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Josefin Sans', sans-serif;
     color: #0e0b0b;
     /* Hacemos el color del texto transparente */
      
@@ -135,7 +135,7 @@
     text-align: center;
     bottom: 0;
     font-size: 10px;
-    font-family: "Josefin_Sans";
+    font-family: 'Josefin Sans', sans-serif;
     color: #0e0b0b;
 
     color: transparent;
@@ -154,7 +154,7 @@
     border-radius: 8px;
     font-size: 0.8rem;
     color: #0a0909;
-    font-family: "Josefin_Sans";
+    font-family: 'Josefin Sans', sans-serif;
     transition: border-color 2.0s ease;
     
 }
@@ -301,7 +301,7 @@
         position: relative;
         overflow: hidden;
          
-        font-family: "Josefin_Sans";
+        font-family:'Josefin Sans', sans-serif;
     }
 
     .botonVer{

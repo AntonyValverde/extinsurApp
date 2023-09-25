@@ -35,7 +35,7 @@
     .sidebar_linkDos {
         margin-top: 0.4rem;
         display: inline-block;
-        font-family: fantasy;
+        font-family: 'Josefin Sans', sans-serif;
         font-size: 1.2rem;
         text-decoration: none;
         color: #000000;
@@ -50,7 +50,7 @@
     .sidebar_linkTres {
         margin-top: 0.4rem;
         display: inline-block;
-        font-family: fantasy;
+        font-family: 'Josefin Sans', sans-serif;
         font-size: 1rem;
         text-decoration: none;
         color: #000000;

@@ -8,8 +8,40 @@ import { ResponsiveContainer, BarChart, XAxis, YAxis, RadialBar, RadialBarChart,
 
 
 export default function Grafica() {
-     
-
+    const [backgroundColor, setBackgroundColor] = useState<string>("white");
+    const colors = [
+        "#294D61",
+        "#6DA5C0",
+        "#0F9690",
+        "#0C7075",
+        "#072E33",
+        "#26425A",
+        "#AAAAAA",
+        "#808080",
+        "#555555",
+      ];
+  
+    const changeBackgroundColor = (selectedColor: string) => {
+      setBackgroundColor(selectedColor);
+  
+      if (typeof window !== "undefined") {
+        localStorage.setItem("backgroundColor", selectedColor);
+      }
+    };
+    useEffect(() => {
+        document
+          .querySelector(".containerSidebar")
+          ?.setAttribute("style", `background: ${backgroundColor}`);
+      }, [backgroundColor]);
+    
+      useEffect(() => {
+        if (typeof window !== "undefined") {
+          const storedBackgroundColor = localStorage.getItem("backgroundColor");
+          if (storedBackgroundColor) {
+            setBackgroundColor(storedBackgroundColor);
+          }
+        }
+      }, []);
 
 
     const datos = [
@@ -80,7 +112,7 @@ export default function Grafica() {
         },
     ];
 
-     
+    
 
 
     return (

@@ -1,7 +1,7 @@
 import { FaEdit, FaTrash, FaDoorOpen } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import IndexGerenteInicioDos from "../IndexGerenteInicioUno";
+import IndexGerenteInicioUno from "../IndexGerenteInicioUno";
 import Link from "next/link";
 
 export default function Ubicacion() {
@@ -88,7 +88,7 @@ export default function Ubicacion() {
         <>
             <div className="bodySidebar">
                 <div className="containerSidebar">
-                    <div><IndexGerenteInicioDos /></div>
+                    <div><IndexGerenteInicioUno /></div>
 
 
                     <div className="bodyEmpleados">

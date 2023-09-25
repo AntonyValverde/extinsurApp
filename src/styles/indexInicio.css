@@ -129,7 +129,7 @@
     position: relative;
     overflow: hidden;
     font-size: 40px;
-    font-family: "Josefin_Sans";
+    font-family: 'Josefin Sans', sans-serif;
     opacity: 0.8;
     width: 100%;
   }
@@ -205,7 +205,7 @@
   position: relative;
   overflow: hidden;
   font-family: 'Josefin Sans', sans-serif;
-  border: none; /* Estilo de borde original */
+  border: 0.2rem solid black; /* Estilo de borde original */
   padding: 10px 20px;
   transition: background-color 0.3s, color 0.3s; /* Transición suave */
 }
@@ -274,10 +274,10 @@
   position: absolute;
    
 
-  margin-left: 30%;
-  width: 30vw;
+  margin-left: 35%;
+  width: 20vw;
 
-  height: 30vw;
+  height: 20vw;
   background-color: rgba(255, 254, 254, 0);
    
   border-radius: 20px;
@@ -308,7 +308,7 @@
 .textOpcionesPro {
   color: #fff;
   margin-right: 8px;
-  font-size: 30px;
+  font-size: 1.5rem;
 }
 
 .icons {
@@ -328,6 +328,7 @@
   width: 48%; /* Establece el ancho deseado para los elementos */
   margin-right: 2%; /* Agrega un pequeño margen derecho entre los elementos */
   vertical-align: top; /* Alinea los elementos en la parte superior */
+  text-align: center;
 }
 
 /* Estilo adicional para los elementos si es necesario */
@@ -345,6 +346,24 @@
   font-size: 25px;
   margin-bottom: 0.5rem;
   padding-left: 20px;
+}
+
+.ContenedorUbicacion {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente en el eje principal */
+  align-items: center; /* Centra verticalmente en el eje transversal */
+  height: auto; /* Ajusta la altura según sea necesario */
+  overflow-x: auto; /* Habilita el desplazamiento vertical */
+  padding: 20px;
+}
+
+.articleInfoTres {
+  height: auto;
+  width: 70%;
+  color: white;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 25px;
+  margin: 0;
 }
 
 .linkMaps {
@@ -446,7 +465,7 @@
 /*Tabla*/
 .tablaUbication {
   border-collapse: collapse;
-  width: 100%;
+  width: 90%;
   border: 2px solid #000000;
 }
 
@@ -474,7 +493,8 @@
 }
 
 .tablaUbication tr:hover {
-  background-color: #fc5151;
+  background-color: rgba(2, 3, 69, 0.467);
+  
   /* Cambiamos el color de fondo al pasar el cursor */
 
 }
@@ -681,7 +701,7 @@ body.modal-open .modalNavExtintor {
   }
 
   .articleInfo {
-    font-family: monospace;
+    font-family: 'Josefin Sans', sans-serif;
     font-size: 120%;
     margin-bottom: 20px;
     padding-left: 20px;

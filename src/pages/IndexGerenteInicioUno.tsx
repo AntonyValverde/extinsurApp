@@ -4,9 +4,7 @@ import { FaUser, FaAngleRight } from 'react-icons/fa'
 import Sidebar from "./Empleados/SidebarEmpleado";
 
 
-
-
-export default function IndexGerenteInicioDos() {
+export default function IndexGerenteInicioUno() {
     return (
         <div className="bodySidebar">
             <div className="containerSidebar">

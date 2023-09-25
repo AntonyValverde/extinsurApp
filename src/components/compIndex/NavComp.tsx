@@ -144,38 +144,109 @@ const Nav_index = ({}) => {
                 <span className="text">Puestos de venta</span>
                 <FaMapMarked className="icons"></FaMapMarked>
               </h1>
-              <div>
-                <article className="articleInfo">
+              <div className="ContenedorUbicacion">
+                <article className="articleInfoTres">
                   <table className="tablaUbication">
                     <thead>
                       <tr>
                         <th>Ubicación</th>
+                        <th>Horario</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody> 
                       <tr>
+
                         <td className="filas">
                           <a
                             className="textUbicacion"
-                            href=" https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7"
+                            href=" https://maps.app.goo.gl/ePrJexRdVoHVrdAF6"
                           >
-                            {" "}
-                            Ciudad Neily frente al instituto cated{" "}
-                          </a>{" "}
+                            
+                            Ciudad Neily frente al instituto cated 
+                          </a> 
                         </td>
+                        <td className="filas">
+                          <a
+                            className="textUbicacion"
+                            href=" https://maps.app.goo.gl/ePrJexRdVoHVrdAF6"
+                          >
+                             
+                            8:00am a 4:00pm
+                          </a> 
+                        </td>
+
                       </tr>
+
                       <tr>
+
                         <td className="filas">
                           <a
                             className="textUbicacion"
                             href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
                           >
-                            {" "}
-                            Rio claro frente la bomba{" "}
-                          </a>{" "}
+                             
+                            Rio claro frente la bomba
+                          </a> 
                         </td>
+                        <td className="filas">
+                          <a
+                            className="textUbicacion"
+                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
+                          >
+                             
+                            10:00am a 3:00pm
+                          </a> 
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td className="filas">
+                          <a
+                            className="textUbicacion"
+                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
+                          >
+                             
+                            Rio claro frente la bomba
+                          </a> 
+                        </td>
+                        <td className="filas">
+                          <a
+                            className="textUbicacion"
+                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
+                          >
+                             
+                            10:00am a 3:00pm
+                          </a> 
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td className="filas">
+                          <a
+                            className="textUbicacion"
+                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
+                          >
+                             
+                            Rio claro frente la bomba
+                          </a> 
+                        </td>
+                        <td className="filas">
+                          <a
+                            className="textUbicacion"
+                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
+                          >
+                             
+                            10:00am a 3:00pm
+                          </a> 
+                        </td>
+
                       </tr>
                     </tbody>
+                    
                   </table>
                 </article>
               </div>

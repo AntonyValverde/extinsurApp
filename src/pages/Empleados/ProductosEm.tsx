@@ -1,7 +1,7 @@
 import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import IndexGerenteInicioDos from "../IndexGerenteInicioUno";
+import IndexGerenteInicioUno from "../IndexGerenteInicioUno";
 
 export default function Productos() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,7 +78,7 @@ export default function Productos() {
       <div className="bodySidebar">
         <div className="containerSidebar">
           <div>
-            <IndexGerenteInicioDos />
+            <IndexGerenteInicioUno />
           </div>
 
           <div className="bodyProductos">

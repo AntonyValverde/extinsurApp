@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FaUser, FaAngleRight, FaHome, FaChartBar, FaIdBadge, FaMapMarkerAlt, FaFireExtinguisher, FaBook, FaWhmcs } from 'react-icons/fa'
 import React, { useContext, useState } from 'react';
 import { SidebarContext } from "./SidebarContextEm";
-import { useEffect } from "react";
+ 
 
 const sidebarItems = [
      
