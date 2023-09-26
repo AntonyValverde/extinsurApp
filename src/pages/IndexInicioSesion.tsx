@@ -142,7 +142,7 @@ export default function IndexInicioSesion() {
                         <div className="cajax">
                             <a className="IniciarSecionLink" onClick={handleLogin}>Iniciar Sesión</a>
                             <a className="IniciarSecionLink" onClick={handleLogin}>Olvido Contraseña</a>
-                            <a className="IniciarSecionLink" href='/'>Atrás</a>
+                            <a className="IniciarSecionLink" onClick={InicioLinkClick}>Atrás</a>
                             {isModalOpenError && (
                                 <div className="modalError">
                                     <div className="modal-contentError">
