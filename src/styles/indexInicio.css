@@ -715,6 +715,14 @@ body.modal-open .modalNavExtintor {
   }
 }
 
+.contenedor-en-fila {
+  display: flex;
+}
+
+.IniciarSecionLink {
+  margin-right: 1rem; /* Opcional: Ajusta el margen entre los enlaces */
+}
+
 
 /*Footer-------------------------------------------------------------------------------------------------------------------------*/
 

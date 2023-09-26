@@ -136,6 +136,7 @@ export default function Productos() {
                   <thead>
                     <tr>
                       <th>Código</th>
+                      <th>Cantidad</th>
                       <th>Tipo</th>
                       <th>Nombre</th>
                       <th>Bodega</th>
@@ -148,6 +149,7 @@ export default function Productos() {
                   <tbody>
                     <tr>
                       <td className="code">623144</td>
+                      <td>4</td>
                       <td>Rotulo</td>
                       <td>Salida de emergencia</td>
                       <td>4</td>
@@ -166,6 +168,7 @@ export default function Productos() {
                     </tr>
                     <tr>
                       <td className="code">392630</td>
+                      <td>14</td>
                       <td>Extintor</td>
                       <td>Extintor de tipo abc</td>
                       <td>2</td>
@@ -183,6 +186,7 @@ export default function Productos() {
                     </tr>
                     <tr>
                       <td className="code">592834</td>
+                      <td>11</td>
                       <td>Pieza</td>
                       <td>Anillos de sello</td>
                       <td>1</td>
