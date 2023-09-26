@@ -163,59 +163,38 @@ input[type="date"] {
 @media (max-width: 768px) {
 
     .buscadorContainer {
-         
-        height: 8rem;
-        width: 57rem;
-        
-    }
-
-    .tabla-container {
+        display: flex;
+        align-items: center;
+        height: 5rem; /* Ajusta este porcentaje según tus necesidades */
         width: 100%;
-        height: 90%;
-        overflow-x: auto;
-    }
-
-
-    .bodyEmpleados {
-        width: 95%;
-        height: 50rem;
-        margin: 1rem;
-        padding: 1rem;
-
-    }
-
-    .bodyGrafica {
-        width: 90%;
-        height: 50rem;
-        margin: 1rem;
-        padding: 1rem;
-
-    }
-
-    .bodyProductos {
-        width: 90%;
-        height: 45rem;
-        margin: 1rem;
-        padding: 1rem;
-
-    }
-
-    .tituloEmpleados {
-        font-size: 36px;
+        overflow: auto;
+        margin: 0 auto;
     }
 
     .TablaEmpleados {
         width: 10%;
-        font-size: 19px;
+        font-size: 16px;
     }
 
-    .bodySidebar {
-        height: 100vh;
-
+    .tabla-container {
+        width: 100%;
+        overflow-x: auto;
     }
 
+    .bodyEmpleados, .bodyGrafica, .bodyProductos {
+        width: 90%;
+        height: auto;
+        margin: 1rem auto;
+        padding: 1rem;
+    }
 
+    .tituloEmpleados {
+        font-size: 2rem;
+    }
 
+    
+
+     
 }
 
 .bodySidebarDos {
@@ -321,39 +300,37 @@ input[type="date"] {
 
 @media (max-width: 768px) {
     .containertableE {
-        width: 100%;
-        overflow-x: auto;
+        width: 90%;
         margin: 10% auto;
+        overflow-x: auto;
     }
 
     .titletableE {
         margin-top: 15px;
         margin-left: 10px;
-        font-size: 24px;
+        font-size: 18px;
     }
 
     .addbuttonE {
-        width: 50%;
+        width: 80%;
         margin: 10px auto;
     }
 
     .inputsearchE {
-        margin-left: 40%;
-        width: 50%;
+        margin-left: 20px;
+        width: 70%;
     }
 
     .table-usersE th,
     .table-usersE td {
-        padding: 8px;
+        padding: 6px;
     }
 
     .footer-admin {
-        margin-top: 101%;
+        margin-top: 20%;
     }
-
 
     .columnasOcultas {
         display: none;
     }
-
 }

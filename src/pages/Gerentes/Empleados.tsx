@@ -72,12 +72,8 @@ export default function Empleados() {
     );
 
     if (confirmacion) {
-      // Si el usuario confirma, realizar la acción de borrado aquí
-      // Puedes ejecutar tu lógica de borrado o hacer una llamada a una API aquí
-      // Ejemplo: eliminarItem(id);
       setBorrarConfirmado(true);
     } else {
-      // Si el usuario cancela, no hagas nada
     }
 
     <div>
@@ -532,8 +528,8 @@ export default function Empleados() {
             <div className="linea"></div>
             <section>
               <div className="containerButton">
-                <Link className="sidebar_linkDos" href="/Gerentes/Empleados">
-                  Empleados
+                <Link className="sidebar_linkDos" href="/">
+                  Salir
                 </Link>
                 <Link className="sidebar_linkDos" href="/Gerentes/Productos">
                   Productos

@@ -58,16 +58,11 @@ select {
 
    
   .bodySidebar {
-    height: 100vh;
-     
+    height: auto;
+    overflow-x: auto;
+    
   }
-
-  .asideSidebar {
-    width: 0.2rem;
-    background-color: #33333300;
-    color: rgb(14, 9, 9);
-    overflow-y: auto;
-  }
+ 
 
   .containerSidebar {
     padding: 0;
@@ -221,18 +216,4 @@ select {
   height: 100vh;
   position: relative;
   gap: 2rem;
-}
-
-
-
-
-
-@media (max-width: 768px) {
-  .containerSidebar {
-    background: linear-gradient(to top, #f2c53d, 40%, #f27329, #d92a1a);
-    display: flex;
-    height: 100%;
-    width: auto;
-    overflow: hidden;
-  }
 }

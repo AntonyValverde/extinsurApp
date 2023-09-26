@@ -104,13 +104,8 @@ export default function IndexInicioSesion() {
                 <div className="contenedorInicio">
 
                     <form className="contenedorFormulario">
-                        <nav className="navegationSecion">
-                            <button className="buttonBorderAtras" onClick={InicioLinkClick}>
-
-                                <FaReply className="iconsSalir"></FaReply>
-                            </button>
-                        </nav>
                         <h1 className="titulo">ExtinSur Login</h1>
+                         
                         <div className="caja">
                             <h3 className="texto">Email</h3>
                             <input
@@ -146,6 +141,8 @@ export default function IndexInicioSesion() {
                         </div>
                         <div className="cajax">
                             <a className="IniciarSecionLink" onClick={handleLogin}>Iniciar Sesión</a>
+                            <a className="IniciarSecionLink" onClick={handleLogin}>Olvido Contraseña</a>
+                            <a className="IniciarSecionLink" href='/'>Atrás</a>
                             {isModalOpenError && (
                                 <div className="modalError">
                                     <div className="modal-contentError">
