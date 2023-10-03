@@ -1,401 +1,465 @@
 .FondoInicioSecion {
+  background-image: url("/indexInicio/extintores_fuego.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-    background-image: url('/indexInicio/extintores_fuego.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-
-    position: fixed;
-    padding-bottom: 2em;
+  position: fixed;
+  padding-bottom: 2em;
 }
 
 .contenedorInicio {
-    position: absolute;
-    top: 50%;
-    /* Coloca el punto de referencia en el centro vertical */
-    left: 50%;
-    /* Coloca el punto de referencia en el centro horizontal */
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  /* Coloca el punto de referencia en el centro vertical */
+  left: 50%;
+  /* Coloca el punto de referencia en el centro horizontal */
+  transform: translate(-50%, -50%);
 
-    width: 60%;
-    height: 84vh;
+  width: 60%;
+  height: 84vh;
 
-    background-color: #c9c3d0de;
-    border: 1px solid #100d0d;
-    padding: 10px;
-    overflow: auto;
-    border-radius: 45px 0;
-
+  background-color: #c9c3d0de;
+  border: 1px solid #100d0d;
+  padding: 10px;
+  overflow: auto;
+  border-radius: 45px 0;
 }
 
 .buttonBorderAtras {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent;
+  color: rgb(14, 12, 0);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  font-size: 2rem;
+  border-radius: 30px;
+  font-family: "Josefin_Sans";
+}
+
+.buttonBorderAtras::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: transparent;
+  transition: width 1.3s ease;
+  z-index: -1;
+}
+
+.buttonBorderAtras:hover::before {
+  background-image: linear-gradient(to right, #f40202, #ff9a00, #f6ff00);
+  background-position: left center;
+  width: 100%;
+}
+
+.navegationSecion {
+  top: 10px;
+  position: relative;
+  font-size: 1.1em;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 40px;
+  border-radius: 30px;
+}
+
+.contenedorFormulario {
+  position: absolute;
+  top: 22rem;
+
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 95%;
+  height: 80vh;
+
+  background-color: transparent;
+
+  padding: 10px;
+  overflow: auto;
+}
+.modal-content {
+  background: wheat; /*rgb(40, 235 , 140, 0.7);*/
+  width: 30vw;
+  height: 70vh;
+  margin-top: 2vw;
+  padding: 20px;
+  box-shadow: 4px 4px 4px 4px rgb(172, 180, 212, 0.3);
+  overflow: auto;
+}
+/*Modal recuperar contraseña*/
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 25px;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  color: #000;
+}
+.buttonAcep2 {
+  margin-left: 50px;
+  font-size: medium;
+  text-align: center;
+  background: #45a049;
+  border: 2px solid #65aaad;
+  padding: 8px 18px;
+  border-radius: 5px;
+  width: 50%; /* Cambiado a un porcentaje para que se ajuste proporcionalmente */
+  margin: 15px auto 10px; /* Alineado verticalmente en el centro y margen horizontal automático */
+}
+.buttonMas {
+  float: right;
+  margin-bottom: 10px;
+}
+.buttonMas:hover {
+  background: #fff;
+}
+.ico-close:hover {
+  color: red;
+  cursor: pointer;
+  transform: scale(1.5);
+}
+.user-regis {
+  width: 70px;
+  height: 70px;
+  margin-left: 8.5rem;
+  color: blue;
+}
+.texh1Mo {
+  text-align: center;
+  font-size: 24px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.form {
+  position: static;
+  display: inline-block;
+  padding-top: 15%;
+}
+.icons {
+  position: relative;
+  margin-bottom: 20px;
+}
+.user-name {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20%;
+  padding: 1%;
+  margin-left: 10%;
+  text-indent: 18px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-size: 18px;
+  font: bold;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid blue;
+  outline: none;
+}
+
+/**/
+.titulo {
+  padding: 0.2em 0;
+  text-align: center;
+  bottom: 0;
+  font-size: 3rem;
+  font-family: "Josefin Sans", sans-serif;
+  color: #0e0b0b;
+  cursor: default;
+
+  color: black;
+
+  filter: drop-shadow(0px 0px 5px rgba(14, 11, 11, 0.8));
+}
+
+.texto {
+  padding: 1em 0;
+  text-align: center;
+  bottom: 0;
+  font-size: 2rem;
+
+  color: #0e0b0b;
+  cursor: default;
+  font-family: "Josefin Sans", sans-serif;
+  color: #0e0b0b;
+  /* Hacemos el color del texto transparente */
+
+  /* Para navegadores basados en WebKit */
+  filter: drop-shadow(0px 0px 5px rgba(219, 243, 4, 0.8));
+}
+
+.textoVer {
+  padding: 1em 0;
+  text-align: center;
+  bottom: 0;
+  font-size: 10px;
+  font-family: "Josefin Sans", sans-serif;
+  color: #0e0b0b;
+
+  color: transparent;
+  /* Hacemos el color del texto transparente */
+  -webkit-text-stroke: 2px #0e0b0b;
+  /* Para navegadores basados en WebKit */
+  filter: drop-shadow(0px 0px 5px rgba(219, 243, 4, 0.8));
+}
+
+.input {
+  width: 90%;
+  padding: 0.5rem;
+  border: 3px solid #464d73;
+  background-color: transparent;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  color: #0a0909;
+  font-family: "Josefin Sans", sans-serif;
+  transition: border-color 2s ease;
+}
+
+.input::placeholder {
+  color: #e8e8e7;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #e74c3c;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.7);
+}
+
+.caja {
+  align-items: center;
+  display: grid;
+  grid-template-columns: auto auto;
+  /* Puedes ajustar esto según tus necesidades */
+  grid-gap: 20px;
+  /* Espacio entre los elementos */
+  padding: 0rem;
+}
+
+.botonVer {
+  text-align: center;
+  bottom: 0;
+  color: #0e0b0b;
+
+  margin-left: 1rem;
+  border-radius: 18px;
+  border: 2px solid #050505;
+}
+
+.inputContenedor {
+  display: flex;
+  align-items: center;
+  margin-left: 6px;
+  /* Puedes ajustar el valor según tu diseño */
+}
+
+.ojoPNG {
+  width: 40px;
+  height: 35px;
+}
+
+.contenedorOpcion {
+  position: relative;
+  display: inline-block;
+}
+
+/* Estilos para el botón de la pestaña */
+.botonOpcion {
+  background-color: #464d73;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 18px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilos para la lista desplegable */
+.opcionContenido {
+  display: none;
+  position: absolute;
+  background-color: #4355bd48;
+  min-width: 160px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Estilos para los elementos de la lista desplegable */
+.opcionContenido a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Cambia el color del enlace cuando se pasa el cursor sobre él */
+.opcionContenido a:hover {
+  background-color: #f1f1f15f;
+  border-radius: 15px;
+}
+
+/* Muestra la lista desplegable cuando se pasa el cursor sobre la pestaña */
+.contenedorOpcion:hover .opcionContenido {
+  display: block;
+}
+
+.cajax {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.IniciarSecionLink {
+  text-decoration: none;
+  border-bottom: 2px solid #000;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+  
+  .contenedorFormulario {
+    width: 90%;
+    height: auto;
+  }
+  .contenedorInicio {
+    width: 80%;
+    top: 45vh;
+    max-width: 100%;
+  }
+
+  .titulo {
+    top: 5vb;
+    font-size: 28px;
+  }
+
+  .texto,
+  .textoVer {
+    font-size: 18px;
+  }
+
+  .input {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .buttonBorderAtras {
     display: inline-block;
     padding: 10px 20px;
+    border-radius: 30px;
     font-size: 16px;
     background-color: transparent;
     color: rgb(14, 12, 0);
     border: none;
     position: relative;
     overflow: hidden;
-    font-size: 2rem;
-    border-radius: 30px;
-    font-family: "Josefin_Sans";
-}
 
-.buttonBorderAtras::before {
-    content: "";
-    position: absolute;
+    font-family: "Josefin Sans", sans-serif;
+  }
+
+  .botonVer {
+    margin-left: 1rem;
+    font-size: 34px;
+  }
+  .botonOpcion {
+    font-size: 14px;
+  }
+
+  .navegationSecion {
+    font-size: 10px;
+    margin-left: 20px;
     top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    background-color: transparent;
-    transition: width 1.3s ease;
-    z-index: -1;
-}
-
-.buttonBorderAtras:hover::before {
-    background-image: linear-gradient(to right, #f40202, #ff9a00, #f6ff00);
-    background-position: left center;
-    width: 100%;
-
-}
-
-.navegationSecion {
-    top: 10px;
-    position: relative;
+    position: absolute;
     font-size: 1.1em;
     color: #fff;
     text-decoration: none;
     font-weight: 500;
     margin-left: 40px;
     border-radius: 30px;
+  }
 
-}
+  .caja {
+    grid-template-columns: 1fr;
+    /* Cambiamos a una sola columna */
+    grid-gap: 10px;
+    /* Reducimos el espacio entre elementos */
+    padding: 15px;
+    /* Ajustamos el espacio interno */
+  }
 
-.contenedorFormulario {
-    position: absolute;
-    top: 22rem;
-    /* Coloca el punto de referencia en el centro vertical */
-    left: 50%;
-    /* Coloca el punto de referencia en el centro horizontal */
-    transform: translate(-50%, -50%);
+  .caja .inputContenedor {
+    margin-left: 0;
+    /* Eliminamos el margen izquierdo */
+  }
 
-    width: 95%;
-    height: 80vh;
+  .ojoPNG {
+    width: 30px;
+    height: 25px;
+  }
 
+  .contenedorOpcion {
+    display: block;
+    /* Mostramos la lista desplegable a pantalla completa */
+  }
+
+  .opcionContenido {
+    position: static;
+    /* Eliminamos la posición absoluta */
     background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    margin-top: 5px;
+    /* Agregamos margen arriba */
+  }
 
+  .opcionContenido a {
+    padding: 8px 16px;
+    /* Reducimos el padding */
+    text-align: center;
+  }
+
+  .navegationSecion {
+    margin-left: 0;
+    /* Eliminamos el margen izquierdo */
+    margin-top: 10px;
+    /* Agregamos margen arriba */
+    text-align: center;
+    border-radius: 30px;
+  }
+
+  .IniciarSecionLink {
+    display: block;
+    /* Ocupar el ancho completo */
+    text-align: center;
+  }
+
+  .cajax {
     padding: 10px;
-    overflow: auto;
+  }
 
-}
+  .cajax .titulo,
+  .cajax .texto,
+  .cajax .textoVer {
+    font-size: 16px;
+  }
 
-.titulo {
-
-    padding: 0.2em 0;
-    text-align: center;
-    bottom: 0;
-    font-size: 3rem;
-    font-family: 'Josefin Sans', sans-serif;
-    color: #0e0b0b;
-    cursor: default;
-
-    color: black;
-    /* Hacemos el color del texto transparente */
-     
-    /* Para navegadores basados en WebKit */
-    filter: drop-shadow(0px 0px 5px rgba(14, 11, 11, 0.8));
-}
-
-.texto {
-    
-    padding: 1em 0;
-    text-align: center;
-    bottom: 0;
-    font-size: 2rem;
-     
-    color: #0e0b0b;
-    cursor: default;
-    font-family: 'Josefin Sans', sans-serif;
-    color: #0e0b0b;
-    /* Hacemos el color del texto transparente */
-     
-    /* Para navegadores basados en WebKit */
-    filter: drop-shadow(0px 0px 5px rgba(219, 243, 4, 0.8));
-
-}
-
-.textoVer {
-    padding: 1em 0;
-    text-align: center;
-    bottom: 0;
-    font-size: 10px;
-    font-family: 'Josefin Sans', sans-serif;
-    color: #0e0b0b;
-
-    color: transparent;
-    /* Hacemos el color del texto transparente */
-    -webkit-text-stroke: 2px #0e0b0b;
-    /* Para navegadores basados en WebKit */
-    filter: drop-shadow(0px 0px 5px rgba(219, 243, 4, 0.8));
-
-}
-
-.input {
-    width: 90%;
-    padding: 0.5rem;
-    border: 3px solid #464d73;
-    background-color: transparent;
-    border-radius: 8px;
-    font-size: 1.3rem;
-    color: #0a0909;
-    font-family: 'Josefin Sans', sans-serif;
-    transition: border-color 2.0s ease;
-    
-}
-
-.input::placeholder {
-    color: #e8e8e7;
-}
-
-.input:focus {
-    outline: none;
-    border-color: #e74c3c;
-    box-shadow: 0 0 5px rgba(231, 76, 60, 0.7);
-}
-
-.caja {
-    align-items: center;
-    display: grid;
-    grid-template-columns: auto auto;
-    /* Puedes ajustar esto según tus necesidades */
-    grid-gap: 20px;
-    /* Espacio entre los elementos */
-    padding: 0rem;
-}
-
-.botonVer {
-
-    text-align: center;
-    bottom: 0;
-    color: #0e0b0b;
-
-    margin-left: 1rem;
-    border-radius: 18px;
-    border: 2px solid #050505;
-}
-
-.inputContenedor {
-    
-    display: flex;
-    align-items: center;
-    margin-left: 6px;
-    /* Puedes ajustar el valor según tu diseño */
-}
-
-.ojoPNG {
-    width: 40px;
-    height: 35px;
-}
-
-.contenedorOpcion {
-    position: relative;
-    display: inline-block;
-}
-
-/* Estilos para el botón de la pestaña */
-.botonOpcion {
-    background-color: #464d73;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 18px;
-    border: none;
-    cursor: pointer;
-}
-
-/* Estilos para la lista desplegable */
-.opcionContenido {
-    display: none;
-    position: absolute;
-    background-color: #4355bd48;
-    min-width: 160px;
-    border-radius: 15px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-/* Estilos para los elementos de la lista desplegable */
-.opcionContenido a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Cambia el color del enlace cuando se pasa el cursor sobre él */
-.opcionContenido a:hover {
-    background-color: #f1f1f15f;
-    border-radius: 15px;
-}
-
-/* Muestra la lista desplegable cuando se pasa el cursor sobre la pestaña */
-.contenedorOpcion:hover .opcionContenido {
-    display: block;
-}
-
-.cajax {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.IniciarSecionLink {
-    text-decoration: none;
-    border-bottom: 2px solid #000;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    
-}
-
-
-/* Estilos para dispositivos móviles */
-@media (max-width: 768px) {
-
-    .contenedorFormulario{
-        width: 90%;
-        height: auto;
-    }
-    .contenedorInicio {
-        width: 80%;
-        top: 45vh;
-        max-width: 100%;
-    }
-
-    .titulo {
-        top: 5vb;
-        font-size: 28px;
-    }
-
-    .texto,
-    .textoVer {
-        font-size: 18px;
-    }
-
-    .input {
-        font-size: 14px;
-        width: 100%;
-    }
-
-    .buttonBorderAtras {
-        display: inline-block;
-        padding: 10px 20px;
-        border-radius: 30px;
-        font-size: 16px;
-        background-color: transparent;
-        color: rgb(14, 12, 0);
-        border: none;
-        position: relative;
-        overflow: hidden;
-         
-        font-family:'Josefin Sans', sans-serif;
-    }
-
-    .botonVer{
-        margin-left: 1rem;
-        font-size: 34px;
-    }
-    .botonOpcion {
-        font-size: 14px;
-    }
-
-    .navegationSecion {
-        font-size: 10px;
-        margin-left: 20px;
-        top: 0;
-        position: absolute;
-        font-size: 1.1em;
-        color: #fff;
-        text-decoration: none;
-        font-weight: 500;
-        margin-left: 40px;
-        border-radius: 30px;
-    }
-
-    .caja {
-        grid-template-columns: 1fr;
-        /* Cambiamos a una sola columna */
-        grid-gap: 10px;
-        /* Reducimos el espacio entre elementos */
-        padding: 15px;
-        /* Ajustamos el espacio interno */
-    }
-
-    .caja .inputContenedor {
-        margin-left: 0;
-        /* Eliminamos el margen izquierdo */
-    }
-
-    .ojoPNG {
-        width: 30px;
-        height: 25px;
-    }
-
-    .contenedorOpcion {
-        display: block;
-        /* Mostramos la lista desplegable a pantalla completa */
-    }
-
-    .opcionContenido {
-        position: static;
-        /* Eliminamos la posición absoluta */
-        background-color: transparent;
-        box-shadow: none;
-        border-radius: 0;
-        margin-top: 5px;
-        /* Agregamos margen arriba */
-    }
-
-    .opcionContenido a {
-        padding: 8px 16px;
-        /* Reducimos el padding */
-        text-align: center;
-    }
-
-    .navegationSecion {
-        margin-left: 0;
-        /* Eliminamos el margen izquierdo */
-        margin-top: 10px;
-        /* Agregamos margen arriba */
-        text-align: center;
-        border-radius: 30px;
-    }
-
-    .IniciarSecionLink {
-        display: block;
-        /* Ocupar el ancho completo */
-        text-align: center;
-    }
-
-    .cajax {
-        padding: 10px;
-    }
-
-    .cajax .titulo,
-    .cajax .texto,
-    .cajax .textoVer {
-        font-size: 16px;
-    }
-
-    .cajax .botonVer {
-        margin-top: 10px;
-    }
-
-
+  .cajax .botonVer {
+    margin-top: 10px;
+  }
 }

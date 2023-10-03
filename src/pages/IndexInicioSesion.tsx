@@ -1,4 +1,4 @@
-import { FaReply, FaEye, FaTimes } from "react-icons/fa";
+import { FaReply, FaEye, FaTimes, FaLock } from "react-icons/fa";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import "firebase/firestore";
@@ -13,6 +13,7 @@ import {
 import firebaseConfig from "@/firebase/config";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
+import { restPassword } from "@/components/compIndex/Auth";
 
 export default function IndexInicioSesion() {
   const app = initializeApp(firebaseConfig);
@@ -27,6 +28,10 @@ export default function IndexInicioSesion() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpenError, setIsModalOpenError] = useState(false);
   const [dateUser, setDateUser] = useState("");
+
+  const [showError, setShowError] = useState(false);
+
+
 
   const handleLogin = async () => {
     try {
@@ -85,6 +90,44 @@ export default function IndexInicioSesion() {
     setSelectedOption(option);
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handlePasswordReset = async () => {
+    if (!Email) {
+      setErrorMessage("Por favor ingrese un correo...");
+      
+      /*tiempo de mensaje*/
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 2000);
+      return;
+    }
+
+    try {
+      await restPassword(Email);
+      alert(
+        "Se ha enviado un correo electrónico de restablecimiento de contraseña. Por favor, revise su bandeja de entrada."
+      );
+
+      closeModalError();
+    } catch (error) {
+      console.error(
+        "Error al enviar el correo de restablecimiento de contraseña",
+        error
+      );
+      alert(
+        "Error al enviar el correo de restablecimiento de contraseña" + error
+      );
+    }
+  };
+
   return (
     <>
       <div className="FondoInicioSecion">
@@ -119,24 +162,43 @@ export default function IndexInicioSesion() {
                 </button>
               </div>
             </div>
-            <div className="caja">
-              <div className="contenedorOpcion">
-                <a href="#" className="botonOpcion">
-                  {SelectedOption}
-                  <></>
-                </a>
-                <div className="opcionContenido">
-                  <a onClick={() => opcionElegida("Empleado")}>Empleado</a>
-                  <a onClick={() => opcionElegida("Gerente")}>Gerente</a>
+
+            {isOpen && (
+              <div className="modal-overlay">
+                <div className="modal-content">
+              
+                {showError}
+                  <button className=" buttonMas" onClick={closeModal}>
+                    {" "}
+                    <FaTimes className="ico-close" />
+                  </button>
+                  
+                  <h1 className="texh1Mo">Recuperar contraseña</h1>
+                  <div className="form">
+                    <div className="icons">
+                       
+                      <input
+                        className="user-name"
+                        type="text"
+                        name="nombreUsuario"
+                        placeholder="Ingrese su correo"
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <button onClick={handlePasswordReset} className="buttonAcep2">
+                    Aceptar
+                  </button>
                 </div>
               </div>
-            </div>
+            )}
+             
             <div className="cajax">
               <div className="contenedor-en-fila">
                 <a className="IniciarSecionLink" onClick={handleLogin}>
                   Iniciar Sesión
                 </a>
-                <a className="IniciarSecionLink" onClick={handleLogin}>
+                <a className="IniciarSecionLink" onClick={openModal}>
                   Olvidó Contraseña
                 </a>
                 <a className="IniciarSecionLink" onClick={InicioLinkClick}>

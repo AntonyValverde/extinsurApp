@@ -1,17 +1,26 @@
-import { FaInfo, FaTrash, FaPenSquare } from "react-icons/fa";
+import { FaInfo, FaTrash, FaPenSquare, FaEdit, FaRegTimesCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
-import { addDoc, collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "@/firebase/config";
+import { IoInformationCircleSharp } from "react-icons/io5";
 
 export default function Productos() {
+  //Modals 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
   const [isModalOpenCuatro, setIsModalOpenCuatro] = useState(false);
-
+  //Variables 
   const [Codigo, setCodigo] = useState("");
   const [Cantidad, setCantidad] = useState("");
   const [Nombre, setNombre] = useState("");
@@ -22,11 +31,17 @@ export default function Productos() {
   const [Agente, setAgente] = useState("");
   const [Clase, setClase] = useState("");
   const [Peso, setPeso] = useState("");
-   
-
+  const [Tipo, setTipo] = useState("");
+  //Tablas
+  const [productData, setProductData] = useState<any[]>([]);
+  const [extintorData, setExtCaja] = useState<any[]>([]);
+  const [fechaData, setFechCaja] = useState<any[]>([]);
+  const [rotulacionData, setRotCaja] = useState<any[]>([]);
+  const [otrosData, setOtrosCaja] = useState<any[]>([]);
+  //Conexion fireBase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-  
+  //Modals uno
   useEffect(() => {
     if (isModalOpen) {
     }
@@ -37,9 +52,8 @@ export default function Productos() {
   };
   const handleModalClose = () => {
     setIsModalOpen(false);
-
   };
-
+  //Modals dos
   useEffect(() => {
     if (isModalOpenDos) {
     }
@@ -48,6 +62,7 @@ export default function Productos() {
   const handleModalOpenDos = () => {
     setIsModalOpenDos(true);
   };
+  
   const handleModalCloseDos = () => {
     setIsModalOpenDos(false);
     setCantidad("");
@@ -59,9 +74,8 @@ export default function Productos() {
     setPeso("");
     setPrecioCompra("");
     setPrecioVenta("");
-    
   };
-
+  //Modals tres
   useEffect(() => {
     if (isModalOpenTres) {
     }
@@ -78,7 +92,7 @@ export default function Productos() {
     setPrecioCompra("");
     setPrecioVenta("");
   };
-
+  //Modals cuatro
   useEffect(() => {
     if (isModalOpenCuatro) {
     }
@@ -95,7 +109,7 @@ export default function Productos() {
     setBodega("");
     setPrecioCompra("");
   };
-
+  //Color de fondo
   const [backgroundColor, setBackgroundColor] = useState<string>("white");
   const colors = [
     "#294D61",
@@ -135,76 +149,21 @@ export default function Productos() {
   const toggleColorVisibility = () => {
     setShowColors(!showColors);
   };
-
-  //Agregar 
-  const handleFormSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      const usersRef = collection(db, "Productos");
-      const queryDB = await getDocs(
-        query(
-          usersRef,
-          where("Codigo", "==", Codigo)
-        )
-      );
-      if (!queryDB.empty) {
-         
-        return;
-      }
-      const productosData = {
-        Cantidad,
-        Codigo,
-        Detalle,
-        Nombre
-      };
-
-      const extintoresData = {
-        Agente,
-        Bodega,
-        Clase,
-        Codigo,
-        Peso,
-        PrecioCompra,
-        PrecioVenta
-      };
-
-      const rotulosData = {
-        Codigo,
-        Detalle,
-        Bodega,
-        PrecioCompra,
-        PrecioVenta
-      };
-       
-      await addDoc(collection(db, "Productos"), productosData);
-      await addDoc(collection(db, "Extintores"), extintoresData);
-      await addDoc(collection(db, "Rotulos"), rotulosData);
-      handleModalClose();
-    } catch (error) {
-      console.error("Error al agregar datos:", error);
-    }
-  };
-
   //Agregar extintor
   const handleFormSubmitExtintor = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       const usersRef = collection(db, "Productos");
       const queryDB = await getDocs(
-        query(
-          usersRef,
-          where("Codigo", "==", Codigo)
-        )
+        query(usersRef, where("Codigo", "==", Codigo))
       );
       if (!queryDB.empty) {
-         
         return;
       }
       const productosData = {
         Cantidad,
         Codigo,
-        Detalle,
-        Nombre
+        Tipo,
       };
 
       const extintoresData = {
@@ -214,12 +173,18 @@ export default function Productos() {
         Codigo,
         Peso,
         PrecioCompra,
-        PrecioVenta
+        PrecioVenta,
+      };
+      const fechaData = {
+        Anno,
+        Mes,
+        Dia,
+        Codigo,
       };
 
       await addDoc(collection(db, "Productos"), productosData);
       await addDoc(collection(db, "Extintores"), extintoresData);
-       
+      await addDoc(collection(db, "FechaEntrada"), fechaData);
       handleModalClose();
     } catch (error) {
       console.error("Error al agregar datos:", error);
@@ -231,38 +196,35 @@ export default function Productos() {
     try {
       const usersRef = collection(db, "Productos");
       const queryDB = await getDocs(
-        query(
-          usersRef,
-          where("Codigo", "==", Codigo)
-        )
+        query(usersRef, where("Codigo", "==", Codigo))
       );
       if (!queryDB.empty) {
-         
         return;
       }
       const productosData = {
         Cantidad,
         Codigo,
-        Detalle,
-        Nombre
+        Tipo,
       };
 
-      const rotulosData= {
+      const rotulosData = {
         Bodega,
         Codigo,
         Nombre,
-        PrecioCompra
+        PrecioCompra,
       };
 
-       
-       
+      const fechaData = {
+        Anno,
+        Mes,
+        Dia,
+        Codigo,
+      };
+
       await addDoc(collection(db, "Productos"), productosData);
       await addDoc(collection(db, "Rotulos"), rotulosData);
-       
+      await addDoc(collection(db, "FechaEntrada"), fechaData);
       handleModalClose();
-      
-      
-      
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
@@ -273,20 +235,15 @@ export default function Productos() {
     try {
       const usersRef = collection(db, "Productos");
       const queryDB = await getDocs(
-        query(
-          usersRef,
-          where("Codigo", "==", Codigo)
-        )
+        query(usersRef, where("Codigo", "==", Codigo))
       );
       if (!queryDB.empty) {
-         
         return;
       }
       const productosData = {
         Cantidad,
         Codigo,
-        Detalle,
-        Nombre
+        Tipo,
       };
 
       const extintoresData = {
@@ -296,18 +253,106 @@ export default function Productos() {
         Codigo,
         Peso,
         PrecioCompra,
-        PrecioVenta
+        PrecioVenta,
+      };
+      const fechaData = {
+        Anno,
+        Mes,
+        Dia,
+        Codigo,
       };
 
       await addDoc(collection(db, "Productos"), productosData);
       await addDoc(collection(db, "Extintores"), extintoresData);
-       
+      await addDoc(collection(db, "FechaEntrada"), fechaData);
+
       handleModalClose();
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
   };
+  //Obtiene las variables de fecha
+  function obtenerFechaActual(): Date {
+    return new Date();
+  }
 
+  const fechaActual: Date = obtenerFechaActual();
+
+  const Anno: number = fechaActual.getFullYear();
+  const Mes: number = fechaActual.getMonth() + 1; // El mes es zero-indexed, por eso sumamos 1
+  const Dia: number = fechaActual.getDate();
+
+  console.log("Fecha actual:", fechaActual);
+  console.log(`Año: ${Anno}, Mes: ${Mes}, Día: ${Dia}`);
+  //Consume fireBase
+  useEffect(() => {
+    const productData = async () => {
+      try {
+        const queryDB = await getDocs(collection(db, "Productos"));
+        const data: React.SetStateAction<any[]> = [];
+        queryDB.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setProductData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    const fetchData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Extintores"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setFechCaja(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    const RotulacionData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Extintores"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setRotCaja(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    const otroData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Extintores"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setOtrosCaja(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    const extintorData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Extintores"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setExtCaja(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+
+    fetchData();
+    RotulacionData();
+    otroData();
+    productData();
+    extintorData();
+  }, []);
 
   return (
     <>
@@ -321,17 +366,18 @@ export default function Productos() {
             <section>
               <h1 className="tituloEmpleados">Productos</h1>
               <div className="linea"></div>
+              {/*Modals add extintor */}
               <section>
                 {isModalOpenDos && (
                   <div className="modal">
                     <div className="modal-content">
-                      <FaPenSquare
+                      <FaRegTimesCircle
                         className="icon-closed"
                         onClick={handleModalCloseDos}
                       />
                       <form onSubmit={handleFormSubmitExtintor}>
                         <label className="inputForm">Cantidad:</label>
-                        <input 
+                        <input
                           className="inputForm"
                           type="number"
                           value={Cantidad}
@@ -339,7 +385,109 @@ export default function Productos() {
                           onChange={(e) => setCantidad(e.target.value)}
                           required
                         />
-                        <label className="inputForm" >Codigo:</label>
+                        <label className="inputForm">Codigo:</label>
+                        <input
+                          className="inputForm"
+                          type="number"
+                          value={Codigo}
+                          placeholder="Codigo"
+                          onChange={(e) => setCodigo(e.target.value)}
+                          required
+                        />
+
+                        <label className="inputForm">Nombre:</label>
+                        <input
+                          className="inputForm"
+                          type="text"
+                          value={Nombre}
+                          placeholder="Nombre"
+                          onChange={(e) => setNombre(e.target.value)}
+                          required
+                        />
+                        <label className="inputForm">Agente:</label>
+                        <input
+                          className="inputForm"
+                          type="text"
+                          value={Agente}
+                          placeholder="Agente"
+                          onChange={(e) => setAgente(e.target.value)}
+                          required
+                        />
+                        <label className="inputForm">Clase:</label>
+                        <input
+                          className="inputForm"
+                          type="text"
+                          value={Clase}
+                          placeholder="Clase"
+                          onChange={(e) => setClase(e.target.value)}
+                          required
+                        />
+                        <label className="inputForm">Bodega:</label>
+                        <input
+                          className="inputForm"
+                          type="text"
+                          value={Bodega}
+                          placeholder="Bodega"
+                          onChange={(e) => setBodega(e.target.value)}
+                          required
+                        />
+                        <label className="inputForm">Peso:</label>
+                        <input
+                          className="inputForm"
+                          type="text"
+                          value={Peso}
+                          placeholder="Peso"
+                          onChange={(e) => setPeso(e.target.value)}
+                          required
+                        />
+
+                        <label className="inputForm">Precio Compra:</label>
+                        <input
+                          className="inputForm"
+                          type="text"
+                          value={PrecioCompra}
+                          placeholder="Precio Compra"
+                          onChange={(e) => setPrecioCompra(e.target.value)}
+                          required
+                        />
+                        <label className="inputForm">Precio Venta:</label>
+                        <input
+                          className="inputForm"
+                          type="number"
+                          value={PrecioVenta}
+                          placeholder="Precio Venta"
+                          onChange={(e) => setPrecioVenta(e.target.value)}
+                          required
+                        />
+
+                        <button className="submit" type="submit">
+                          Agregar
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                )}
+              </section>
+              {/*Modals add rotulo */}
+              <section>
+                {isModalOpenTres && (
+                  <div className="modal">
+                    <div className="modal-content">
+                      <FaRegTimesCircle
+                        className="icon-closed"
+                        onClick={handleModalCloseTres}
+                      />
+                      <form onSubmit={handleFormSubmitRotulos}>
+                        <label className="textForm">Cantidad:</label>
+                        <input
+                        className="inputForm"
+                          type="number"
+                          value={Cantidad}
+                          placeholder="1"
+                          onChange={(e) => setCantidad(e.target.value)}
+                          required
+                        />
+                        <label className="textForm">Codigo:</label>
                         <input
                         className="inputForm"
                           type="number"
@@ -349,72 +497,46 @@ export default function Productos() {
                           required
                         />
 
-                        <label  className="inputForm" >Nombre:</label>
+                        <label className="textForm">Nombre:</label>
                         <input
-                         className="inputForm" 
+                        className="inputForm"
                           type="text"
                           value={Nombre}
                           placeholder="Nombre"
                           onChange={(e) => setNombre(e.target.value)}
                           required
                         />
-                        <label  className="inputForm" >Agente:</label>
+
+                        <label className="textForm">Bodega:</label>
                         <input
-                         className="inputForm" 
-                          type="text"
-                          value={Agente}
-                          placeholder="Agente"
-                          onChange={(e) => setAgente(e.target.value)}
-                          required
-                        />
-                        <label  className="inputForm" >Clase:</label>
-                        <input
-                         className="inputForm" 
-                          type="text"
-                          value={Clase}
-                          placeholder="Clase"
-                          onChange={(e) => setClase(e.target.value)}
-                          required
-                        />
-                        <label  className="inputForm" >Bodega:</label>
-                        <input
-                         className="inputForm" 
+                        className="inputForm"
                           type="text"
                           value={Bodega}
                           placeholder="Bodega"
                           onChange={(e) => setBodega(e.target.value)}
                           required
                         />
-                        <label  className="inputForm" >Peso:</label>
-                        <input
-                         className="inputForm" 
-                          type="text"
-                          value={Peso}
-                          placeholder="Peso"
-                          onChange={(e) => setPeso(e.target.value)}
-                          required
-                        />
 
-                        <label  className="inputForm" >Precio Compra:</label>
+                        <label className="textForm">Precio Compra:</label>
                         <input
-                         className="inputForm" 
+                        className="inputForm"
                           type="text"
                           value={PrecioCompra}
                           placeholder="Precio Compra"
                           onChange={(e) => setPrecioCompra(e.target.value)}
                           required
                         />
-                        <label  className="inputForm" >Precio Venta:</label>
+                        <label className="textForm">Precio Venta:</label>
                         <input
-                         className="inputForm" 
+                        className="inputForm"
                           type="number"
                           value={PrecioVenta}
                           placeholder="Precio Venta"
                           onChange={(e) => setPrecioVenta(e.target.value)}
                           required
                         />
-                         
-                        <button className="submit" type="submit">
+
+                        <button className="submit-button" type="submit">
                           Agregar
                         </button>
                       </form>
@@ -422,86 +544,17 @@ export default function Productos() {
                   </div>
                 )}
               </section>
-              <section>
-                {isModalOpenTres && (
-                  <div className="modal">
-                    <div className="modal-content">
-                      <FaPenSquare
-                        className="icon-closed"
-                        onClick={handleModalCloseTres}
-                      />
-                      <form onSubmit={handleFormSubmitRotulos}>
-                        <label>Cantidad:</label>
-                        <input
-                          type="number"
-                          value={Cantidad}
-                          placeholder="1"
-                          onChange={(e) => setCantidad(e.target.value)}
-                          required
-                        />
-                        <label>Codigo:</label>
-                        <input
-                          type="number"
-                          value={Codigo}
-                          placeholder="Codigo"
-                          onChange={(e) => setCodigo(e.target.value)}
-                          required
-                        />
-
-                        <label>Nombre:</label>
-                        <input
-                          type="text"
-                          value={Nombre}
-                          placeholder="Nombre"
-                          onChange={(e) => setNombre(e.target.value)}
-                          required
-                        />
-                         
-                        <label>Bodega:</label>
-                        <input
-                          type="text"
-                          value={Bodega}
-                          placeholder="Bodega"
-                          onChange={(e) => setBodega(e.target.value)}
-                          required
-                        />
-                         
-
-                        <label>Precio Compra:</label>
-                        <input
-                          type="text"
-                          value={PrecioCompra}
-                          placeholder="Precio Compra"
-                          onChange={(e) => setPrecioCompra(e.target.value)}
-                          required
-                        />
-                        <label>Precio Venta:</label>
-                        <input
-                          type="number"
-                          value={PrecioVenta}
-                          placeholder="Precio Venta"
-                          onChange={(e) => setPrecioVenta(e.target.value)}
-                          required
-                        />
-                         
-                        <button className="submit" type="submit">
-                          Agregar
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                )}
-              </section>
+              {/*Modals add otro*/}
               <section>
                 {isModalOpenCuatro && (
                   <div className="modal">
                     <div className="modal-content">
-                      <FaPenSquare
+                      <FaRegTimesCircle
                         className="icon-closed"
                         onClick={handleModalCloseCuatro}
                       />
                       <form onSubmit={handleFormSubmitOtro}>
-                        <label>Cantidad:</label>
+                        <label className="textForm">Cantidad:</label>
                         <input
                           type="number"
                           value={Cantidad}
@@ -509,7 +562,7 @@ export default function Productos() {
                           onChange={(e) => setCantidad(e.target.value)}
                           required
                         />
-                        <label>Codigo:</label>
+                        <label className="textForm">Codigo:</label>
                         <input
                           type="number"
                           value={Codigo}
@@ -518,7 +571,7 @@ export default function Productos() {
                           required
                         />
 
-                        <label>Nombre:</label>
+                        <label className="textForm">Nombre:</label>
                         <input
                           type="text"
                           value={Nombre}
@@ -526,8 +579,8 @@ export default function Productos() {
                           onChange={(e) => setNombre(e.target.value)}
                           required
                         />
-                         
-                        <label>Bodega:</label>
+
+                        <label className="textForm">Bodega:</label>
                         <input
                           type="text"
                           value={Bodega}
@@ -535,8 +588,8 @@ export default function Productos() {
                           onChange={(e) => setBodega(e.target.value)}
                           required
                         />
-                         
-                        <label>Precio Compra:</label>
+
+                        <label className="textForm">Precio Compra:</label>
                         <input
                           type="text"
                           value={PrecioCompra}
@@ -544,8 +597,7 @@ export default function Productos() {
                           onChange={(e) => setPrecioCompra(e.target.value)}
                           required
                         />
-                         
-                         
+
                         <button className="submit" type="submit">
                           Agregar
                         </button>
@@ -554,6 +606,7 @@ export default function Productos() {
                   </div>
                 )}
               </section>
+              {/*Estructura principal*/}
               <div className="contenedorTabla">
                 <div className="buscadorContainer">
                   <input
@@ -599,76 +652,69 @@ export default function Productos() {
                     </div>
                   </div>
                 </div>
+                {/*Tabla*/}
                 <table className="TablaEmpleados">
                   <thead>
                     <tr>
                       <th>Código</th>
                       <th>Cantidad</th>
                       <th>Tipo</th>
-                      <th>Nombre</th>
-                      <th>Bodega</th>
                       <th>Ingresó</th>
-                      <th>Precio compra</th>
-                      <th>Precio venta</th>
+
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td className="code">623144</td>
-                      <td>4</td>
-                      <td>Rotulo</td>
-                      <td>Salida de emergencia</td>
-                      <td>4</td>
-                      <td>24/03/2022</td>
-                      <td>500</td>
-                      <td>1500</td>
+                    {productData.map((users, index) => {
+                      const userDataIndex =
+                        index < productData.length ? index : null;
+                      const dataFechaIndex =
+                        index < extintorData.length ? index : null;
+                      const dataTerceraTablaIndex =
+                        index < fechaData.length ? index : null;
 
-                      <td>
-                        <FaPenSquare className="iconsEdit" title="Editar." />
-                        <FaInfo
-                          className="iconsInfo"
-                          title="Más Información."
-                        />
-                        <FaTrash className="iconsEliminar" title="Eliminar." />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="code">392630</td>
-                      <td>14</td>
-                      <td>Extintor</td>
-                      <td>Extintor de tipo abc</td>
-                      <td>2</td>
-                      <td>14/04/2021</td>
-                      <td>5000</td>
-                      <td>15000</td>
-                      <td>
-                        <FaPenSquare className="iconsEdit" title="Editar." />
-                        <FaInfo
-                          className="iconsInfo"
-                          title="Más Información."
-                        />
-                        <FaTrash className="iconsEliminar" title="Eliminar." />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="code">592834</td>
-                      <td>11</td>
-                      <td>Pieza</td>
-                      <td>Anillos de sello</td>
-                      <td>1</td>
-                      <td>04/11/2020</td>
-                      <td>500</td>
-                      <td>1500</td>
-                      <td>
-                        <FaPenSquare className="iconsEdit" title="Editar." />
-                        <FaInfo
-                          className="iconsInfo"
-                          title="Más Información."
-                        />
-                        <FaTrash className="iconsEliminar" title="Eliminar." />
-                      </td>
-                    </tr>
+                      return (
+                        <tr key={users.Codigo}>
+                           
+                          <td>
+                            {userDataIndex !== null
+                              ? productData[userDataIndex].Codigo
+                              : ""}
+                          </td>
+                          <td>
+                            {userDataIndex !== null
+                              ? productData[userDataIndex].Cantidad
+                              : ""}
+                          </td>
+                          <td>
+                            {userDataIndex !== null
+                              ? productData[userDataIndex].Tipo
+                              : ""}
+                          </td>
+                          <td>
+                            {dataFechaIndex !== null
+                              ? fechaData[dataFechaIndex].Dia
+                              : "/ "}
+                            {dataFechaIndex !== null
+                              ? fechaData[dataFechaIndex].Mes
+                              : "/ "}
+                            {dataFechaIndex !== null
+                              ? fechaData[dataFechaIndex].Anno
+                              : ""}
+                          </td>
+
+                          <td>
+                             
+                            <IoInformationCircleSharp
+                              onClick={handleModalOpen}
+                              className="iconsInfo"
+                              title="Más Información."
+                            />
+                             
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -716,8 +762,6 @@ export default function Productos() {
                 </div>
               )}
             </section>
-            
-             
           </div>
         </div>
       </div>
