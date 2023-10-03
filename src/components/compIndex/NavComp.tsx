@@ -102,42 +102,7 @@ const Nav_index = ({}) => {
                 Oficinas ExtinSur{" "}
               </a>
             </article>
-            <article className="caruselResponsive">
-              <Carousel
-                autoPlay={true}
-                interval={4000}
-                infiniteLoop={true}
-                showThumbs={false}
-              >
-                <div>
-                  <Image
-                    width="300"
-                    height="300"
-                    className="fotos"
-                    src="/indexInicio/extintor_rotulo.png"
-                    alt="11"
-                  />
-                </div>
-                <div>
-                  <Image
-                    width="300"
-                    height="300"
-                    className="fotos"
-                    src="/indexInicio/varios_extintores.jpg"
-                    alt="11"
-                  />
-                </div>
-                <div>
-                  <Image
-                    width="300"
-                    height="300"
-                    className="fotos"
-                    src="/indexInicio/extintor-para-incendios-abc.jpg"
-                    alt="11"
-                  />
-                </div>
-              </Carousel>
-            </article>
+             
 
             <article className="articleInfo">
               <h1 className="h1Info">
@@ -786,44 +751,7 @@ const Nav_index = ({}) => {
               </section>
             </article>
           </div>
-          <article className="articleInfo">
-            <article className="navInfoDos">
-              <Carousel
-                autoPlay={true}
-                interval={4000}
-                infiniteLoop={true}
-                showThumbs={false}
-              >
-                <div>
-                  <Image
-                    width="300"
-                    height="300"
-                    className="fotos"
-                    src="/indexInicio/extintor_rotulo.png"
-                    alt="11"
-                  />
-                </div>
-                <div>
-                  <Image
-                    width="300"
-                    height="300"
-                    className="fotos"
-                    src="/indexInicio/varios_extintores.jpg"
-                    alt="11"
-                  />
-                </div>
-                <div>
-                  <Image
-                    width="300"
-                    height="300"
-                    className="fotos"
-                    src="/indexInicio/extintor-para-incendios-abc.jpg"
-                    alt="11"
-                  />
-                </div>
-              </Carousel>
-            </article>
-          </article>
+           
         </nav>
       </div>
     </>

@@ -27,7 +27,7 @@
   background-color: #c9c3d0de;
   border: 1px solid #100d0d;
   padding: 10px;
-  overflow: auto;
+   
   border-radius: 45px 0;
 }
 
@@ -95,6 +95,7 @@
   width: 30vw;
   height: 70vh;
   margin-top: 2vw;
+  
   padding: 20px;
   box-shadow: 4px 4px 4px 4px rgb(172, 180, 212, 0.3);
   overflow: auto;
@@ -161,12 +162,12 @@
   width: 100%;
   margin-bottom: 20%;
   padding: 1%;
-  margin-left: 10%;
+  margin-left: 35%;
   text-indent: 18px;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: 18px;
   font: bold;
-  background-color: transparent;
+  background-color: black;
   border: none;
   border-bottom: 2px solid blue;
   outline: none;

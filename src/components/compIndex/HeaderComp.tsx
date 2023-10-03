@@ -11,7 +11,7 @@ const Header_index = ({ }) => {
 
                 <nav className="navegation">
                     <Link href="/IndexInicioSesion" className="buttonBorder">
-                        <span className="textInicio">Iniciar Sesion</span>
+                        <span className="textInicio">Iniciar Sesión</span>
                         <FaRegUserCircle className="iconsInicioSesion"></FaRegUserCircle>
                     </Link>
                 </nav>

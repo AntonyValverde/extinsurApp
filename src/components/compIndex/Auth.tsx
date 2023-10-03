@@ -24,10 +24,10 @@ export const AuthRoute = () => {
   }, []);
 };
 
- export const restPassword = (email: string) => {
+ export const restPassword = (Email: string) => {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-   sendPasswordResetEmail(auth, email);
+   sendPasswordResetEmail(auth, Email);
 };
 
 export default AuthRoute;
