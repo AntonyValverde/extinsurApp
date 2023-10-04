@@ -156,6 +156,8 @@ export default function Empleados() {
   const toggleColorVisibility = () => {
     setShowColors(!showColors);
   };
+  //Registrar 
+  
 
   return (
     <>
@@ -168,16 +170,16 @@ export default function Empleados() {
           <div className="bodyEmpleados">
             <section>
               <h1 className="tituloEmpleados">Empleados</h1>
-
+               
               <div className="linea"></div>
-              <div className="tabla-container">
+              <div className="contenedorTabla">
                 <div className="buscadorContainer">
                   <input
                     type="text"
                     className="BuscadorInput"
                     placeholder="Buscar..."
                   />
-                  <Link className="RegistrarButton" href="./RegistrarEmpleados">
+                  <Link className="RegistrarButton" href="./registrarEmpleados">
                     Registrar
                   </Link>
                   <div className="RegistrarButton">

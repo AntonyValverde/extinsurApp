@@ -1,4 +1,10 @@
-import { FaInfo, FaTrash, FaPenSquare, FaEdit, FaRegTimesCircle } from "react-icons/fa";
+import {
+  FaInfo,
+  FaTrash,
+  FaPenSquare,
+  FaEdit,
+  FaRegTimesCircle,
+} from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
@@ -15,12 +21,12 @@ import firebaseConfig from "@/firebase/config";
 import { IoInformationCircleSharp } from "react-icons/io5";
 
 export default function Productos() {
-  //Modals 
+  //Modals
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
   const [isModalOpenCuatro, setIsModalOpenCuatro] = useState(false);
-  //Variables 
+  //Variables
   const [Codigo, setCodigo] = useState("");
   const [Cantidad, setCantidad] = useState("");
   const [Nombre, setNombre] = useState("");
@@ -62,7 +68,7 @@ export default function Productos() {
   const handleModalOpenDos = () => {
     setIsModalOpenDos(true);
   };
-  
+
   const handleModalCloseDos = () => {
     setIsModalOpenDos(false);
     setCantidad("");
@@ -185,7 +191,7 @@ export default function Productos() {
       await addDoc(collection(db, "Productos"), productosData);
       await addDoc(collection(db, "Extintores"), extintoresData);
       await addDoc(collection(db, "FechaEntrada"), fechaData);
-      handleModalClose();
+      handleModalCloseDos();
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
@@ -228,6 +234,7 @@ export default function Productos() {
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
+    handleModalCloseTres();
   };
   //Agregar Otro
   const handleFormSubmitOtro = async (event: React.FormEvent) => {
@@ -265,7 +272,7 @@ export default function Productos() {
       await addDoc(collection(db, "Productos"), productosData);
       await addDoc(collection(db, "Extintores"), extintoresData);
       await addDoc(collection(db, "FechaEntrada"), fechaData);
-
+      handleModalCloseCuatro();
       handleModalClose();
     } catch (error) {
       console.error("Error al agregar datos:", error);
@@ -300,7 +307,7 @@ export default function Productos() {
     };
     const fetchData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Extintores"));
+        const querydb = await getDocs(collection(db, "FechaEntrada"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           data.push(doc.data());
@@ -312,7 +319,7 @@ export default function Productos() {
     };
     const RotulacionData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Extintores"));
+        const querydb = await getDocs(collection(db, "Rotulos"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           data.push(doc.data());
@@ -324,7 +331,7 @@ export default function Productos() {
     };
     const otroData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Extintores"));
+        const querydb = await getDocs(collection(db, "Otros"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           data.push(doc.data());
@@ -395,13 +402,13 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="inputForm">Nombre:</label>
+                        <label className="inputForm">Tipo:</label>
                         <input
                           className="inputForm"
                           type="text"
-                          value={Nombre}
-                          placeholder="Nombre"
-                          onChange={(e) => setNombre(e.target.value)}
+                          value={Tipo}
+                          placeholder="Tipo"
+                          onChange={(e) => setTipo(e.target.value)}
                           required
                         />
                         <label className="inputForm">Agente:</label>
@@ -460,7 +467,7 @@ export default function Productos() {
                           required
                         />
 
-                        <button className="submit" type="submit">
+                        <button className="RegistrarButton" type="submit">  
                           Agregar
                         </button>
                       </form>
@@ -480,7 +487,7 @@ export default function Productos() {
                       <form onSubmit={handleFormSubmitRotulos}>
                         <label className="textForm">Cantidad:</label>
                         <input
-                        className="inputForm"
+                          className="inputForm"
                           type="number"
                           value={Cantidad}
                           placeholder="1"
@@ -489,7 +496,7 @@ export default function Productos() {
                         />
                         <label className="textForm">Codigo:</label>
                         <input
-                        className="inputForm"
+                          className="inputForm"
                           type="number"
                           value={Codigo}
                           placeholder="Codigo"
@@ -499,7 +506,7 @@ export default function Productos() {
 
                         <label className="textForm">Nombre:</label>
                         <input
-                        className="inputForm"
+                          className="inputForm"
                           type="text"
                           value={Nombre}
                           placeholder="Nombre"
@@ -509,7 +516,7 @@ export default function Productos() {
 
                         <label className="textForm">Bodega:</label>
                         <input
-                        className="inputForm"
+                          className="inputForm"
                           type="text"
                           value={Bodega}
                           placeholder="Bodega"
@@ -519,7 +526,7 @@ export default function Productos() {
 
                         <label className="textForm">Precio Compra:</label>
                         <input
-                        className="inputForm"
+                          className="inputForm"
                           type="text"
                           value={PrecioCompra}
                           placeholder="Precio Compra"
@@ -528,7 +535,7 @@ export default function Productos() {
                         />
                         <label className="textForm">Precio Venta:</label>
                         <input
-                        className="inputForm"
+                          className="inputForm"
                           type="number"
                           value={PrecioVenta}
                           placeholder="Precio Venta"
@@ -536,7 +543,7 @@ export default function Productos() {
                           required
                         />
 
-                        <button className="submit-button" type="submit">
+                        <button className="RegistrarButton" type="submit">
                           Agregar
                         </button>
                       </form>
@@ -598,7 +605,7 @@ export default function Productos() {
                           required
                         />
 
-                        <button className="submit" type="submit">
+                        <button className="RegistrarButton" type="submit">
                           Agregar
                         </button>
                       </form>
@@ -668,14 +675,12 @@ export default function Productos() {
                     {productData.map((users, index) => {
                       const userDataIndex =
                         index < productData.length ? index : null;
-                      const dataFechaIndex =
-                        index < extintorData.length ? index : null;
+
                       const dataTerceraTablaIndex =
                         index < fechaData.length ? index : null;
 
                       return (
                         <tr key={users.Codigo}>
-                           
                           <td>
                             {userDataIndex !== null
                               ? productData[userDataIndex].Codigo
@@ -692,25 +697,25 @@ export default function Productos() {
                               : ""}
                           </td>
                           <td>
-                            {dataFechaIndex !== null
-                              ? fechaData[dataFechaIndex].Dia
-                              : "/ "}
-                            {dataFechaIndex !== null
-                              ? fechaData[dataFechaIndex].Mes
-                              : "/ "}
-                            {dataFechaIndex !== null
-                              ? fechaData[dataFechaIndex].Anno
+                            {dataTerceraTablaIndex !== null
+                              ? fechaData[dataTerceraTablaIndex].Dia
+                              : " "}
+                            /
+                            {dataTerceraTablaIndex !== null
+                              ? fechaData[dataTerceraTablaIndex].Mes
+                              : ""}
+                            /
+                            {dataTerceraTablaIndex !== null
+                              ? fechaData[dataTerceraTablaIndex].Anno
                               : ""}
                           </td>
 
                           <td>
-                             
                             <IoInformationCircleSharp
                               onClick={handleModalOpen}
                               className="iconsInfo"
                               title="Más Información."
                             />
-                             
                           </td>
                         </tr>
                       );

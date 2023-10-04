@@ -1,8 +1,98 @@
 "use client";
-import React, { useState } from "react";
+
 import { FaReplyAll } from "react-icons/fa";
 
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "@/firebase/config";
+
+import {
+  createUserWithEmailAndPassword,
+  deleteUser,
+  onAuthStateChanged,
+  updateCurrentUser,
+  updateEmail,
+  updatePassword,
+} from "firebase/auth";
+import { db, auth } from "@/firebase/firebase";
+import { useRouter } from "next/router";
+
 export default function RegistrarEmpleados() {
+  //Variables
+  const [Email, setEmail] = useState("");
+  const [Contrasena, setContrasena] = useState("");
+  const [Nombre, setNombre] = useState("");
+  const [ApellidoUno, setApellidoUno] = useState("");
+  const [ApellidoDos, setApellidoDos] = useState("");
+  const [TipoCedula, setTipoCedula] = useState("");
+  const [Cedula, setCedula] = useState("");
+  const [Tipo, setTipo] = useState("");
+  const [Sexo, setSexo] = useState("");
+  const [Estado, setEstado] = useState("");
+
+  //Obtiene las variables de fecha
+  function obtenerFechaActual(): Date {
+    return new Date();
+  }
+
+  const fechaActual: Date = obtenerFechaActual();
+
+  const Ano: number = fechaActual.getFullYear();
+  const Mes: number = fechaActual.getMonth() + 1; // El mes es zero-indexed, por eso sumamos 1
+  const Dia: number = fechaActual.getDate();
+
+  console.log("Fecha actual:", fechaActual);
+  console.log(`Año: ${Ano}, Mes: ${Mes}, Día: ${Dia}`);
+
+  //Agregar Usuario
+  const handleFormSubmitExtintor = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const usersRef = collection(db, "Usuarios");
+      const queryDB = await getDocs(
+        query(usersRef, where("Email", "==", Email))
+      );
+      if (!queryDB.empty) {
+        return;
+      }
+      const UsersData = {
+        Email,
+        Contrasena,
+        Tipo,
+      };
+
+      const empleadosData = {
+        Nombre,
+        Sexo,
+        ApellidoUno,
+        ApellidoDos,
+        Estado,
+      };
+      const fechaData = {
+        Ano,
+        Mes,
+        Dia,
+      };
+
+      await addDoc(collection(db, "Productos"), UsersData);
+      await addDoc(collection(db, "Extintores"), empleadosData);
+      await addDoc(collection(db, "FechaEntrada"), fechaData);
+       
+    } catch (error) {
+      console.error("Error al agregar datos:", error);
+    }
+  };
+
   const [step, setStep] = useState(1);
 
   const nextStep = () => {
@@ -23,7 +113,7 @@ export default function RegistrarEmpleados() {
               <div className="contenedorInput">
                 <h3 className="textDos">
                   Email
-                  <input type="text" className="inputRes" />
+                  <input type="text" className="inputRes" placeholder=""/>
                 </h3>
                 <h3 className="textDos">
                   Contraseña
@@ -47,7 +137,7 @@ export default function RegistrarEmpleados() {
               <div className="contenedorInput">
                 <h3 className="textDos">
                   Nombre
-                  <input type="text" className="inputRes" />
+                  <input type="text" className="inputRes" placeholder=""/>
                 </h3>
                 <h3 className="textDos">
                   Primer Apellido
