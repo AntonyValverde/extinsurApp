@@ -1,29 +1,67 @@
-import { FaInfo, FaTrash, FaPenSquare, FaEdit } from "react-icons/fa";
+import {
+  FaInfo,
+  FaTrash,
+  FaPenSquare,
+  FaEdit,
+  FaRegTimesCircle,
+} from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import Link from "next/link";
 import router from "next/router";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 import React, { useState, useEffect } from "react";
 
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import firebaseConfig from "@/firebase/config";
 import { initializeApp } from "firebase/app";
 import "firebase/firestore";
 import "firebase/compat/firestore";
+import {
+  User,
+  createUserWithEmailAndPassword,
+  updateEmail,
+  updatePassword,
+} from "firebase/auth";
+import { auth } from "@/firebase/firebase";
 
 export default function Empleados() {
+  //Modals
   const [isModalOpen, setIsEditarOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
+  //Variables
+  const [Email, setEmail] = useState("");
+  const [Contrasena, setContrasena] = useState("");
+  const [Nombre, setNombre] = useState("");
+  const [ApellidoUno, setApellidoUno] = useState("");
+  const [ApellidoDos, setApellidoDos] = useState("");
+  const [TipoCedula, setTipoCedula] = useState("");
+  const [Cedula, setCedula] = useState("");
+  const [Tipo, setTipo] = useState("");
+  const [TipoUsuario, setTipoUsuario] = useState("");
+  const [Estado, setEstado] = useState("");
+
+  const [Ano, setAno] = useState("");
+  const [Mes, setMes] = useState("");
+  const [Dia, setDia] = useState("");
 
   const [borrarConfirmado, setBorrarConfirmado] = useState(false);
-
+  //Leer tablas
   const [userData, setUserData] = useState<any[]>([]);
   const [dataCaja, setDataCaja] = useState<any[]>([]);
-
+  //Inicializa firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-
+  //Modals editar
   useEffect(() => {
     if (isModalOpen) {
     }
@@ -36,7 +74,7 @@ export default function Empleados() {
   const handleModalClose = () => {
     setIsEditarOpen(false);
   };
-
+  //Modals Informacion
   useEffect(() => {
     if (isModalOpenDos) {
     }
@@ -49,6 +87,7 @@ export default function Empleados() {
   const handleModalCloseDos = () => {
     setIsModalOpenDos(false);
   };
+  //Modals Eliminar
 
   useEffect(() => {
     if (isModalOpenTres) {
@@ -65,27 +104,7 @@ export default function Empleados() {
     event.preventDefault();
     handleModalClose;
   };
-
-  const confirmarBorrar = () => {
-    const confirmacion = window.confirm(
-      "¿Estás seguro de que deseas borrar esto? Esta acción no se puede deshacer."
-    );
-
-    if (confirmacion) {
-      setBorrarConfirmado(true);
-    } else {
-    }
-
-    <div>
-      {borrarConfirmado ? (
-        <p>El elemento ha sido borrado.</p>
-      ) : (
-        <div>
-          <button onClick={confirmarBorrar}>Borrar</button>
-        </div>
-      )}
-    </div>;
-  };
+  //Cambiar color
 
   const [backgroundColor, setBackgroundColor] = useState<string>("#6DA5C0");
   const colors = [
@@ -107,37 +126,6 @@ export default function Empleados() {
       localStorage.setItem("backgroundColor", selectedColor);
     }
   };
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const queryDB = await getDocs(collection(db, "Empleados"));
-        const data: React.SetStateAction<any[]> = [];
-        queryDB.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setUserData(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-    const fetchData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Usuarios"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setDataCaja(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-
-    fetchData();
-    fetchUserData();
-  }, []);
-
   useEffect(() => {
     document
       .querySelector(".containerSidebar")
@@ -156,8 +144,242 @@ export default function Empleados() {
   const toggleColorVisibility = () => {
     setShowColors(!showColors);
   };
-  //Registrar 
-  
+  //Consume tabla de Empleados/Usuarios
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Usuarios"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setUserData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //Fecha nacimiento
+  const handleFechaNacimientoChange = (event: { target: { value: any } }) => {
+    const fecha = event.target.value;
+    const partesFecha = fecha.split(" ");
+
+    if (partesFecha.length === 3) {
+      setAno(partesFecha[0]);
+      setMes(partesFecha[1]);
+      setDia(partesFecha[2]);
+    }
+  };
+
+  //Modal agregar
+  const [isModalOpenOtro, setIsModalOpen] = useState(false);
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+  const handleModalCloseOtro = () => {
+    setIsModalOpen(false);
+    setCedula("");
+    setNombre("");
+    setTipoCedula("");
+    setApellidoDos("");
+    setApellidoUno("");
+    setTipoUsuario("");
+    setTipo("");
+    setEmail("");
+    setContrasena("");
+  };
+  //Agrega Usuarios/Empleados/Identificacion/FechaNacimiento
+  const handleFormSubmitUsers = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const usersRef = collection(db, "Usuarios");
+      const queryDB = await getDocs(
+        query(
+          usersRef,
+          where("Email", "==", Email),
+          where("Contrasena", "==", Contrasena)
+        )
+      );
+      if (!queryDB.empty) {
+        setIsModalOpen(true);
+        return;
+      }
+      const UsersData = {
+        Email,
+        Contrasena,
+        TipoUsuario,
+        Cedula,
+        Nombre,
+        Estado,
+        ApellidoUno,
+        ApellidoDos,
+        Ano,
+        Mes,
+        Dia,
+        TipoCedula,
+      };
+
+      await createUserWithEmailAndPassword(auth, Email, Contrasena);
+      await addDoc(collection(db, "Usuarios"), UsersData);
+      handleModalCloseOtro();
+    } catch (error) {
+      console.error("Error al agregar datos:", error);
+    }
+  };
+  //Editar tabla Usuarios
+  const [formData, setFormData] = useState({
+    Email: "",
+    Contrasena: "",
+    TipoCedula: "",
+    Cedula: "",
+    Nombre: "",
+    Estado: "",
+    ApellidoUno: "",
+    ApellidoDos: "",
+    Ano: "",
+    Mes: "",
+    Dia: "",
+    TipoUsuario: "",
+  });
+  const handleModalCloseEdit = () => {
+    setShowModalEdit(false);
+    setCedula("");
+    setNombre("");
+    setTipoCedula("");
+    setApellidoDos("");
+    setApellidoUno("");
+    setTipoUsuario("");
+    setTipo("");
+    setEmail("");
+    setContrasena("");
+  };
+  interface User {
+    Email?: string;
+    Contrasena?: string;
+    TipoCedula?: string;
+    Cedula?: string;
+    Nombre?: string;
+    Estado?: string;
+    ApellidoUno?: string;
+    ApellidoDos?: string;
+    Ano?: string;
+    Mes?: string;
+    Dia?: string;
+    TipoUsuario?: string;
+  }
+
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const handleEditClick = (user: User) => {
+    setFormData({
+      Email: user.Email ?? "",
+      Contrasena: user.Contrasena ?? "",
+      TipoCedula: user.TipoCedula ?? "",
+      Cedula: user.Cedula ?? "",
+      Nombre: user.Nombre ?? "",
+      Estado: user.Estado ?? "",
+      ApellidoUno: user.ApellidoUno ?? "",
+      ApellidoDos: user.ApellidoDos ?? "",
+      Ano: user.Ano ?? "",
+      Mes: user.Mes ?? "",
+      Dia: user.Dia ?? "",
+      TipoUsuario: user.TipoUsuario ?? "",
+    });
+    setShowModalEdit(true);
+  };
+  const handleEdit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    try {
+      const employeesQuery = await getDocs(
+        query(collection(db, "Usuarios"), where("Cedula", "==", Cedula))
+      );
+
+      if (!employeesQuery.empty) {
+        const employeeDoc = employeesQuery.docs[0];
+        const employeeId = employeeDoc.id;
+
+        // Crea un objeto que contenga los campos que deseas actualizar en "registroempleados".
+        const updatedEmployeeData = {
+          Email: Email,
+          Contrasena: Contrasena,
+          TipoCedula: TipoCedula,
+          Cedula: Cedula,
+          Nombre: Nombre,
+          Estado: Estado,
+          ApellidoUno: ApellidoUno,
+          ApellidoDos: ApellidoDos,
+          Ano: Ano,
+          Mes: Mes,
+          Dia: Dia,
+          TipoUsuario: TipoUsuario,
+        };
+
+        // Actualiza el documento de "registroempleados".
+        await updateDoc(doc(db, "Usuarios", employeeId), updatedEmployeeData);
+
+        const usersQuery = await getDocs(
+          query(collection(db, "Usuarios"), where("Cedula", "==", Cedula))
+        );
+
+        if (!usersQuery.empty) {
+          // Validamos si ese usuario tiene esa cédula.
+          const userDoc = usersQuery.docs[0];
+          const userId = userDoc.id;
+
+          //Creamos el objeto para los campos que deseamos actualizar en "usuarios".
+          const updatedUserData = {
+            Email: Email,
+            Contrasena: Contrasena,
+            TipoCedula: TipoCedula,
+            Cedula: Cedula,
+            Nombre: Nombre,
+            Estado: Estado,
+            ApellidoUno: ApellidoUno,
+            ApellidoDos: ApellidoDos,
+            Ano: Ano,
+            Mes: Mes,
+            Dia: Dia,
+            TipoUsuario: TipoUsuario,
+          };
+
+          // Actualizamos el documento del usuario que editamos en "usuarios".
+          await updateDoc(doc(db, "Usuarios", userId), updatedUserData);
+        }
+
+        if (Contrasena) {
+          // Verificamos si hay un usuario autenticado antes de intentar actualizar la contraseña
+          if (auth.currentUser) {
+            await updatePassword(auth.currentUser, Contrasena);
+          } else {
+            console.error(
+              "No hay un usuario autenticado para actualizar la contraseña"
+            );
+          }
+        }
+
+        // Se actualiza el correo electrónico si se digita uno nuevo en auth
+        if (Email !== auth.currentUser?.email) {
+          // Verificamos si hay un usuario autenticado antes de intentar actualizar el correo electrónico
+          if (auth.currentUser) {
+            await updateEmail(auth.currentUser, Email);
+          } else {
+            console.error(
+              "No hay un usuario autenticado para actualizar el correo electrónico"
+            );
+          }
+        }
+      }
+
+      handleModalCloseEdit();
+
+      // Muestra una notificación de éxito.
+    } catch (error) {
+      console.error("Error al editar empleado y usuario:", error);
+    }
+  };
 
   return (
     <>
@@ -170,18 +392,21 @@ export default function Empleados() {
           <div className="bodyEmpleados">
             <section>
               <h1 className="tituloEmpleados">Empleados</h1>
-               
+
               <div className="linea"></div>
               <div className="contenedorTabla">
+                {/*Buscador y contenedor*/}
                 <div className="buscadorContainer">
                   <input
                     type="text"
                     className="BuscadorInput"
                     placeholder="Buscar..."
                   />
-                  <Link className="RegistrarButton" href="./registrarEmpleados">
+                  {/*Boton de registrar*/}
+                  <button className="RegistrarButton" onClick={handleModalOpen}>
                     Registrar
-                  </Link>
+                  </button>
+                  {/*Pide un color*/}
                   <div className="RegistrarButton">
                     <button onClick={toggleColorVisibility}>
                       {showColors ? "Ocultar colores" : "Mostrar colores"}
@@ -208,7 +433,7 @@ export default function Empleados() {
                       <th>Nombre</th>
                       <th>Primer Apellido</th>
                       <th>Segundo Apellido</th>
-                      <th>Sexo</th>
+
                       <th>Estado</th>
                       <th>Tipo</th>
                       <th>Correo</th>
@@ -217,33 +442,25 @@ export default function Empleados() {
                     </tr>
                   </thead>
                   <tbody>
-                    {userData.map((users, index) => (
-                      <tr key={users.Id}>
-                        <td>{users.Nombre}</td>
-                        <td>{users.ApellidoUno}</td>
-                        <td>{users.ApellidoDos}</td>
-                        <td>{users.Sexo}</td>
-                        <td>{users.Estado}</td>
-
-                        {index < dataCaja.length ? (
-                          <>
-                            <td>{dataCaja[index].Tipo}</td>
-                            <td>{dataCaja[index].Email}</td>
-                            <td>
-                              {dataCaja[index].Contrasena?.length
-                                ? "*".repeat(dataCaja[index].Contrasena.length)
-                                : "*"}
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </>
-                        )}
+                    {userData.map((user) => (
+                      <tr key={user.Cedula}>
+                        <td>{user.Nombre ?? "-"}</td>
+                        <td>{user.ApellidoUno ?? "-"}</td>
+                        <td>{user.ApellidoDos ?? "-"}</td>
+                        <td>{user.TipoUsuario ?? "-"}</td>
+                        <td>{user.Email ?? "-"}</td>
+                        <td>{user.Estado ?? "-"}</td>
                         <td>
-                          <FaEdit className="iconsEdit" title="Editar." />
+                          {user.Contrasena?.length
+                            ? "*".repeat(user.Contrasena.length)
+                            : "*"}
+                        </td>
+                        <td>
+                          <FaEdit
+                            className="iconsEdit"
+                            title="Editar."
+                            onClick={() => handleEditClick(user)}
+                          />
                           <IoInformationCircleSharp
                             className="iconsInfo"
                             title="Más Información."
@@ -259,159 +476,7 @@ export default function Empleados() {
                 </table>
               </div>
             </section>
-            <section>
-              {isModalOpen && (
-                <div className="modal ">
-                  <button
-                    className="icon-close"
-                    onClick={handleModalClose}
-                    style={{
-                      background: "none",
-                      borderRadius: "10px",
-                      border: "1px solid",
-                      color: "#555",
-                      fontSize: "18px",
-                      cursor: "pointer",
-                      position: "absolute",
-                      top: "10px",
-                      right: "10px",
-                    }}
-                  >
-                    SALIR
-                  </button>
-                  <div
-                    className="modal-content"
-                    style={{
-                      background: "#f7f7f7",
-                      padding: "20px",
 
-                      top: "10px",
-                      borderRadius: "10px",
-                      boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-                    }}
-                  >
-                    <div className="linea" style={{ marginTop: "27px" }}></div>
-                    <section className="tabla-container">
-                      <table className="TablaEmpleados">
-                        <thead>
-                          <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Primer Apellido</th>
-                            <th>Segundo Apellido</th>
-                            <th>Fecha Nacimientos</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              10
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                            <td>
-                              Carlos
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                            <td>
-                              Flores
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                            <td>
-                              Rojas
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                            <td>
-                              23/01/1963
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </section>
-                    <div className="linea"></div>
-                    <div className="linea" style={{ marginTop: "27px" }}></div>
-                    <section className="tabla-container">
-                      <table className="TablaEmpleados">
-                        <thead>
-                          <tr>
-                            <th>Email</th>
-                            <th>Contraseña</th>
-                            <th>Tipo</th>
-                            <th>Tipo de Cédula</th>
-                            <th>Cédula</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              Carlos/-/flores1990@gmail.com
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                            <td>
-                              Kisaa90
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                            <td>
-                              Gerente
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                            <td>
-                              Nacional
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                            <td>
-                              102317282
-                              <FaPenSquare
-                                onClick={EditarOpen}
-                                className="iconsEdit"
-                                title="Editar."
-                              />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </section>
-                    <div className="linea"></div>
-                  </div>
-                </div>
-              )}
-            </section>
             <section>
               {isModalOpenDos && (
                 <div className="modal ">
@@ -555,6 +620,291 @@ export default function Empleados() {
             </section>
           </div>
         </div>
+        {isModalOpenOtro && (
+          <div className="modal">
+            <div className="modal-content">
+              <FaRegTimesCircle
+                className="iconsClose"
+                onClick={handleModalCloseOtro}
+              />
+
+              <form onSubmit={handleFormSubmitUsers}>
+                <div>
+                  <h3 className="textDos">
+                    Email
+                    <input
+                      type="text"
+                      className="inputRes"
+                      placeholder="Email"
+                      value={Email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </h3>
+                  <h3 className="textDos">
+                    Contraseña
+                    <input
+                      type="text"
+                      className="inputRes"
+                      placeholder="Contraseña"
+                      value={Contrasena}
+                      onChange={(e) => setContrasena(e.target.value)}
+                      required
+                    />
+                  </h3>
+                  <h3 className="textDos">
+                    Nombre
+                    <input
+                      type="text"
+                      className="inputRes"
+                      placeholder="Nombre"
+                      value={Nombre}
+                      onChange={(e) => setNombre(e.target.value)}
+                      required
+                    />
+                  </h3>
+                  <h3 className="textDos">
+                    Estado
+                    <select
+                      value={Estado}
+                      onChange={(e) => setEstado(e.target.value)}
+                      className="inputRes"
+                      id="Estado"
+                      name="Estado"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="Activo">Activo</option>
+                      <option value="Inactivo">Inactivo</option>
+                    </select>
+                  </h3>
+                  <h3 className="textDos">
+                    Primer Apellido
+                    <input
+                      type="text"
+                      className="inputRes"
+                      placeholder="Primer Apellido"
+                      value={ApellidoUno}
+                      onChange={(e) => setApellidoUno(e.target.value)}
+                      required
+                    />
+                  </h3>
+                  <h3 className="textDos">
+                    Segundo Apellido
+                    <input
+                      type="text"
+                      className="inputRes"
+                      placeholder="Segundo Apellido"
+                      value={ApellidoDos}
+                      onChange={(e) => setApellidoDos(e.target.value)}
+                      required
+                    />
+                  </h3>
+                  <h3 className="textDos">
+                    Fecha Nacimiento
+                    <input
+                      type="date"
+                      className="textTres"
+                      id="fechaNacimiento"
+                      name="fechaNacimiento"
+                      onChange={handleFechaNacimientoChange}
+                      required
+                    ></input>
+                  </h3>
+                  <h3 className="textDos">
+                    Tipo de cédula
+                    <select
+                      className="inputRes"
+                      id="Tipo"
+                      name="Tipo"
+                      value={TipoCedula}
+                      onChange={(e) => setTipoCedula(e.target.value)}
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="Cédula nacional"> Cédula nacional</option>
+                      <option value="Cédula de Indígena">
+                        Cédula de Indígena
+                      </option>
+                      <option value="Cédula de Residencia">
+                        Cédula de Residencia
+                      </option>
+                      <option value="Pasaporte">Pasaporte</option>
+                      <option value="Carné de estudiante">
+                        Carné de estudiante
+                      </option>
+                    </select>
+                  </h3>
+                  <h3 className="textDos">
+                    Cédula
+                    <input
+                      type="text"
+                      className="inputRes"
+                      placeholder="Cédula"
+                      value={Cedula}
+                      onChange={(e) => setCedula(e.target.value)}
+                    />
+                  </h3>
+                  <h3 className="textDos">
+                    Rol Del Usuario
+                    <select
+                      value={TipoUsuario}
+                      onChange={(e) => setTipoUsuario(e.target.value)}
+                      className="inputRes"
+                      id="rol"
+                      name="rol"
+                    >
+                      <option value="">Seleccione una opción</option>
+                      <option value="Empleado">Empleado</option>
+                      <option value="Gerente">Gerente</option>
+                    </select>
+                  </h3>
+                  <button className="botonRes" type="submit">
+                    Agregar Usuario
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+        {showModalEdit && (
+          <div className="modal">
+            <div className="modal-content">
+              <FaRegTimesCircle
+                className="iconsClose"
+                onClick={handleModalCloseEdit}
+              />
+              <form onSubmit={handleEdit}>
+                <h3 className="textDos">Cédula:</h3>
+                <input
+                  type="number"
+                  className="inputRes"
+                  value={formData.Cedula}
+                  onChange={(e) =>
+                    setFormData({ ...formData, Cedula: e.target.value })
+                  }
+                  required
+                />
+                <h3 className="textDos">Tipo De Cédula:</h3>
+                <select
+                  className="inputRes"
+                  value={formData.TipoCedula}
+                  onChange={(e) =>
+                    setFormData({ ...formData, TipoCedula: e.target.value })
+                  }
+                >
+                  <option value="">Seleccione una opción</option>
+                  <option value="Cédula nacional"> Cédula nacional</option>
+                  <option value="Cédula de Indígena">Cédula de Indígena</option>
+                  <option value="Cédula de Residencia">
+                    Cédula de Residencia
+                  </option>
+                  <option value="Pasaporte">Pasaporte</option>
+                  <option value="Carné de estudiante">
+                    Carné de estudiante
+                  </option>
+                </select>
+
+                <h3 className="textDos">Nombre:</h3>
+                <input
+                  type="text"
+                  className="inputRes"
+                  value={formData.Nombre}
+                  placeholder="Nombre"
+                  onChange={(e) =>
+                    setFormData({ ...formData, Nombre: e.target.value })
+                  }
+                  required
+                />
+                <h3 className="textDos">Primer Apellido:</h3>
+                <input
+                  type="text"
+                  value={formData.ApellidoUno}
+                  className="inputRes"
+                  placeholder="Apellido"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      ApellidoUno: e.target.value,
+                    })
+                  }
+                  required
+                />
+                <h3 className="textDos">Segundo Apellido:</h3>
+                <input
+                  type="text"
+                  className="inputRes"
+                  value={formData.ApellidoDos}
+                  placeholder="Apellido"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      ApellidoDos: e.target.value,
+                    })
+                  }
+                  required
+                />
+                <h3 className="textDos">
+                  Fecha Nacimiento
+                  <input
+                    type="date"
+                    className="textTres"
+                    id="fechaNacimiento"
+                    name="fechaNacimiento"
+                    onChange={handleFechaNacimientoChange}
+                    required
+                  ></input>
+                </h3>
+                <h3 className="textDos">Estado:</h3>
+                <select
+                  className="inputRes"
+                  value={formData.Estado}
+                  onChange={(e) =>
+                    setFormData({ ...formData, Estado: e.target.value })
+                  }
+                >
+                  <option value="">Seleccione una opción</option>
+                  <option value="Activo">Activo</option>
+                  <option value="Inactivo">Inactivo</option>
+                </select>
+
+                <h3 className="textDos">Correo:</h3>
+                <input
+                  type="text"
+                  className="inputRes"
+                  value={formData.Email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, Email: e.target.value })
+                  }
+                  required
+                />
+                <h3 className="textDos">Contraseña:</h3>
+                <input
+                  type="password"
+                  className="inputRes"
+                  value={formData.Contrasena}
+                  onChange={(e) =>
+                    setFormData({ ...formData, Contrasena: e.target.value })
+                  }
+                  required
+                />
+                <h3 className="textDos">Tipo De Usuario:</h3>
+                <select
+                  className="inputRes"
+                  value={formData.TipoUsuario}
+                  onChange={(e) =>
+                    setFormData({ ...formData, TipoUsuario: e.target.value })
+                  }
+                >
+                  <option value="">Seleccione una opción</option>
+                  <option value="Empleado">Empleado</option>
+                  <option value="Gerente">Gerente</option>
+                </select>
+                <button className="botonRes" type="submit">
+                  Editar Usuario
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

@@ -37,22 +37,11 @@ export default function RegistrarEmpleados() {
   const [TipoCedula, setTipoCedula] = useState("");
   const [Cedula, setCedula] = useState("");
   const [Tipo, setTipo] = useState("");
-  const [Sexo, setSexo] = useState("");
-  const [Estado, setEstado] = useState("");
+  const [TipoUsuario, setTipoUsuario] = useState("");
 
-  //Obtiene las variables de fecha
-  function obtenerFechaActual(): Date {
-    return new Date();
-  }
-
-  const fechaActual: Date = obtenerFechaActual();
-
-  const Ano: number = fechaActual.getFullYear();
-  const Mes: number = fechaActual.getMonth() + 1; // El mes es zero-indexed, por eso sumamos 1
-  const Dia: number = fechaActual.getDate();
-
-  console.log("Fecha actual:", fechaActual);
-  console.log(`Año: ${Ano}, Mes: ${Mes}, Día: ${Dia}`);
+  const [Ano, setAno] = useState("");
+  const [Mes, setMes] = useState("");
+  const [Dia, setDia] = useState("");
 
   //Agregar Usuario
   const handleFormSubmitExtintor = async (event: React.FormEvent) => {
@@ -73,10 +62,9 @@ export default function RegistrarEmpleados() {
 
       const empleadosData = {
         Nombre,
-        Sexo,
         ApellidoUno,
         ApellidoDos,
-        Estado,
+        TipoUsuario,
       };
       const fechaData = {
         Ano,
@@ -87,7 +75,6 @@ export default function RegistrarEmpleados() {
       await addDoc(collection(db, "Productos"), UsersData);
       await addDoc(collection(db, "Extintores"), empleadosData);
       await addDoc(collection(db, "FechaEntrada"), fechaData);
-       
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
@@ -103,6 +90,19 @@ export default function RegistrarEmpleados() {
     setStep(step - 1);
   };
 
+  //
+  const handleFechaNacimientoChange = (event: { target: { value: any } }) => {
+    const fecha = event.target.value;
+    const partesFecha = fecha.split(" ");
+
+    // Asignar a las variables correspondientes
+    if (partesFecha.length === 3) {
+      setAno(partesFecha[0]);
+      setMes(partesFecha[1]);
+      setDia(partesFecha[2]);
+    }
+  };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -110,22 +110,37 @@ export default function RegistrarEmpleados() {
           <div className="contenedorRegistro">
             <div className="formReg">
               <h2 className="textUno">Paso 1: Email y contraseña</h2>
-              <div className="contenedorInput">
-                <h3 className="textDos">
-                  Email
-                  <input type="text" className="inputRes" placeholder=""/>
-                </h3>
-                <h3 className="textDos">
-                  Contraseña
-                  <input type="password" className="inputRes" />
-                </h3>
-              </div>
-              <a className="botonRes" href="./Empleados">
-                Atrás
-              </a>
-              <button className="botonRes" onClick={nextStep}>
-                Siguiente
-              </button>
+              <form action="">
+                <div className="contenedorInput">
+                  <h3 className="textDos">
+                    Email
+                    <input
+                      type="text"
+                      className="inputRes"
+                      placeholder="Email"
+                      value={Email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </h3>
+                  <h3 className="textDos">
+                    Contraseña
+                    <input
+                      type="password"
+                      className="inputRes"
+                      value={Contrasena}
+                      onChange={(e) => setContrasena(e.target.value)}
+                      required
+                    />
+                  </h3>
+                </div>
+                <a className="botonRes" href="./Empleados">
+                  Atrás
+                </a>
+                <button className="botonRes" onClick={nextStep}>
+                  Siguiente
+                </button>
+              </form>
             </div>
           </div>
         );
@@ -137,15 +152,36 @@ export default function RegistrarEmpleados() {
               <div className="contenedorInput">
                 <h3 className="textDos">
                   Nombre
-                  <input type="text" className="inputRes" placeholder=""/>
+                  <input
+                    type="text"
+                    className="inputRes"
+                    placeholder="Nombre"
+                    value={Nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    required
+                  />
                 </h3>
                 <h3 className="textDos">
                   Primer Apellido
-                  <input type="text" className="inputRes" />
+                  <input
+                    type="text"
+                    className="inputRes"
+                    placeholder="Primer Apellido"
+                    value={ApellidoUno}
+                    onChange={(e) => setApellidoUno(e.target.value)}
+                    required
+                  />
                 </h3>
                 <h3 className="textDos">
                   Segundo Apellido
-                  <input type="text" className="inputRes" />
+                  <input
+                    type="text"
+                    className="inputRes"
+                    placeholder="Segundo Apellido"
+                    value={ApellidoDos}
+                    onChange={(e) => setApellidoDos(e.target.value)}
+                    required
+                  />
                 </h3>
                 <h3 className="textDos">
                   Fecha Nacimiento
@@ -154,6 +190,7 @@ export default function RegistrarEmpleados() {
                     className="textTres"
                     id="fechaNacimiento"
                     name="fechaNacimiento"
+                    onChange={handleFechaNacimientoChange}
                     required
                   ></input>
                 </h3>
@@ -176,17 +213,49 @@ export default function RegistrarEmpleados() {
               <div className="contenedorInput">
                 <h3 className="textDos">
                   Tipo de cédula
-                  <input type="text" className="inputRes" />
+                  <select
+                    className="inputRes"
+                    id="Tipo"
+                    name="Tipo"
+                    value={TipoCedula}
+                    onChange={(e) => setTipoCedula(e.target.value)}
+                  >
+                    <option value="">Seleccione una opción</option>
+                    <option value="Cédula nacional"> Cédula nacional</option>
+                    <option value="Cédula de Indígena">
+                      Cédula de Indígena
+                    </option>
+                    <option value="Cédula de Residencia">
+                      Cédula de Residencia
+                    </option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="Carné de estudiante">
+                      Carné de estudiante
+                    </option>
+                  </select>
                 </h3>
                 <h3 className="textDos">
                   Cédula
-                  <input type="text" className="inputRes" />
+                  <input
+                    type="text"
+                    className="inputRes"
+                    placeholder="Cédula"
+                    value={Cedula}
+                    onChange={(e) => setCedula(e.target.value)}
+                  />
                 </h3>
                 <h3 className="textDos">
-                  Rol
-                  <select className="rol" id="rol" name="rol">
-                    <option value="gerente">Gerente</option>
-                    <option value="empleado">Empleado</option>
+                  Rol Del Usuario
+                  <select
+                    value={TipoUsuario}
+                    onChange={(e) => setTipoUsuario(e.target.value)}
+                    className="inputRes"
+                    id="rol"
+                    name="rol"
+                  >
+                    <option value="">Seleccione una opción</option>
+                    <option value="Empleado">Empleado</option>
+                    <option value="Gerente">Gerente</option>
                   </select>
                 </h3>
               </div>
