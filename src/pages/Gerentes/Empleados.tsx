@@ -4,6 +4,7 @@ import {
   FaPenSquare,
   FaEdit,
   FaRegTimesCircle,
+  FaDumpsterFire,
 } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import Link from "next/link";
@@ -20,6 +21,7 @@ import {
   addDoc,
   updateDoc,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
 import firebaseConfig from "@/firebase/config";
 import { initializeApp } from "firebase/app";
@@ -28,6 +30,7 @@ import "firebase/compat/firestore";
 import {
   User,
   createUserWithEmailAndPassword,
+  deleteUser,
   updateEmail,
   updatePassword,
 } from "firebase/auth";
@@ -38,6 +41,7 @@ export default function Empleados() {
   const [isModalOpen, setIsEditarOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   //Variables
   const [Email, setEmail] = useState("");
   const [Contrasena, setContrasena] = useState("");
@@ -89,16 +93,74 @@ export default function Empleados() {
   };
   //Modals Eliminar
 
-  useEffect(() => {
-    if (isModalOpenTres) {
+  const handleDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+  const handleConfirmDelete = () => {
+    handleDeleteUser(Cedula);
+    setShowDeleteModal(false);
+  };
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+  };
+  //Eliminar de la fireBase.
+  const handleDeleteUser = async (Cedula: string) => {
+    try {
+      const employeesQuery = await getDocs(
+        query(
+          collection(db, "Usuarios"),
+          where("Cedula", "==", Cedula)
+        )
+      );
+
+      if (!employeesQuery.empty) {
+        // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
+        const employeeDoc = employeesQuery.docs[0];
+        const userId = employeeDoc.data().Cedula;
+
+        // Eliminamos el documento del empleado
+        const employeeRef = doc(db, "Usuarios", employeeDoc.id);
+        await deleteDoc(employeeRef);
+
+        // Buscamos el documento del usuario relacionado al empleado
+        const usersQuery = await getDocs(
+          query(collection(db, "Usuarios"), where("Cedula", "==", userId))
+        );
+
+        if (!usersQuery.empty) {
+          // Si se encuentra un usuario con la misma cédula, elimina el documento del usuario
+          const userDoc = usersQuery.docs[0];
+          const userRef = doc(db, "Usuarios", userDoc.id);
+          await deleteDoc(userRef);
+
+          // Eliminamos también la cuenta en auth del usuario
+          const userToDeleteEmail = userDoc.data().email;
+          const currentUser = auth.currentUser;
+
+          if (currentUser && currentUser.email === userToDeleteEmail) {
+            await deleteUser(currentUser);
+
+             
+          } else {
+            console.log(
+              "El usuario no está autenticado o no coincide con el usuario a eliminar."
+            );
+          }
+        } else {
+          console.log(
+            "No se encontró ningún usuario con la cédula especificada."
+          );
+        }
+      } else {
+        console.log(
+          "No se encontró ningún empleado con la cédula especificada."
+        );
+      }
+    } catch (error) {
+       
     }
-  }, [isModalOpenTres]);
-  const handleModalOpenTres = () => {
-    setIsModalOpenTres(true);
   };
-  const handleModalCloseTres = () => {
-    setIsModalOpenTres(false);
-  };
+
 
   const handleFormSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -468,6 +530,10 @@ export default function Empleados() {
                           <FaTrash
                             className="iconsEliminar"
                             title="Eliminar."
+                            onClick={() => {
+                              handleDeleteModal();
+                              setCedula(user.Cedula);
+                            }}
                           />
                         </td>
                       </tr>
@@ -506,88 +572,6 @@ export default function Empleados() {
                     >
                       SALIR
                     </button>
-                  </div>
-                </div>
-              )}
-            </section>
-            <section>
-              {isModalOpenTres && (
-                <div className="modal ">
-                  <button
-                    className="icon-close"
-                    onClick={handleModalCloseTres}
-                    style={{
-                      background: "none",
-                      borderRadius: "10px",
-                      border: "1px solid",
-                      color: "#555",
-                      fontSize: "18px",
-                      cursor: "pointer",
-                      position: "absolute",
-                      top: "10px",
-                      right: "10px",
-                    }}
-                  >
-                    SALIR
-                  </button>
-                  <div
-                    className="modal-content"
-                    style={{
-                      background: "#f7f7f7",
-                      padding: "20px",
-                      top: "10px",
-                      borderRadius: "10px",
-                      boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-                    }}
-                  >
-                    <div className="linea" style={{ marginTop: "27px" }}></div>
-                    <section className="tabla-container">
-                      <table className="TablaEmpleados">
-                        <thead>
-                          <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Primer Apellido</th>
-                            <th>Segundo Apellido</th>
-                            <th>Fecha Nacimientos</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>10 </td>
-                            <td>Carlos </td>
-                            <td>Flores </td>
-                            <td>Rojas</td>
-                            <td>23/01/1963</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </section>
-                    <div className="linea"></div>
-                    <div className="linea" style={{ marginTop: "27px" }}></div>
-                    <section className="tabla-container">
-                      <table className="TablaEmpleados">
-                        <thead>
-                          <tr>
-                            <th>Email</th>
-                            <th>Contraseña</th>
-                            <th>Tipo</th>
-                            <th>Tipo de Cédula</th>
-                            <th>Cédula</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Carlos/-/flores1990@gmail.com </td>
-                            <td>Kisaa90 </td>
-                            <td>Gerente </td>
-                            <td>Nacional </td>
-                            <td>102317282 </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </section>
-                    <div className="linea"></div>
                   </div>
                 </div>
               )}
@@ -905,6 +889,22 @@ export default function Empleados() {
             </div>
           </div>
         )}
+        {showDeleteModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <p className="textDos">
+              <FaDumpsterFire className="iconsClose" />
+              ¿Estás seguro de qué quieres eliminar este usuario?
+            </p>
+            <button className="botonRes" onClick={handleConfirmDelete}>
+              Sí
+            </button>
+            <button className="botonRes" onClick={handleCancelDelete}>
+              No
+            </button>
+          </div>
+        </div>
+      )}
       </div>
     </>
   );

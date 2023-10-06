@@ -21,9 +21,9 @@ export default function IndexInicioSesion() {
   const auth = getAuth(app);
 
   const [VerContrasena, setVerContrasena] = useState(false);
-  const [Password, setPassword] = useState("");
+  const [Contrasena, setPassword] = useState("");
   const [Email, setEmail] = useState("");
-  const [SelectedOption, setSelectedOption] = useState("Opciones");
+   
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpenError, setIsModalOpenError] = useState(false);
@@ -33,14 +33,15 @@ export default function IndexInicioSesion() {
 
 
 
-  const handleLogin = async () => {
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
-      if (Email.trim() === "" || Password.trim() === "") {
+      if (Email.trim() === "" || Contrasena.trim() === "") {
         setErrorMessage("Por favor, ingrese todos los datos.");
         setIsModalOpenError(true);
         return;
       }
-      await signInWithEmailAndPassword(auth, Email, Password);
+      await signInWithEmailAndPassword(auth, Email, Contrasena);
 
       const user = auth.currentUser;
       const userEmail = user?.email;
@@ -52,7 +53,7 @@ export default function IndexInicioSesion() {
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
-        const userType = userData.Tipo;
+        const userType = userData.TipoUsuario;
         if (userType === "Empleado") {
           router.push("/Empleados/ProductosEm");
         } else if (userType === "Gerente") {
@@ -86,9 +87,7 @@ export default function IndexInicioSesion() {
     setVerContrasena(!VerContrasena);
   };
 
-  const opcionElegida = (option: string) => {
-    setSelectedOption(option);
-  };
+  
 
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -150,7 +149,7 @@ export default function IndexInicioSesion() {
                 <input
                   type={VerContrasena ? "text" : "password"}
                   className="input"
-                  value={Password}
+                  value={Contrasena}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
