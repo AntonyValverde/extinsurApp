@@ -28,9 +28,11 @@ import { initializeApp } from "firebase/app";
 import "firebase/firestore";
 import "firebase/compat/firestore";
 import {
+  EmailAuthProvider,
   User,
   createUserWithEmailAndPassword,
   deleteUser,
+  reauthenticateWithCredential,
   updateEmail,
   updatePassword,
 } from "firebase/auth";
@@ -107,10 +109,7 @@ export default function Empleados() {
   const handleDeleteUser = async (Cedula: string) => {
     try {
       const employeesQuery = await getDocs(
-        query(
-          collection(db, "Usuarios"),
-          where("Cedula", "==", Cedula)
-        )
+        query(collection(db, "Usuarios"), where("Cedula", "==", Cedula))
       );
 
       if (!employeesQuery.empty) {
@@ -126,41 +125,15 @@ export default function Empleados() {
         const usersQuery = await getDocs(
           query(collection(db, "Usuarios"), where("Cedula", "==", userId))
         );
-
-        if (!usersQuery.empty) {
-          // Si se encuentra un usuario con la misma cédula, elimina el documento del usuario
-          const userDoc = usersQuery.docs[0];
-          const userRef = doc(db, "Usuarios", userDoc.id);
-          await deleteDoc(userRef);
-
-          // Eliminamos también la cuenta en auth del usuario
-          const userToDeleteEmail = userDoc.data().email;
-          const currentUser = auth.currentUser;
-
-          if (currentUser && currentUser.email === userToDeleteEmail) {
-            await deleteUser(currentUser);
-
-             
-          } else {
-            console.log(
-              "El usuario no está autenticado o no coincide con el usuario a eliminar."
-            );
-          }
-        } else {
-          console.log(
-            "No se encontró ningún usuario con la cédula especificada."
-          );
-        }
       } else {
         console.log(
           "No se encontró ningún empleado con la cédula especificada."
         );
       }
     } catch (error) {
-       
+      console.log("No se elimino.");
     }
   };
-
 
   const handleFormSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -351,96 +324,77 @@ export default function Empleados() {
     });
     setShowModalEdit(true);
   };
-  const handleEdit = async (event: React.FormEvent) => {
+  const handleEdit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
     try {
       const employeesQuery = await getDocs(
-        query(collection(db, "Usuarios"), where("Cedula", "==", Cedula))
+        query(
+          collection(db, "Usuarios"),
+          where("Cedula", "==", formData.Cedula)
+        )
       );
 
       if (!employeesQuery.empty) {
-        const employeeDoc = employeesQuery.docs[0];
-        const employeeId = employeeDoc.id;
-
-        // Crea un objeto que contenga los campos que deseas actualizar en "registroempleados".
-        const updatedEmployeeData = {
-          Email: Email,
-          Contrasena: Contrasena,
-          TipoCedula: TipoCedula,
-          Cedula: Cedula,
-          Nombre: Nombre,
-          Estado: Estado,
-          ApellidoUno: ApellidoUno,
-          ApellidoDos: ApellidoDos,
-          Ano: Ano,
-          Mes: Mes,
-          Dia: Dia,
-          TipoUsuario: TipoUsuario,
-        };
-
-        // Actualiza el documento de "registroempleados".
-        await updateDoc(doc(db, "Usuarios", employeeId), updatedEmployeeData);
-
+        console.log("Cedula hallada");
         const usersQuery = await getDocs(
-          query(collection(db, "Usuarios"), where("Cedula", "==", Cedula))
+          query(
+            collection(db, "Usuarios"),
+            where("Cedula", "==", formData.Cedula)
+          )
         );
 
         if (!usersQuery.empty) {
-          // Validamos si ese usuario tiene esa cédula.
           const userDoc = usersQuery.docs[0];
           const userId = userDoc.id;
 
-          //Creamos el objeto para los campos que deseamos actualizar en "usuarios".
+          // Creamos un objeto con los campos actualizados para el usuario
           const updatedUserData = {
-            Email: Email,
-            Contrasena: Contrasena,
-            TipoCedula: TipoCedula,
-            Cedula: Cedula,
-            Nombre: Nombre,
-            Estado: Estado,
-            ApellidoUno: ApellidoUno,
-            ApellidoDos: ApellidoDos,
-            Ano: Ano,
-            Mes: Mes,
-            Dia: Dia,
-            TipoUsuario: TipoUsuario,
+            Email: formData.Email,
+            Contrasena: formData.Contrasena,
+            TipoCedula: formData.TipoCedula,
+            Cedula: formData.Cedula,
+            Nombre: formData.Nombre,
+            Estado: formData.Estado,
+            ApellidoUno: formData.ApellidoUno,
+            ApellidoDos: formData.ApellidoDos,
+            Ano: formData.Ano,
+            Mes: formData.Mes,
+            Dia: formData.Dia,
+            TipoUsuario: formData.TipoUsuario,
           };
 
-          // Actualizamos el documento del usuario que editamos en "usuarios".
+          // Actualizamos el documento de usuario
           await updateDoc(doc(db, "Usuarios", userId), updatedUserData);
-        }
 
-        if (Contrasena) {
-          // Verificamos si hay un usuario autenticado antes de intentar actualizar la contraseña
-          if (auth.currentUser) {
-            await updatePassword(auth.currentUser, Contrasena);
-          } else {
-            console.error(
-              "No hay un usuario autenticado para actualizar la contraseña"
-            );
+          //Actualizará la información si se cambió el correo
+          if (formData.Email && formData.Email !== formData.Email) {
+            const user = auth.currentUser;
+            if (user) {
+              // Aquí reautenciamos al usuario antes de cambiar el correo
+              const credential = EmailAuthProvider.credential(
+                user.email!,
+                formData.Contrasena // No sea nulo
+              );
+
+              try {
+                await reauthenticateWithCredential(user, credential);
+                await updateEmail(user, formData.Email);
+              } catch (error) {
+                console.error(
+                  "Error al reautenticar o actualizar el correo electrónico:",
+                  error
+                );
+              }
+            }
           }
         }
-
-        // Se actualiza el correo electrónico si se digita uno nuevo en auth
-        if (Email !== auth.currentUser?.email) {
-          // Verificamos si hay un usuario autenticado antes de intentar actualizar el correo electrónico
-          if (auth.currentUser) {
-            await updateEmail(auth.currentUser, Email);
-          } else {
-            console.error(
-              "No hay un usuario autenticado para actualizar el correo electrónico"
-            );
-          }
-        }
+       
       }
-
-      handleModalCloseEdit();
-
-      // Muestra una notificación de éxito.
     } catch (error) {
       console.error("Error al editar empleado y usuario:", error);
     }
+    setShowModalEdit(false);
   };
 
   return (
@@ -890,21 +844,21 @@ export default function Empleados() {
           </div>
         )}
         {showDeleteModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <p className="textDos">
-              <FaDumpsterFire className="iconsClose" />
-              ¿Estás seguro de qué quieres eliminar este usuario?
-            </p>
-            <button className="botonRes" onClick={handleConfirmDelete}>
-              Sí
-            </button>
-            <button className="botonRes" onClick={handleCancelDelete}>
-              No
-            </button>
+          <div className="modal">
+            <div className="modal-content">
+              <p className="textDos">
+                <FaDumpsterFire className="iconsClose" />
+                ¿Estás seguro de qué quieres eliminar este usuario?
+              </p>
+              <button className="botonRes" onClick={handleConfirmDelete}>
+                Sí
+              </button>
+              <button className="botonRes" onClick={handleCancelDelete}>
+                No
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </>
   );
