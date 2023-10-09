@@ -3,11 +3,31 @@ import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 import Link from "next/link";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  updateDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
+import firebaseConfig from "@/firebase/config";
+import { initializeApp } from "firebase/app";
+import "firebase/firestore";
+import "firebase/compat/firestore";
 
 export default function Ubicacion() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
+  //Tablas
+  const [UbicationData, setUbicationData] = useState<any[]>([]);
+  //Conexion fireBase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -87,6 +107,23 @@ export default function Ubicacion() {
     setShowColors(!showColors);
   };
 
+  //Consume tabla de Ubicacion
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Ubicacion"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setUbicationData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
       <div className="bodySidebar">
@@ -135,44 +172,24 @@ export default function Ubicacion() {
                 <table className="TablaEmpleados">
                   <thead>
                     <tr>
-                      <th>Fecha</th>
-                      <th>Ubicación</th>
+                      <th>Descipcion</th>
+                      <th>Horario</th>
                       <th>Dirección</th>
-                      <th>Tiempo</th>
+                       
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>24/03/2022</td>
-                      <td>Ciudad Neily frente al instituto cated</td>
-                      <td>https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7</td>
-                      <td>4 Horas</td>
-
-                      <td>
-                        <FaEdit className="iconsEdit" title="Editar." />
-                        <IoInformationCircleSharp
-                          className="iconsInfo"
-                          title="Más Información."
-                        />
-                        <FaTrash className="iconsEliminar" title="Eliminar." />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>14/04/2021</td>
-                      <td>Rio claro frente la bomba</td>
-                      <td>https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6</td>
-                      <td>6 horas</td>
-
-                      <td>
-                        <FaEdit className="iconsEdit" title="Editar." />
-                        <IoInformationCircleSharp
-                          className="iconsInfo"
-                          title="Más Información."
-                        />
-                        <FaTrash className="iconsEliminar" title="Eliminar." />
-                      </td>
-                    </tr>
+                    {UbicationData.map((users) => (
+                      <tr key={users.Link}>
+                        <td>{users.Descripcion ?? "-"}</td>
+                        <td>
+                          {users.HoraInicio ?? "-"}
+                        </td>
+                        <td>{users.Link ?? "-"}</td>
+                         
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

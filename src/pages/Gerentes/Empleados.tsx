@@ -29,12 +29,9 @@ import "firebase/firestore";
 import "firebase/compat/firestore";
 import {
   EmailAuthProvider,
-  User,
   createUserWithEmailAndPassword,
-  deleteUser,
   reauthenticateWithCredential,
   updateEmail,
-  updatePassword,
 } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 
@@ -804,26 +801,7 @@ export default function Empleados() {
                   <option value="Inactivo">Inactivo</option>
                 </select>
 
-                <h3 className="textDos">Correo:</h3>
-                <input
-                  type="text"
-                  className="inputRes"
-                  value={formData.Email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, Email: e.target.value })
-                  }
-                  required
-                />
-                <h3 className="textDos">Contraseña:</h3>
-                <input
-                  type="password"
-                  className="inputRes"
-                  value={formData.Contrasena}
-                  onChange={(e) =>
-                    setFormData({ ...formData, Contrasena: e.target.value })
-                  }
-                  required
-                />
+                
                 <h3 className="textDos">Tipo De Usuario:</h3>
                 <select
                   className="inputRes"
