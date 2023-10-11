@@ -681,7 +681,7 @@ export default function Productos() {
 
                       return (
                         <tr key={users.Codigo}>
-                          <td>
+                          <td className="code">
                             {userDataIndex !== null
                               ? productData[userDataIndex].Codigo
                               : ""}

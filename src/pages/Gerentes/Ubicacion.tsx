@@ -3,17 +3,7 @@ import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 import Link from "next/link";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  query,
-  where,
-  addDoc,
-  updateDoc,
-  doc,
-  deleteDoc,
-} from "firebase/firestore";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 import firebaseConfig from "@/firebase/config";
 import { initializeApp } from "firebase/app";
 import "firebase/firestore";
@@ -109,7 +99,7 @@ export default function Ubicacion() {
 
   //Consume tabla de Ubicacion
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDates = async () => {
       try {
         const querydb = await getDocs(collection(db, "Ubicacion"));
         const data: React.SetStateAction<any[]> = [];
@@ -122,7 +112,7 @@ export default function Ubicacion() {
       }
     };
 
-    fetchData();
+    fetchDates();
   }, []);
   return (
     <>
@@ -175,21 +165,47 @@ export default function Ubicacion() {
                       <th>Descipcion</th>
                       <th>Horario</th>
                       <th>Dirección</th>
-                       
+
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {UbicationData.map((users) => (
-                      <tr key={users.Link}>
-                        <td>{users.Descripcion ?? "-"}</td>
-                        <td>
-                          {users.HoraInicio ?? "-"}
-                        </td>
-                        <td>{users.Link ?? "-"}</td>
-                         
-                      </tr>
-                    ))}
+                    {UbicationData.map((users, index) => {
+                      const userDataIndex =
+                        index < UbicationData.length ? index : null;
+
+                      return (
+                        <tr key={users.Descipcion}>
+                          <td>
+                            {userDataIndex !== null
+                              ? UbicationData[userDataIndex].Descipcion
+                              : ""}
+                          </td>
+                          <td>
+                            {userDataIndex !== null
+                              ? UbicationData[userDataIndex].HoraInicio
+                              : ""}
+                            /{" "}
+                            {userDataIndex !== null
+                              ? UbicationData[userDataIndex].HoraCierre
+                              : ""}
+                          </td>
+                          <td>
+                            {userDataIndex !== null
+                              ? UbicationData[userDataIndex].Link
+                              : ""}
+                          </td>
+
+                          <td>
+                            <IoInformationCircleSharp
+                              onClick={handleModalOpen}
+                              className="iconsInfo"
+                              title="Más Información."
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

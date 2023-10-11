@@ -176,7 +176,7 @@ export default function Empleados() {
   const toggleColorVisibility = () => {
     setShowColors(!showColors);
   };
-  //Consume tabla de Empleados/Usuarios
+  //Consume tabla de Usuarios
   useEffect(() => {
     const fetchData = async () => {
       try {
