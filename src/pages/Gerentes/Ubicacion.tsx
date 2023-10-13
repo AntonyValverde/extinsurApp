@@ -175,7 +175,7 @@ export default function Ubicacion() {
                         index < UbicationData.length ? index : null;
 
                       return (
-                        <tr key={users.Descipcion}>
+                        <tr key={users.Link}>
                           <td>
                             {userDataIndex !== null
                               ? UbicationData[userDataIndex].Descipcion
