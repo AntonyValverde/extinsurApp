@@ -379,22 +379,22 @@ export default function Productos() {
                   <div className="modal">
                     <div className="modal-content">
                       <FaRegTimesCircle
-                        className="icon-closed"
+                        className="iconsClose"
                         onClick={handleModalCloseDos}
                       />
                       <form onSubmit={handleFormSubmitExtintor}>
-                        <label className="inputForm">Cantidad:</label>
+                        <label className="textDos">Cantidad:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="number"
                           value={Cantidad}
                           placeholder="1"
                           onChange={(e) => setCantidad(e.target.value)}
                           required
                         />
-                        <label className="inputForm">Codigo:</label>
+                        <label className="textDos">Codigo:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="number"
                           value={Codigo}
                           placeholder="Codigo"
@@ -402,45 +402,45 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="inputForm">Tipo:</label>
+                        <label className="textDos">Tipo:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={Tipo}
                           placeholder="Tipo"
                           onChange={(e) => setTipo(e.target.value)}
                           required
                         />
-                        <label className="inputForm">Agente:</label>
+                        <label className="textDos">Agente:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={Agente}
                           placeholder="Agente"
                           onChange={(e) => setAgente(e.target.value)}
                           required
                         />
-                        <label className="inputForm">Clase:</label>
+                        <label className="textDos">Clase:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={Clase}
                           placeholder="Clase"
                           onChange={(e) => setClase(e.target.value)}
                           required
                         />
-                        <label className="inputForm">Bodega:</label>
+                        <label className="textDos">Bodega:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={Bodega}
                           placeholder="Bodega"
                           onChange={(e) => setBodega(e.target.value)}
                           required
                         />
-                        <label className="inputForm">Peso:</label>
+                        <label className="textDos">Peso:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={Peso}
                           placeholder="Peso"
@@ -448,18 +448,18 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="inputForm">Precio Compra:</label>
+                        <label className="textDos">Precio Compra:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={PrecioCompra}
                           placeholder="Precio Compra"
                           onChange={(e) => setPrecioCompra(e.target.value)}
                           required
                         />
-                        <label className="inputForm">Precio Venta:</label>
+                        <label className="textDos">Precio Venta:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="number"
                           value={PrecioVenta}
                           placeholder="Precio Venta"
@@ -481,22 +481,22 @@ export default function Productos() {
                   <div className="modal">
                     <div className="modal-content">
                       <FaRegTimesCircle
-                        className="icon-closed"
+                        className="iconsClose"
                         onClick={handleModalCloseTres}
                       />
                       <form onSubmit={handleFormSubmitRotulos}>
-                        <label className="textForm">Cantidad:</label>
+                        <label className="textDos">Cantidad:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="number"
                           value={Cantidad}
                           placeholder="1"
                           onChange={(e) => setCantidad(e.target.value)}
                           required
                         />
-                        <label className="textForm">Codigo:</label>
+                        <label className="textDos">Codigo:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="number"
                           value={Codigo}
                           placeholder="Codigo"
@@ -504,9 +504,9 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="textForm">Nombre:</label>
+                        <label className="textDos">Nombre:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={Nombre}
                           placeholder="Nombre"
@@ -514,9 +514,9 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="textForm">Bodega:</label>
+                        <label className="textDos">Bodega:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={Bodega}
                           placeholder="Bodega"
@@ -524,18 +524,18 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="textForm">Precio Compra:</label>
+                        <label className="textDos">Precio Compra:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="text"
                           value={PrecioCompra}
                           placeholder="Precio Compra"
                           onChange={(e) => setPrecioCompra(e.target.value)}
                           required
                         />
-                        <label className="textForm">Precio Venta:</label>
+                        <label className="textDos">Precio Venta:</label>
                         <input
-                          className="inputForm"
+                          className="inputRes"
                           type="number"
                           value={PrecioVenta}
                           placeholder="Precio Venta"
@@ -557,20 +557,22 @@ export default function Productos() {
                   <div className="modal">
                     <div className="modal-content">
                       <FaRegTimesCircle
-                        className="icon-closed"
+                        className="iconsClose"
                         onClick={handleModalCloseCuatro}
                       />
                       <form onSubmit={handleFormSubmitOtro}>
-                        <label className="textForm">Cantidad:</label>
+                        <label className="textDos">Cantidad:</label>
                         <input
+                        className="inputRes"
                           type="number"
                           value={Cantidad}
                           placeholder="1"
                           onChange={(e) => setCantidad(e.target.value)}
                           required
                         />
-                        <label className="textForm">Codigo:</label>
+                        <label className="textDos">Codigo:</label>
                         <input
+                        className="inputRes"
                           type="number"
                           value={Codigo}
                           placeholder="Codigo"
@@ -578,8 +580,9 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="textForm">Nombre:</label>
+                        <label className="textDos">Nombre:</label>
                         <input
+                        className="inputRes"
                           type="text"
                           value={Nombre}
                           placeholder="Nombre"
@@ -587,8 +590,9 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="textForm">Bodega:</label>
+                        <label className="textDos">Bodega:</label>
                         <input
+                        className="inputRes"
                           type="text"
                           value={Bodega}
                           placeholder="Bodega"
@@ -596,8 +600,9 @@ export default function Productos() {
                           required
                         />
 
-                        <label className="textForm">Precio Compra:</label>
+                        <label className="textDos">Precio Compra:</label>
                         <input
+                        className="inputRes"
                           type="text"
                           value={PrecioCompra}
                           placeholder="Precio Compra"
