@@ -460,9 +460,10 @@ export default function Empleados() {
                         <td>{user.Nombre ?? "-"}</td>
                         <td>{user.ApellidoUno ?? "-"}</td>
                         <td>{user.ApellidoDos ?? "-"}</td>
+                        <td>{user.Estado ?? "-"}</td>
                         <td>{user.TipoUsuario ?? "-"}</td>
                         <td>{user.Email ?? "-"}</td>
-                        <td>{user.Estado ?? "-"}</td>
+                        
                         <td>
                           {user.Contrasena?.length
                             ? "*".repeat(user.Contrasena.length)
