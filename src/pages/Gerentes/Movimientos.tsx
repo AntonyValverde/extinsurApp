@@ -1,4 +1,9 @@
-import { FaDumpsterFire, FaEdit, FaRegTimesCircle, FaTrash } from "react-icons/fa";
+import {
+  FaDumpsterFire,
+  FaEdit,
+  FaRegTimesCircle,
+  FaTrash,
+} from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -91,41 +96,42 @@ export default function Movimientos() {
     setShowDeleteModal(true);
   };
   const handleConfirmDelete = () => {
-    handleDeleteUser(Cedula);
+    handleDeleteUser(Cedula, IdDetalle);
     setShowDeleteModal(false);
   };
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
   };
-  //Eliminar de la fireBase.
-  const handleDeleteUser = async (Cedula: string) => {
+
+  const handleDeleteUser = async (Codigo: string, IdDetalle: string) => {
     try {
-      const employeesQuery = await getDocs(
-        query(collection(db, "Usuarios"), where("Cedula", "==", Cedula))
-      );
+      // Realiza una consulta compuesta para buscar documentos que cumplan con ambas condiciones
+      const collectionRef = collection(db, "Detalle");
+      const condition1 = where("Codigo", "==", Codigo);
+      const condition2 = where("IdDetalle", "==", IdDetalle);
+
+      const combinedQuery = query(collectionRef, condition1, condition2);
+
+      const employeesQuery = await getDocs(combinedQuery);
 
       if (!employeesQuery.empty) {
-        // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
-        const employeeDoc = employeesQuery.docs[0];
-        const userId = employeeDoc.data().Cedula;
+        // Itera sobre los resultados para eliminar los documentos
+        employeesQuery.forEach(async (employeeDoc) => {
+          const employeeRef = doc(db, "Detalle", employeeDoc.id);
+          await deleteDoc(employeeRef);
+        });
 
-        // Eliminamos el documento del empleado
-        const employeeRef = doc(db, "Usuarios", employeeDoc.id);
-        await deleteDoc(employeeRef);
-
-        // Buscamos el documento del usuario relacionado al empleado
-        const usersQuery = await getDocs(
-          query(collection(db, "Usuarios"), where("Cedula", "==", userId))
-        );
+        // A continuación, puedes buscar el documento del usuario relacionado al empleado, si es necesario.
       } else {
         console.log(
-          "No se encontró ningún empleado con la cédula especificada."
+          "No se encontró ningún empleado con las condiciones especificadas."
         );
       }
     } catch (error) {
-      console.log("No se elimino.");
+      console.log("No se eliminó el documento.", error);
     }
   };
+
   //Alert
   function mostrarAlertaTemporal(mensaje: string, tiempoVisible: number): void {
     const alertaDiv = document.createElement("div");
@@ -353,8 +359,8 @@ export default function Movimientos() {
               <h1 className="tituloEmpleados">Movimientos</h1>
               <div className="linea"></div>
               {showDeleteModal && (
-                <div className="modal">
-                  <div className="modal-content">
+                <div className="modalDelete">
+                  <div className="modal-contentDelete">
                     <p className="textDos">
                       <FaDumpsterFire className="iconsClose" />
                       ¿Estás seguro de qué quieres eliminar este usuario?
@@ -368,6 +374,66 @@ export default function Movimientos() {
                   </div>
                 </div>
               )}
+              <section>
+                {isModalOpen && (
+                  <div className="modalInfo">
+                    <div className="modal-contentInfo">
+                      <FaRegTimesCircle
+                        className="iconsClose"
+                        onClick={handleModalClose}
+                      />
+                      <table className="TablaEmpleados">
+                        <thead>
+                          <tr>
+                            <th>Usuario</th>
+                            <th>Id</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {detalle.map((users, index) => {
+                            const userDataIndex =
+                              index < detalle.length ? index : null;
+
+                            return (
+                              <tr key={users.IdDetalle}>
+                                <td className="code">
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Codigo
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].IdDetalle
+                                    : ""}
+                                </td>
+
+                                <td>
+                                  <IoInformationCircleSharp
+                                    onClick={handleModalOpen}
+                                    className="iconsInfo"
+                                    title="Más Información."
+                                  />
+                                </td>
+                                <FaTrash
+                                  className="iconsEliminar"
+                                  title="Eliminar."
+                                  onClick={() => {
+                                    handleDeleteModal();
+                                    setCodigo(users.Codigo);
+                                    setIdDetalle(users.IdDetalle);
+                                  }}
+                                />
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </section>
 
               {/*Modals add movimiento */}
               <section>
@@ -516,66 +582,6 @@ export default function Movimientos() {
                   </tbody>
                 </table>
               </div>
-            </section>
-
-            <section>
-              {isModalOpen && (
-                <div className="modal">
-                  <div className="modal-content">
-                    <FaRegTimesCircle
-                      className="iconsClose"
-                      onClick={handleModalClose}
-                    />
-                    <table className="TablaEmpleados">
-                      <thead>
-                        <tr>
-                          <th>Usuario</th>
-                          <th>Id</th>
-                          <th></th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {detalle.map((users, index) => {
-                          const userDataIndex =
-                            index < detalle.length ? index : null;
-
-                          return (
-                            <tr key={users.IdDetalle}>
-                              <td className="code">
-                                {userDataIndex !== null
-                                  ? detalle[userDataIndex].Codigo
-                                  : ""}
-                              </td>
-                              <td>
-                                {userDataIndex !== null
-                                  ? detalle[userDataIndex].IdDetalle
-                                  : ""}
-                              </td>
-
-                              <td>
-                                <IoInformationCircleSharp
-                                  onClick={handleModalOpen}
-                                  className="iconsInfo"
-                                  title="Más Información."
-                                />
-                              </td>
-                              <FaTrash
-                                className="iconsEliminar"
-                                title="Eliminar."
-                                onClick={() => {
-                                  handleDeleteModal();
-                                  setCedula(users.Codigo);
-                                }}
-                              />
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
             </section>
 
             <section>
