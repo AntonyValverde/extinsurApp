@@ -175,17 +175,17 @@ export default function Ubicacion() {
                         index < UbicationData.length ? index : null;
 
                       return (
-                        <tr key={users.Link}>
+                        <tr key={users.Id}>
                           <td>
                             {userDataIndex !== null
-                              ? UbicationData[userDataIndex].Descipcion
+                              ? UbicationData[userDataIndex].Descripcion
                               : ""}
                           </td>
                           <td>
                             {userDataIndex !== null
                               ? UbicationData[userDataIndex].HoraInicio
-                              : ""}
-                            /{" "}
+                              : ""} / 
+                            {" "}
                             {userDataIndex !== null
                               ? UbicationData[userDataIndex].HoraCierre
                               : ""}

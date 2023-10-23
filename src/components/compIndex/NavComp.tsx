@@ -12,17 +12,35 @@ import {
   FaWhatsapp,
   FaPortrait,
   FaIcons,
+  FaTrash,
+  FaEdit,
 } from "react-icons/fa";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 import Link from "next/link";
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { IoInformationCircleSharp } from "react-icons/io5";
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "@/firebase/config";
 
 const Nav_index = ({}) => {
+  //Conexion fireBase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
+
+  const [UbicacionData, setUbicacionData] = useState<any[]>([]);
 
   const [IsMantenimiento, setMantenimiento] = useState(false);
   const [IsRevision, setRevision] = useState(false);
@@ -72,6 +90,24 @@ const Nav_index = ({}) => {
     setRevision(false);
     document.body.classList.remove("modal-open");
   };
+
+  //Consume fireBase
+  useEffect(() => {
+    const ubicacionData = async () => {
+      try {
+        const queryDB = await getDocs(collection(db, "Ubicacion"));
+        const data: React.SetStateAction<any[]> = [];
+        queryDB.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setUbicacionData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+
+    ubicacionData();
+  }, []);
   return (
     <>
       <div className="Center">
@@ -102,116 +138,33 @@ const Nav_index = ({}) => {
                 Oficinas ExtinSur{" "}
               </a>
             </article>
-             
 
             <article className="articleInfo">
               <h1 className="h1Info">
                 <span className="text">Puestos de venta</span>
                 <FaMapMarked className="icons"></FaMapMarked>
               </h1>
+
               <div className="ContenedorUbicacion">
                 <article className="articleInfoTres">
                   <table className="tablaUbication">
                     <thead>
                       <tr>
                         <th>Ubicación</th>
+                        <th>Link</th>
                         <th>Horario</th>
                       </tr>
                     </thead>
-                    <tbody> 
-                      <tr>
-
-                        <td className="filas">
-                          <a
-                            className="textUbicacion"
-                            href=" https://maps.app.goo.gl/ePrJexRdVoHVrdAF6"
-                          >
-                            
-                            Ciudad Neily frente al instituto cated 
-                          </a> 
-                        </td>
-                        <td className="filas">
-                          <a
-                            className="textUbicacion"
-                            href=" https://maps.app.goo.gl/ePrJexRdVoHVrdAF6"
-                          >
-                             
-                            8:00am a 4:00pm
-                          </a> 
-                        </td>
-
-                      </tr>
-
-                      <tr>
-
-                        <td className="filas">
-                          <a
-                            className="textUbicacion"
-                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
-                          >
-                             
-                            Rio claro frente la bomba
-                          </a> 
-                        </td>
-                        <td className="filas">
-                          <a
-                            className="textUbicacion"
-                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
-                          >
-                             
-                            10:00am a 3:00pm
-                          </a> 
-                        </td>
-
-                      </tr>
-
-                      <tr>
-
-                        <td className="filas">
-                          <a
-                            className="textUbicacion"
-                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
-                          >
-                             
-                            Rio claro frente la bomba
-                          </a> 
-                        </td>
-                        <td className="filas">
-                          <a
-                            className="textUbicacion"
-                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
-                          >
-                             
-                            10:00am a 3:00pm
-                          </a> 
-                        </td>
-
-                      </tr>
-
-                      <tr>
-
-                        <td className="filas">
-                          <a
-                            className="textUbicacion"
-                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
-                          >
-                             
-                            Rio claro frente la bomba
-                          </a> 
-                        </td>
-                        <td className="filas">
-                          <a
-                            className="textUbicacion"
-                            href=" https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6"
-                          >
-                             
-                            10:00am a 3:00pm
-                          </a> 
-                        </td>
-
-                      </tr>
+                    <tbody>
+                      {UbicacionData.map((user) => (
+                        <tr key={user.Id}>
+                          <td className="textU">{user.Descripcion ?? "-"}</td>
+                          <td className="textU">{user.Link ?? "-"}</td>
+                          <td className="textU">{user.HoraInicio ?? "-"} / {user.HoraCierre ?? "-"}</td>
+                          
+                        </tr>
+                      ))}
                     </tbody>
-                    
                   </table>
                 </article>
               </div>
@@ -751,7 +704,6 @@ const Nav_index = ({}) => {
               </section>
             </article>
           </div>
-           
         </nav>
       </div>
     </>

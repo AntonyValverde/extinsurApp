@@ -1,4 +1,4 @@
-import { FaEdit, FaRegTimesCircle, FaTrash } from "react-icons/fa";
+import { FaDumpsterFire, FaEdit, FaRegTimesCircle, FaTrash } from "react-icons/fa";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -7,6 +7,8 @@ import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   getFirestore,
   query,
@@ -17,6 +19,8 @@ import { initializeApp } from "firebase/app";
 import firebaseConfig from "@/firebase/config";
 
 export default function Movimientos() {
+  //Modals
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
@@ -25,11 +29,13 @@ export default function Movimientos() {
   const [productData, setProductData] = useState<any[]>([]);
   const [userData, setUserData] = useState<any[]>([]);
   const [fechData, setDataFech] = useState<any[]>([]);
+  const [detalle, setDetalleData] = useState<any[]>([]);
   //Variables
   const [Codigo, setCodigo] = useState("");
   const [IdDetalle, setIdDetalle] = useState("");
   const [Descripcion, setDescripcion] = useState("");
   const [Empleado, setEmpleado] = useState("");
+  const [Cedula, setCedula] = useState("");
   //Conexion fireBase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -79,6 +85,46 @@ export default function Movimientos() {
   };
   const handleModalCloseCuatro = () => {
     setIsModalOpenCuatro(false);
+  };
+  //Modal delete
+  const handleDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+  const handleConfirmDelete = () => {
+    handleDeleteUser(Cedula);
+    setShowDeleteModal(false);
+  };
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+  };
+  //Eliminar de la fireBase.
+  const handleDeleteUser = async (Cedula: string) => {
+    try {
+      const employeesQuery = await getDocs(
+        query(collection(db, "Usuarios"), where("Cedula", "==", Cedula))
+      );
+
+      if (!employeesQuery.empty) {
+        // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
+        const employeeDoc = employeesQuery.docs[0];
+        const userId = employeeDoc.data().Cedula;
+
+        // Eliminamos el documento del empleado
+        const employeeRef = doc(db, "Usuarios", employeeDoc.id);
+        await deleteDoc(employeeRef);
+
+        // Buscamos el documento del usuario relacionado al empleado
+        const usersQuery = await getDocs(
+          query(collection(db, "Usuarios"), where("Cedula", "==", userId))
+        );
+      } else {
+        console.log(
+          "No se encontró ningún empleado con la cédula especificada."
+        );
+      }
+    } catch (error) {
+      console.log("No se elimino.");
+    }
   };
   //Alert
   function mostrarAlertaTemporal(mensaje: string, tiempoVisible: number): void {
@@ -202,9 +248,12 @@ export default function Movimientos() {
         setCodigo("");
         const tiempoVisibleEnMilisegundos = 5000;
         mostrarAlertaTemporal("Se agrego código.", tiempoVisibleEnMilisegundos);
-      }else{
+      } else {
         const tiempoVisibleEnMilisegundos = 8000;
-        mostrarAlertaTemporal("No se encontro el producto", tiempoVisibleEnMilisegundos);
+        mostrarAlertaTemporal(
+          "No se encontro el producto",
+          tiempoVisibleEnMilisegundos
+        );
       }
     } catch (error) {
       console.error("Error al agregar datos :", error);
@@ -269,6 +318,28 @@ export default function Movimientos() {
     UsertData();
   }, []);
 
+  //Consume firebase detalle
+  useEffect(() => {
+    const DetalleData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Detalle"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          const detalle = doc.data();
+          // Aquí, verifica si el detalle tiene el código que deseas
+          if (detalle.IdDetalle === IdDetalle) {
+            data.push(detalle);
+          }
+        });
+        setDetalleData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+
+    DetalleData();
+  }, [IdDetalle]); // Asegúrate de incluir codigoElegido en las dependencias
+
   return (
     <>
       <div className="bodySidebar">
@@ -281,6 +352,22 @@ export default function Movimientos() {
             <section>
               <h1 className="tituloEmpleados">Movimientos</h1>
               <div className="linea"></div>
+              {showDeleteModal && (
+                <div className="modal">
+                  <div className="modal-content">
+                    <p className="textDos">
+                      <FaDumpsterFire className="iconsClose" />
+                      ¿Estás seguro de qué quieres eliminar este usuario?
+                    </p>
+                    <button className="botonRes" onClick={handleConfirmDelete}>
+                      Sí
+                    </button>
+                    <button className="botonRes" onClick={handleCancelDelete}>
+                      No
+                    </button>
+                  </div>
+                </div>
+              )}
 
               {/*Modals add movimiento */}
               <section>
@@ -415,9 +502,12 @@ export default function Movimientos() {
 
                           <td>
                             <IoInformationCircleSharp
-                              onClick={handleModalOpen}
                               className="iconsInfo"
                               title="Más Información."
+                              onClick={() => {
+                                handleModalOpen();
+                                setIdDetalle(users.IdDetalle);
+                              }}
                             />
                           </td>
                         </tr>
@@ -432,9 +522,57 @@ export default function Movimientos() {
               {isModalOpen && (
                 <div className="modal">
                   <div className="modal-content">
-                    <button className="icon-close" onClick={handleModalClose}>
-                      SALIR
-                    </button>
+                    <FaRegTimesCircle
+                      className="iconsClose"
+                      onClick={handleModalClose}
+                    />
+                    <table className="TablaEmpleados">
+                      <thead>
+                        <tr>
+                          <th>Usuario</th>
+                          <th>Id</th>
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {detalle.map((users, index) => {
+                          const userDataIndex =
+                            index < detalle.length ? index : null;
+
+                          return (
+                            <tr key={users.IdDetalle}>
+                              <td className="code">
+                                {userDataIndex !== null
+                                  ? detalle[userDataIndex].Codigo
+                                  : ""}
+                              </td>
+                              <td>
+                                {userDataIndex !== null
+                                  ? detalle[userDataIndex].IdDetalle
+                                  : ""}
+                              </td>
+
+                              <td>
+                                <IoInformationCircleSharp
+                                  onClick={handleModalOpen}
+                                  className="iconsInfo"
+                                  title="Más Información."
+                                />
+                              </td>
+                              <FaTrash
+                                className="iconsEliminar"
+                                title="Eliminar."
+                                onClick={() => {
+                                  handleDeleteModal();
+                                  setCedula(users.Codigo);
+                                }}
+                              />
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               )}
