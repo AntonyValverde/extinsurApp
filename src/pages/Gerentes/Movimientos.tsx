@@ -379,7 +379,7 @@ export default function Movimientos() {
                   <div className="modalInfo">
                     <div className="modal-contentInfo">
                       <FaRegTimesCircle
-                        className="iconsClose"
+                        className="iconsCloseInfo"
                         onClick={handleModalClose}
                       />
                       <table className="TablaEmpleados">
@@ -388,7 +388,7 @@ export default function Movimientos() {
                             <th>Usuario</th>
                             <th>Id</th>
                             <th></th>
-                            <th></th>
+                             
                           </tr>
                         </thead>
                         <tbody>
@@ -409,13 +409,7 @@ export default function Movimientos() {
                                     : ""}
                                 </td>
 
-                                <td>
-                                  <IoInformationCircleSharp
-                                    onClick={handleModalOpen}
-                                    className="iconsInfo"
-                                    title="Más Información."
-                                  />
-                                </td>
+                                
                                 <FaTrash
                                   className="iconsEliminar"
                                   title="Eliminar."
