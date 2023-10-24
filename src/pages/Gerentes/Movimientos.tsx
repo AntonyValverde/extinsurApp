@@ -432,8 +432,8 @@ export default function Movimientos() {
               {/*Modals add movimiento */}
               <section>
                 {isModalOpenDos && (
-                  <div className="modal">
-                    <div className="modal-content">
+                  <div className="modalAdd">
+                    <div className="modal-contentAdd">
                       <FaRegTimesCircle
                         className="iconsClose"
                         onClick={handleModalCloseDos}

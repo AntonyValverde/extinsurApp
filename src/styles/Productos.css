@@ -46,6 +46,26 @@
   overflow: auto;
 }
 
+.modalAdd {
+  position: absolute;
+  width: 70%;
+  display: grid;
+  place-items: center;
+  background-color: transparent;
+}
+
+.modal-contentAdd {
+  background: rgb(0, 0, 0); /*rgb(40, 235 , 140, 0.7);*/
+  width: 30vw;
+  border-radius: 2%;
+  border: 1px solid;
+  border-color: black;
+  height: 60vh;
+  
+  padding: 20px;
+  box-shadow: 4px 4px 4px 4px rgba(34, 58, 151, 0.3);
+  overflow: auto;
+}
 .modalInfo {
   position: absolute;
   width: 70%;
@@ -66,7 +86,6 @@
   box-shadow: 4px 4px 4px 4px rgba(34, 58, 151, 0.3);
   overflow: auto;
 }
-
 .selectoptionE {
   padding: 5px;
   border-radius: 20px;
