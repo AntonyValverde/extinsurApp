@@ -44,9 +44,15 @@ export default function Productos() {
   const [fechaData, setFechCaja] = useState<any[]>([]);
   const [rotulacionData, setRotCaja] = useState<any[]>([]);
   const [otrosData, setOtrosCaja] = useState<any[]>([]);
+  const [infoData, setInfoData] = useState<any[]>([]);
   //Conexion fireBase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  //Buscador
+  const [filterValue, setFilterValue] = useState("");
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [filterValue2, setFilterValue2] = useState("");
+  const [filteredData2, setFilteredData2] = useState<any[]>([]);
   //Modals uno
   useEffect(() => {
     if (isModalOpen) {
@@ -109,6 +115,7 @@ export default function Productos() {
   };
   const handleModalCloseCuatro = () => {
     setIsModalOpenCuatro(false);
+    setTipo("");
     setCantidad("");
     setCodigo("");
     setNombre("");
@@ -166,31 +173,38 @@ export default function Productos() {
       if (!queryDB.empty) {
         return;
       }
-      const productosData = {
-        Cantidad,
-        Codigo,
-        Tipo,
-      };
+      const cantidad = parseInt(Cantidad, 10); // Convierte la cantidad a un número
 
-      const extintoresData = {
-        Agente,
-        Bodega,
-        Clase,
-        Codigo,
-        Peso,
-        PrecioCompra,
-        PrecioVenta,
-      };
-      const fechaData = {
-        Anno,
-        Mes,
-        Dia,
-        Codigo,
-      };
+      for (let i = 0; i < cantidad; i++) {
+        const productosData = {
+          Cantidad,
+          Codigo,
+          Tipo,
+        };
 
-      await addDoc(collection(db, "Productos"), productosData);
-      await addDoc(collection(db, "Extintores"), extintoresData);
-      await addDoc(collection(db, "FechaEntrada"), fechaData);
+        const extintoresData = {
+          Agente,
+          Bodega,
+          Clase,
+          Codigo,
+          Peso,
+          Tipo,
+          PrecioCompra,
+          PrecioVenta,
+        };
+        const fechaData = {
+          Anno,
+          Mes,
+          Dia,
+          Tipo,
+          Codigo,
+        };
+
+        await addDoc(collection(db, "Productos"), productosData);
+        await addDoc(collection(db, "Extintores"), extintoresData);
+        await addDoc(collection(db, "FechaEntrada"), fechaData);
+      }
+
       handleModalCloseDos();
     } catch (error) {
       console.error("Error al agregar datos:", error);
@@ -218,6 +232,7 @@ export default function Productos() {
         Codigo,
         Nombre,
         PrecioCompra,
+        Tipo,
       };
 
       const fechaData = {
@@ -225,6 +240,7 @@ export default function Productos() {
         Mes,
         Dia,
         Codigo,
+        Tipo,
       };
 
       await addDoc(collection(db, "Productos"), productosData);
@@ -261,12 +277,14 @@ export default function Productos() {
         Peso,
         PrecioCompra,
         PrecioVenta,
+        Tipo,
       };
       const fechaData = {
         Anno,
         Mes,
         Dia,
         Codigo,
+        Tipo,
       };
 
       await addDoc(collection(db, "Productos"), productosData);
@@ -360,7 +378,69 @@ export default function Productos() {
     productData();
     extintorData();
   }, []);
+  //Consume firebase detalle
+  useEffect(() => {
+    const DetalleData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Extintores"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          const detalle = doc.data();
+          // Aquí, verifica si el detalle tiene el código que deseas
+          if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
+            data.push(detalle);
+          }
+        });
 
+        const querydbTwo = await getDocs(collection(db, "Rotulos"));
+        querydbTwo.forEach((doc) => {
+          const detalle = doc.data();
+          // Aquí, verifica si el detalle tiene el código que deseas
+          if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
+            data.push(detalle);
+          }
+        });
+
+        const querydbThree = await getDocs(collection(db, "Otros"));
+        querydbThree.forEach((doc) => {
+          const detalle = doc.data();
+          // Aquí, verifica si el detalle tiene el código que deseas
+          if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
+            data.push(detalle);
+          }
+        });
+        setInfoData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+
+    DetalleData();
+  }, [Codigo]); // Asegúrate de incluir codigoElegido en las dependencias
+  //Buscador
+  useEffect(() => {
+    const filtered = productData.filter((data) =>
+      Object.keys(data).some((key) =>
+        data[key].toString().toLowerCase().includes(filterValue.toLowerCase())
+      )
+    );
+    setFilteredData(filtered);
+  }, [filterValue, productData]);
+
+  useEffect(() => {
+    const filtered = fechaData.filter((data) =>
+      Object.keys(data).some((key) =>
+        data[key].toString().toLowerCase().includes(filterValue2.toLowerCase())
+      )
+    );
+    setFilteredData2(filtered);
+  }, [filterValue2, fechaData]);
+
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target as HTMLInputElement;
+    setFilterValue(value);
+    setFilterValue2(value);
+  };
   return (
     <>
       <div className="bodySidebar">
@@ -376,8 +456,8 @@ export default function Productos() {
               {/*Modals add extintor */}
               <section>
                 {isModalOpenDos && (
-                  <div className="modal">
-                    <div className="modal-content">
+                  <div className="modalOtro">
+                    <div className="modal-contentOtro">
                       <FaRegTimesCircle
                         className="iconsClose"
                         onClick={handleModalCloseDos}
@@ -467,7 +547,7 @@ export default function Productos() {
                           required
                         />
 
-                        <button className="RegistrarButton" type="submit">  
+                        <button className="RegistrarButton" type="submit">
                           Agregar
                         </button>
                       </form>
@@ -475,11 +555,12 @@ export default function Productos() {
                   </div>
                 )}
               </section>
+
               {/*Modals add rotulo */}
               <section>
                 {isModalOpenTres && (
-                  <div className="modal">
-                    <div className="modal-content">
+                  <div className="modalOtro">
+                    <div className="modal-contentOtro">
                       <FaRegTimesCircle
                         className="iconsClose"
                         onClick={handleModalCloseTres}
@@ -554,8 +635,8 @@ export default function Productos() {
               {/*Modals add otro*/}
               <section>
                 {isModalOpenCuatro && (
-                  <div className="modal">
-                    <div className="modal-content">
+                  <div className="modalOtro">
+                    <div className="modal-contentOtro">
                       <FaRegTimesCircle
                         className="iconsClose"
                         onClick={handleModalCloseCuatro}
@@ -563,7 +644,7 @@ export default function Productos() {
                       <form onSubmit={handleFormSubmitOtro}>
                         <label className="textDos">Cantidad:</label>
                         <input
-                        className="inputRes"
+                          className="inputRes"
                           type="number"
                           value={Cantidad}
                           placeholder="1"
@@ -572,7 +653,7 @@ export default function Productos() {
                         />
                         <label className="textDos">Codigo:</label>
                         <input
-                        className="inputRes"
+                          className="inputRes"
                           type="number"
                           value={Codigo}
                           placeholder="Codigo"
@@ -582,7 +663,7 @@ export default function Productos() {
 
                         <label className="textDos">Nombre:</label>
                         <input
-                        className="inputRes"
+                          className="inputRes"
                           type="text"
                           value={Nombre}
                           placeholder="Nombre"
@@ -592,7 +673,7 @@ export default function Productos() {
 
                         <label className="textDos">Bodega:</label>
                         <input
-                        className="inputRes"
+                          className="inputRes"
                           type="text"
                           value={Bodega}
                           placeholder="Bodega"
@@ -602,7 +683,7 @@ export default function Productos() {
 
                         <label className="textDos">Precio Compra:</label>
                         <input
-                        className="inputRes"
+                          className="inputRes"
                           type="text"
                           value={PrecioCompra}
                           placeholder="Precio Compra"
@@ -618,6 +699,54 @@ export default function Productos() {
                   </div>
                 )}
               </section>
+              {/*Modals detalles*/}
+              <section>
+                {isModalOpen && (
+                  <div className="modalInfo">
+                    <div className="modal-contentInfo">
+                      <FaRegTimesCircle
+                        className="iconsCloseInfo"
+                        onClick={handleModalClose}
+                      />
+                      <table className="TablaEmpleados">
+                        <thead>
+                          <tr>
+                            <th>Codigo</th>
+                            <th>Tipo</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {infoData.map((users, index) => {
+                            const userDataIndex =
+                              index < infoData.length ? index : null;
+
+                            return (
+                              <tr key={users.IdDetalle}>
+                                <td className="code">
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Codigo
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Tipo
+                                    : ""}
+                                </td>
+
+                                <FaTrash
+                                  className="iconsEliminar"
+                                  title="Eliminar."
+                                />
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </section>
               {/*Estructura principal*/}
               <div className="contenedorTabla">
                 <div className="buscadorContainer">
@@ -625,6 +754,9 @@ export default function Productos() {
                     type="text"
                     className="BuscadorInput"
                     placeholder="Buscar..."
+                    value={filterValue}
+                    name="Buscar"
+                    onChange={handleFilterChange}
                   />
                   <button
                     onClick={handleModalOpenDos}
@@ -677,15 +809,14 @@ export default function Productos() {
                     </tr>
                   </thead>
                   <tbody>
-                    {productData.map((users, index) => {
+                    {filteredData.map((user, index) => {
                       const userDataIndex =
                         index < productData.length ? index : null;
-
                       const dataTerceraTablaIndex =
                         index < fechaData.length ? index : null;
 
                       return (
-                        <tr key={users.Codigo}>
+                        <tr key={user.Codigo}>
                           <td className="code">
                             {userDataIndex !== null
                               ? productData[userDataIndex].Codigo
@@ -703,21 +834,18 @@ export default function Productos() {
                           </td>
                           <td>
                             {dataTerceraTablaIndex !== null
-                              ? fechaData[dataTerceraTablaIndex].Dia
+                              ? `${fechaData[dataTerceraTablaIndex].Dia}/
+                                  ${fechaData[dataTerceraTablaIndex].Mes}/
+                                  ${fechaData[dataTerceraTablaIndex].Anno}`
                               : " "}
-                            /
-                            {dataTerceraTablaIndex !== null
-                              ? fechaData[dataTerceraTablaIndex].Mes
-                              : ""}
-                            /
-                            {dataTerceraTablaIndex !== null
-                              ? fechaData[dataTerceraTablaIndex].Anno
-                              : ""}
                           </td>
-
                           <td>
                             <IoInformationCircleSharp
-                              onClick={handleModalOpen}
+                              onClick={() => {
+                                handleModalOpen();
+                                setCodigo(user.Codigo);
+                                setTipo(user.Tipo);
+                              }}
                               className="iconsInfo"
                               title="Más Información."
                             />
@@ -760,17 +888,6 @@ export default function Productos() {
                   Inicio
                 </Link>
               </div>
-            </section>
-            <section>
-              {isModalOpen && (
-                <div className="modal">
-                  <div className="modal-content">
-                    <button className="icon-close" onClick={handleModalClose}>
-                      SALIR
-                    </button>
-                  </div>
-                </div>
-              )}
             </section>
           </div>
         </div>
