@@ -13,8 +13,8 @@
 }
 
 .modal {
-    position: absolute;
-    width: 70%;
+  position: absolute;
+  width: 70%;
   display: grid;
   place-items: center;
   background-color: transparent;
@@ -30,28 +30,28 @@
   overflow: auto;
 }
 .modalDelete {
-    position: absolute;
-    width: 70%;
-    display: grid;
-    place-items: center;
-    background-color: transparent;
+  position: absolute;
+  width: 70%;
+  display: grid;
+  place-items: center;
+  background-color: transparent;
 }
 .modal-contentDelete {
-    background: rgb(255, 123, 123); /*rgb(40, 235 , 140, 0.7);*/
-    width: 30vw;
-    height: 20vh;
-    margin-top: 2vw;
-    padding: 20px;
-    box-shadow: 4px 4px 4px 4px rgb(172, 180, 212, 0.3);
-    overflow: auto;
+  background: rgb(255, 123, 123); /*rgb(40, 235 , 140, 0.7);*/
+  width: 30vw;
+  height: 20vh;
+  margin-top: 2vw;
+  padding: 20px;
+  box-shadow: 4px 4px 4px 4px rgb(172, 180, 212, 0.3);
+  overflow: auto;
 }
 
 .modalInfo {
-    position: absolute;
-    width: 70%;
-    display: grid;
-    place-items: center;
-    background-color: transparent;
+  position: absolute;
+  width: 70%;
+  display: grid;
+  place-items: center;
+  background-color: transparent;
 }
 
 .modal-contentInfo {
