@@ -11,6 +11,8 @@ import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   getFirestore,
   query,
@@ -19,14 +21,16 @@ import {
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "@/firebase/config";
 import { IoInformationCircleSharp } from "react-icons/io5";
+import { displayPartsToString } from "typescript";
 
 export default function Productos() {
-  //Modals
+  //-----------------------------------------------------------------Modals
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isModalOpenCuatro, setIsModalOpenCuatro] = useState(false);
-  //Variables
+  //----------------------------------------------------------------Variables
   const [Codigo, setCodigo] = useState("");
   const [Cantidad, setCantidad] = useState("");
   const [Nombre, setNombre] = useState("");
@@ -38,22 +42,36 @@ export default function Productos() {
   const [Clase, setClase] = useState("");
   const [Peso, setPeso] = useState("");
   const [Tipo, setTipo] = useState("");
-  //Tablas
+  const [NumeroAleatorio, setNumeroAleatorio] = useState("");
+  //----------------------------------------------------------------Tablas
   const [productData, setProductData] = useState<any[]>([]);
   const [extintorData, setExtCaja] = useState<any[]>([]);
   const [fechaData, setFechCaja] = useState<any[]>([]);
   const [rotulacionData, setRotCaja] = useState<any[]>([]);
   const [otrosData, setOtrosCaja] = useState<any[]>([]);
   const [infoData, setInfoData] = useState<any[]>([]);
-  //Conexion fireBase
+  //------------------------------------------------------------Conexion fireBase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-  //Buscador
+  //-----------------------------------------------------------------Buscador
   const [filterValue, setFilterValue] = useState("");
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [filterValue2, setFilterValue2] = useState("");
   const [filteredData2, setFilteredData2] = useState<any[]>([]);
-  //Modals uno
+  //Modals Eliminar
+
+  const handleDeleteModal = () => {
+    setShowDeleteModal(true);
+    handleDeleteUser(NumeroAleatorio);
+  };
+  const handleConfirmDelete = () => {
+    handleDeleteUser(NumeroAleatorio);
+    setShowDeleteModal(false);
+  };
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+  };
+  //------------------------------------------------------------Modals one show detalle
   useEffect(() => {
     if (isModalOpen) {
     }
@@ -65,7 +83,7 @@ export default function Productos() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-  //Modals dos
+  //----------------------------------------------------------Modals dos extintor
   useEffect(() => {
     if (isModalOpenDos) {
     }
@@ -87,7 +105,7 @@ export default function Productos() {
     setPrecioCompra("");
     setPrecioVenta("");
   };
-  //Modals tres
+  //-------------------------------------------------------Modals tres add rotulo
   useEffect(() => {
     if (isModalOpenTres) {
     }
@@ -104,7 +122,7 @@ export default function Productos() {
     setPrecioCompra("");
     setPrecioVenta("");
   };
-  //Modals cuatro
+  //--------------------------------------------------Modals cuatro add rotulo
   useEffect(() => {
     if (isModalOpenCuatro) {
     }
@@ -122,7 +140,7 @@ export default function Productos() {
     setBodega("");
     setPrecioCompra("");
   };
-  //Color de fondo
+  //-------------------------------------------------------------Color de fondo
   const [backgroundColor, setBackgroundColor] = useState<string>("white");
   const colors = [
     "#294D61",
@@ -162,7 +180,92 @@ export default function Productos() {
   const toggleColorVisibility = () => {
     setShowColors(!showColors);
   };
-  //Agregar extintor
+  //---------------------------------------------------------Eliminar de la fireBase.
+  const handleDeleteUser = async (Cedula: string) => {
+    try {
+      const employeesQuery = await getDocs(
+        query(
+          collection(db, "Extintores"),
+          where("NumeroAleatorio", "==", NumeroAleatorio)
+        )
+      );
+
+      if (!employeesQuery.empty) {
+        // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
+        const employeeDoc = employeesQuery.docs[0];
+        const userId = employeeDoc.data().NumeroAleatorio;
+
+        // Eliminamos el documento del empleado
+        const employeeRef = doc(db, "Extintores", employeeDoc.id);
+        await deleteDoc(employeeRef);
+
+        // Buscamos el documento del usuario relacionado al empleado
+        const usersQuery = await getDocs(
+          query(
+            collection(db, "Extintores"),
+            where("NumeroAleatorio", "==", userId)
+          )
+        );
+      } else {
+        const employeesQuery = await getDocs(
+          query(
+            collection(db, "Rotulos"),
+            where("NumeroAleatorio", "==", NumeroAleatorio)
+          )
+        );
+
+        if (!employeesQuery.empty) {
+          // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
+          const employeeDoc = employeesQuery.docs[0];
+          const userId = employeeDoc.data().NumeroAleatorio;
+
+          // Eliminamos el documento del empleado
+          const employeeRef = doc(db, "Rotulos", employeeDoc.id);
+          await deleteDoc(employeeRef);
+
+          // Buscamos el documento del usuario relacionado al empleado
+          const usersQuery = await getDocs(
+            query(
+              collection(db, "Rotulos"),
+              where("NumeroAleatorio", "==", userId)
+            )
+          );
+        } else {
+          const employeesQuery = await getDocs(
+            query(
+              collection(db, "Otros"),
+              where("NumeroAleatorio", "==", NumeroAleatorio)
+            )
+          );
+
+          if (!employeesQuery.empty) {
+            // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
+            const employeeDoc = employeesQuery.docs[0];
+            const userId = employeeDoc.data().NumeroAleatorio;
+
+            // Eliminamos el documento del empleado
+            const employeeRef = doc(db, "Otros", employeeDoc.id);
+            await deleteDoc(employeeRef);
+
+            // Buscamos el documento del usuario relacionado al empleado
+            const usersQuery = await getDocs(
+              query(
+                collection(db, "Otros"),
+                where("NumeroAleatorio", "==", userId)
+              )
+            );
+          } else {
+            console.log(
+              "No se encontró ningún empleado con la cédula especificada."
+            );
+          }
+        }
+      }
+    } catch (error) {
+      console.log("No se elimino.");
+    }
+  };
+  //----------------------------------------------------------Agregar extintor
   const handleFormSubmitExtintor = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
@@ -173,24 +276,24 @@ export default function Productos() {
       if (!queryDB.empty) {
         return;
       }
-      const cantidad = parseInt(Cantidad, 10); // Convierte la cantidad a un número
-
+      const cantidad = parseInt(Cantidad, 10);
+      const productosData = {
+        Cantidad,
+        Codigo,
+        Tipo: "Extintor",
+      };
       for (let i = 0; i < cantidad; i++) {
-        const productosData = {
-          Cantidad,
-          Codigo,
-          Tipo,
-        };
-
+        const numeroAleatorio = Math.floor(Math.random() * 1000);
         const extintoresData = {
           Agente,
           Bodega,
           Clase,
           Codigo,
           Peso,
-          Tipo,
+          Tipo: "Extintor",
           PrecioCompra,
           PrecioVenta,
+          NumeroAleatorio: numeroAleatorio,
         };
         const fechaData = {
           Anno,
@@ -198,17 +301,18 @@ export default function Productos() {
           Dia,
           Tipo,
           Codigo,
+          NumeroAleatorio: numeroAleatorio,
         };
 
-        await addDoc(collection(db, "Productos"), productosData);
         await addDoc(collection(db, "Extintores"), extintoresData);
         await addDoc(collection(db, "FechaEntrada"), fechaData);
       }
-
+      await addDoc(collection(db, "Productos"), productosData);
       handleModalCloseDos();
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
+    handleModalCloseDos();
   };
   //Agregar Rotulo
   const handleFormSubmitRotulos = async (event: React.FormEvent) => {
@@ -224,35 +328,40 @@ export default function Productos() {
       const productosData = {
         Cantidad,
         Codigo,
-        Tipo,
+        Tipo: "Rotulo",
       };
-
-      const rotulosData = {
-        Bodega,
-        Codigo,
-        Nombre,
-        PrecioCompra,
-        Tipo,
-      };
-
-      const fechaData = {
-        Anno,
-        Mes,
-        Dia,
-        Codigo,
-        Tipo,
-      };
+      const cantidad = parseInt(Cantidad, 10);
+      for (let i = 0; i < cantidad; i++) {
+        const numeroAleatorio = Math.floor(Math.random() * 1000);
+        const rotulosData = {
+          Bodega,
+          Codigo,
+          Nombre,
+          PrecioCompra,
+          Tipo: "Rotulo",
+          NumeroAleatorio: numeroAleatorio,
+        };
+        const fechaData = {
+          Anno,
+          Mes,
+          Dia,
+          Codigo,
+          Tipo,
+          NumeroAleatorio: numeroAleatorio,
+        };
+        await addDoc(collection(db, "Rotulos"), rotulosData);
+        await addDoc(collection(db, "FechaEntrada"), fechaData);
+      }
 
       await addDoc(collection(db, "Productos"), productosData);
-      await addDoc(collection(db, "Rotulos"), rotulosData);
-      await addDoc(collection(db, "FechaEntrada"), fechaData);
+
       handleModalClose();
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
     handleModalCloseTres();
   };
-  //Agregar Otro
+  //--------------------------------------------------------------Agregar Otro
   const handleFormSubmitOtro = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
@@ -266,37 +375,43 @@ export default function Productos() {
       const productosData = {
         Cantidad,
         Codigo,
-        Tipo,
+        Tipo: "Otro",
       };
-
-      const extintoresData = {
-        Agente,
-        Bodega,
-        Clase,
-        Codigo,
-        Peso,
-        PrecioCompra,
-        PrecioVenta,
-        Tipo,
-      };
-      const fechaData = {
-        Anno,
-        Mes,
-        Dia,
-        Codigo,
-        Tipo,
-      };
+      const cantidad = parseInt(Cantidad, 10);
+      for (let i = 0; i < cantidad; i++) {
+        const numeroAleatorio = Math.floor(Math.random() * 1000);
+        const otrosData = {
+          Agente,
+          Bodega,
+          Clase,
+          Codigo,
+          Peso,
+          PrecioCompra,
+          PrecioVenta,
+          Tipo: "Otro",
+          NumeroAleatorio: numeroAleatorio,
+        };
+        const fechaData = {
+          Anno,
+          Mes,
+          Dia,
+          Codigo,
+          Tipo,
+          NumeroAleatorio: numeroAleatorio,
+        };
+        await addDoc(collection(db, "Otros"), otrosData);
+        await addDoc(collection(db, "FechaEntrada"), fechaData);
+      }
 
       await addDoc(collection(db, "Productos"), productosData);
-      await addDoc(collection(db, "Extintores"), extintoresData);
-      await addDoc(collection(db, "FechaEntrada"), fechaData);
+
       handleModalCloseCuatro();
       handleModalClose();
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
   };
-  //Obtiene las variables de fecha
+  //----------------------------------------------------Obtiene las variables de fecha
   function obtenerFechaActual(): Date {
     return new Date();
   }
@@ -304,7 +419,7 @@ export default function Productos() {
   const fechaActual: Date = obtenerFechaActual();
 
   const Anno: number = fechaActual.getFullYear();
-  const Mes: number = fechaActual.getMonth() + 1; // El mes es zero-indexed, por eso sumamos 1
+  const Mes: number = fechaActual.getMonth() + 1;
   const Dia: number = fechaActual.getDate();
 
   console.log("Fecha actual:", fechaActual);
@@ -378,7 +493,7 @@ export default function Productos() {
     productData();
     extintorData();
   }, []);
-  //Consume firebase detalle
+  //-----------------------------------------------------------Consume firebase detalle
   useEffect(() => {
     const DetalleData = async () => {
       try {
@@ -386,7 +501,7 @@ export default function Productos() {
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           const detalle = doc.data();
-          // Aquí, verifica si el detalle tiene el código que deseas
+          //-------------------------------------Aquí, verifica si el detalle tiene el código que deseas
           if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
             data.push(detalle);
           }
@@ -395,7 +510,6 @@ export default function Productos() {
         const querydbTwo = await getDocs(collection(db, "Rotulos"));
         querydbTwo.forEach((doc) => {
           const detalle = doc.data();
-          // Aquí, verifica si el detalle tiene el código que deseas
           if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
             data.push(detalle);
           }
@@ -404,7 +518,6 @@ export default function Productos() {
         const querydbThree = await getDocs(collection(db, "Otros"));
         querydbThree.forEach((doc) => {
           const detalle = doc.data();
-          // Aquí, verifica si el detalle tiene el código que deseas
           if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
             data.push(detalle);
           }
@@ -416,8 +529,8 @@ export default function Productos() {
     };
 
     DetalleData();
-  }, [Codigo]); // Asegúrate de incluir codigoElegido en las dependencias
-  //Buscador
+  }, [Codigo]);
+  //---------------------------------------------------------Buscador
   useEffect(() => {
     const filtered = productData.filter((data) =>
       Object.keys(data).some((key) =>
@@ -441,6 +554,7 @@ export default function Productos() {
     setFilterValue(value);
     setFilterValue2(value);
   };
+  //---------------------------------------------------------------Return
   return (
     <>
       <div className="bodySidebar">
@@ -453,7 +567,7 @@ export default function Productos() {
             <section>
               <h1 className="tituloEmpleados">Productos</h1>
               <div className="linea"></div>
-              {/*Modals add extintor */}
+              {/*-------------------------------------------Modals add extintor */}
               <section>
                 {isModalOpenDos && (
                   <div className="modalOtro">
@@ -527,7 +641,6 @@ export default function Productos() {
                           onChange={(e) => setPeso(e.target.value)}
                           required
                         />
-
                         <label className="textDos">Precio Compra:</label>
                         <input
                           className="inputRes"
@@ -556,7 +669,7 @@ export default function Productos() {
                 )}
               </section>
 
-              {/*Modals add rotulo */}
+              {/*-------------------------------------------Modals add rotulo */}
               <section>
                 {isModalOpenTres && (
                   <div className="modalOtro">
@@ -632,7 +745,7 @@ export default function Productos() {
                   </div>
                 )}
               </section>
-              {/*Modals add otro*/}
+              {/*-----------------------------------------------Modals add otro*/}
               <section>
                 {isModalOpenCuatro && (
                   <div className="modalOtro">
@@ -699,7 +812,7 @@ export default function Productos() {
                   </div>
                 )}
               </section>
-              {/*Modals detalles*/}
+              {/*-----------------------------------------Modals detalles*/}
               <section>
                 {isModalOpen && (
                   <div className="modalInfo">
@@ -713,33 +826,204 @@ export default function Productos() {
                           <tr>
                             <th>Codigo</th>
                             <th>Tipo</th>
+                            <th>Bodega</th>
+                            <th>P.Venta</th>
+                            <th>Unidad</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
                           {infoData.map((users, index) => {
-                            const userDataIndex =
-                              index < infoData.length ? index : null;
+                            if (Tipo == "Extintor") {
+                              const userDataIndex =
+                                index < infoData.length ? index : null;
+                              const dataTerceraTablaIndex =
+                                index < extintorData.length ? index : null;
+                              return (
+                                <tr key={users.IdDetalle}>
+                                  <td className="code">
+                                    {userDataIndex !== null
+                                      ? infoData[userDataIndex].Codigo
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {userDataIndex !== null
+                                      ? infoData[userDataIndex].Tipo
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? extintorData[dataTerceraTablaIndex]
+                                          .Bodega
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? extintorData[dataTerceraTablaIndex]
+                                          .PrecioCompra
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? extintorData[dataTerceraTablaIndex]
+                                          .NumeroAleatorio
+                                      : ""}
+                                  </td>
 
-                            return (
-                              <tr key={users.IdDetalle}>
-                                <td className="code">
-                                  {userDataIndex !== null
-                                    ? infoData[userDataIndex].Codigo
-                                    : ""}
-                                </td>
-                                <td>
-                                  {userDataIndex !== null
-                                    ? infoData[userDataIndex].Tipo
-                                    : ""}
-                                </td>
+                                  <td>
+                                    <FaTrash
+                                      className="iconsEliminar"
+                                      title="Eliminar."
+                                      onClick={() => {
+                                        handleDeleteModal();
+                                        setNumeroAleatorio(
+                                          users.NumeroAleatorio
+                                        );
+                                      }}
+                                    />
+                                  </td>
+                                </tr>
+                              );
+                            } else if (Tipo == "Rotulo") {
+                              const userDataIndex =
+                                index < infoData.length ? index : null;
+                              const dataTerceraTablaIndex =
+                                index < rotulacionData.length ? index : null;
+                              return (
+                                <tr key={users.IdDetalle}>
+                                  <td className="code">
+                                    {userDataIndex !== null
+                                      ? infoData[userDataIndex].Codigo
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {userDataIndex !== null
+                                      ? infoData[userDataIndex].Tipo
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? rotulacionData[dataTerceraTablaIndex]
+                                          .Bodega
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? rotulacionData[dataTerceraTablaIndex]
+                                          .PrecioCompra
+                                      : ""}
+                                  </td>
 
-                                <FaTrash
-                                  className="iconsEliminar"
-                                  title="Eliminar."
-                                />
-                              </tr>
-                            );
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? rotulacionData[dataTerceraTablaIndex]
+                                          .NumeroAleatorio
+                                      : ""}
+                                  </td>
+
+                                  <td>
+                                    <FaTrash
+                                      className="iconsEliminar"
+                                      title="Eliminar."
+                                      onClick={() => {
+                                        handleDeleteModal();
+                                        setNumeroAleatorio(
+                                          users.NumeroAleatorio
+                                        );
+                                      }}
+                                    />
+                                  </td>
+                                </tr>
+                              );
+                            } else if (Tipo == "Otro") {
+                              const userDataIndex =
+                                index < infoData.length ? index : null;
+                              const dataTerceraTablaIndex =
+                                index < otrosData.length ? index : null;
+
+                              return (
+                                <tr key={users.IdDetalle}>
+                                  <td className="code">
+                                    {userDataIndex !== null
+                                      ? infoData[userDataIndex].Codigo
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {userDataIndex !== null
+                                      ? infoData[userDataIndex].Tipo
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? otrosData[dataTerceraTablaIndex].Bodega
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? otrosData[dataTerceraTablaIndex]
+                                          .PrecioCompra
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? otrosData[dataTerceraTablaIndex]
+                                          .NumeroAleatorio
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    <FaTrash
+                                      className="iconsEliminar"
+                                      title="Eliminar."
+                                      onClick={() => {
+                                        handleDeleteModal();
+                                        setNumeroAleatorio(
+                                          users.NumeroAleatorio
+                                        );
+                                      }}
+                                    />
+                                  </td>
+                                </tr>
+                              );
+                            } else {
+                              const userDataIndex =
+                                index < infoData.length ? index : null;
+                              const dataTerceraTablaIndex =
+                                index < extintorData.length ? index : null;
+
+                              return (
+                                <tr key={users.IdDetalle}>
+                                  <td className="code">
+                                    {userDataIndex !== null
+                                      ? infoData[userDataIndex].Codigo
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {userDataIndex !== null
+                                      ? infoData[userDataIndex].Tipo
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? extintorData[dataTerceraTablaIndex]
+                                          .Bodega
+                                      : ""}
+                                  </td>
+                                  <td>
+                                    {dataTerceraTablaIndex !== null
+                                      ? extintorData[dataTerceraTablaIndex]
+                                          .PrecioCompra
+                                      : ""}
+                                  </td>
+
+                                  <td>
+                                    <FaTrash
+                                      className="iconsEliminar"
+                                      title="Eliminar."
+                                    />
+                                  </td>
+                                </tr>
+                              );
+                            }
                           })}
                         </tbody>
                       </table>
@@ -747,7 +1031,8 @@ export default function Productos() {
                   </div>
                 )}
               </section>
-              {/*Estructura principal*/}
+              {/*---------------------------------------------Estructura principal*/}
+              {/*---------------------------------------------Principal structure*/}
               <div className="contenedorTabla">
                 <div className="buscadorContainer">
                   <input
@@ -796,7 +1081,8 @@ export default function Productos() {
                     </div>
                   </div>
                 </div>
-                {/*Tabla*/}
+                {/*--------------------------------------------------Tabla*/}
+                {/*--------------------------------------------------Board*/}
                 <table className="TablaEmpleados">
                   <thead>
                     <tr>
@@ -804,7 +1090,6 @@ export default function Productos() {
                       <th>Cantidad</th>
                       <th>Tipo</th>
                       <th>Ingresó</th>
-
                       <th></th>
                     </tr>
                   </thead>
@@ -858,6 +1143,8 @@ export default function Productos() {
               </div>
               <div className="linea"></div>
             </section>
+            {/*--------------------------------------------------Responsive para telefono*/}
+            {/*----------------------------------------------------Responsive for phone*/}
             <section>
               <div className="containerButton">
                 <div className="sidebar_linkTres" onClick={handleModalOpenTres}>

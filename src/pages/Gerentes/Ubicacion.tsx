@@ -3,13 +3,28 @@ import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import IndexGerenteInicioDos from "../IndexGerenteInicioDos";
 import Link from "next/link";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+  addDoc,
+} from "firebase/firestore";
 import firebaseConfig from "@/firebase/config";
 import { initializeApp } from "firebase/app";
 import "firebase/firestore";
 import "firebase/compat/firestore";
+import TimePicker from "react-time-picker";
 
 export default function Ubicacion() {
+  //Variables
+  const [Descripcion, setDescripcion] = useState("");
+  const [HoraCierre, setHoraCierre] = useState("");
+  const [HoraInicio, setHoraInicio] = useState("");
+  const [Id, setId] = useState("");
+  const [enlace, setEnlace] = useState("");
+  //Modals
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
@@ -45,17 +60,20 @@ export default function Ubicacion() {
     if (isModalOpenTres) {
     }
   }, [isModalOpenTres]);
+
   const handleModalOpenTres = () => {
     setIsModalOpenTres(true);
   };
   const handleModalCloseTres = () => {
     setIsModalOpenTres(false);
+    setEnlace("");
+    setDescripcion("");
+    setHoraInicio("");
+    setHoraCierre("");
+    
   };
 
-  const handleFormSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    handleModalClose;
-  };
+   
 
   const [backgroundColor, setBackgroundColor] = useState<string>("white");
   const colors = [
@@ -96,6 +114,32 @@ export default function Ubicacion() {
   const toggleColorVisibility = () => {
     setShowColors(!showColors);
   };
+  //Agregar ubicacion
+  const handleFormSubmitUbication = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const usersRef = collection(db, "Ubicacion");
+      const queryDB = await getDocs(query(usersRef, where("Link", "==", enlace)));
+      if (!queryDB.empty) {
+        return;
+      }
+
+      const ubicationData = {
+        enlace,
+        HoraInicio,
+        HoraCierre,
+        Descripcion,
+         
+      };
+
+      await addDoc(collection(db, "Ubicacion"), ubicationData);
+
+      handleModalCloseTres();
+    } catch (error) {
+      console.error("Error al agregar datos:", error);
+    }
+
+  };
 
   //Consume tabla de Ubicacion
   useEffect(() => {
@@ -114,6 +158,7 @@ export default function Ubicacion() {
 
     fetchDates();
   }, []);
+
   return (
     <>
       <div className="bodySidebar">
@@ -165,7 +210,7 @@ export default function Ubicacion() {
                       <th>Descipcion</th>
                       <th>Horario</th>
                       <th>Dirección</th>
-
+                        
                       <th></th>
                     </tr>
                   </thead>
@@ -184,15 +229,15 @@ export default function Ubicacion() {
                           <td>
                             {userDataIndex !== null
                               ? UbicationData[userDataIndex].HoraInicio
-                              : ""} / 
-                            {" "}
+                              : ""}{" "}
+                            /{" "}
                             {userDataIndex !== null
                               ? UbicationData[userDataIndex].HoraCierre
                               : ""}
                           </td>
                           <td>
                             {userDataIndex !== null
-                              ? UbicationData[userDataIndex].Link
+                              ? UbicationData[userDataIndex].enlace
                               : ""}
                           </td>
 
@@ -244,17 +289,52 @@ export default function Ubicacion() {
                         className="icon-close"
                         onClick={handleModalCloseTres}
                       >
-                        <FaDoorOpen></FaDoorOpen>
+                        <FaDoorOpen className="iconsClose"></FaDoorOpen>
                       </button>
                     </div>
 
-                    <form className="contenedorUbicacion">
+                    <form
+                      className="contenedorUbicacion"
+                      onSubmit={handleFormSubmitUbication}
+                    >
                       <h1 className="tituloUbicacion">Ubicación</h1>
                       <h2 className="textColocar">Colocar Dirección</h2>
-                      <input className="inputColocar" type="text" />
+                      <input
+                        className="inputColocar"
+                        type="text"
+                        placeholder="Link"
+                        value={enlace}
+                        onChange={(e) => setEnlace(e.target.value)}
+                      />
+
+                      <h2 className="textColocar">Colocar hora</h2>
+                      <h2 className="textColocarHora">Hora Inicio:</h2>
+                      <input
+                        className="inputColocarHora"
+                        type="text"
+                        placeholder="7:00 am"
+                        value={HoraInicio}
+                        onChange={(e) => setHoraInicio(e.target.value)}
+                      />
+                      <h2 className="textColocarHora">Hora Cierre:</h2>
+                      <input
+                        className="inputColocarHora"
+                        type="text"
+                        placeholder="5:00 pm"
+                        value={HoraCierre}
+                        onChange={(e) => setHoraCierre(e.target.value)}
+                      />
+
                       <h2 className="textColocar">Colocar Descripción</h2>
-                      <input className="inputColocar" type="text" />
-                      <button className="btnAgregar">Agregar</button>
+                      <input
+                        className="inputColocar"
+                        type="text"
+                        placeholder="Detalle"
+                        value={Descripcion}
+                        onChange={(e) => setDescripcion(e.target.value)}
+                      />
+
+                      <button className="btnAgregar" type="submit">Agregar</button>
                     </form>
                   </div>
                 </div>

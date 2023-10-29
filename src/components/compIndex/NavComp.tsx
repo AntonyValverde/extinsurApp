@@ -159,7 +159,7 @@ const Nav_index = ({}) => {
                       {UbicacionData.map((user) => (
                         <tr key={user.Id}>
                           <td className="textU">{user.Descripcion ?? "-"}</td>
-                          <td className="textU">{user.Link ?? "-"}</td>
+                          <td className="textU">{user.enlace ?? "-"}</td>
                           <td className="textU">{user.HoraInicio ?? "-"} / {user.HoraCierre ?? "-"}</td>
                           
                         </tr>
