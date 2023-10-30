@@ -223,7 +223,7 @@ export default function Grafica() {
                       <PieChart>
                         <Pie
                           dataKey="Cantidad"
-                          data={num}
+                          data={nume}
                           fill="#8884d8"
                           label
                         />

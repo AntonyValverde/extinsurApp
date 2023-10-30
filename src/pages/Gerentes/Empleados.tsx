@@ -38,6 +38,7 @@ import { auth } from "@/firebase/firebase";
 export default function Empleados() {
   //Modals
   const [isModalOpen, setIsEditarOpen] = useState(false);
+  const [isModalOpenShow, setIsModalOpenShow] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -52,15 +53,14 @@ export default function Empleados() {
   const [Tipo, setTipo] = useState("");
   const [TipoUsuario, setTipoUsuario] = useState("");
   const [Estado, setEstado] = useState("");
-
   const [Ano, setAno] = useState("");
   const [Mes, setMes] = useState("");
   const [Dia, setDia] = useState("");
-
   const [borrarConfirmado, setBorrarConfirmado] = useState(false);
   //Leer tablas
   const [userData, setUserData] = useState<any[]>([]);
   const [dataCaja, setDataCaja] = useState<any[]>([]);
+  const [infoData, setInfoData] = useState<any[]>([]);
   //Inicializa firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -77,6 +77,19 @@ export default function Empleados() {
   const handleModalClose = () => {
     setIsEditarOpen(false);
   };
+  //------------------------------------------------------------Modals one show detalle
+  useEffect(() => {
+    if (isModalOpenShow) {
+    }
+  }, [isModalOpenShow]);
+
+  const handleModalOpenShow = () => {
+    setIsModalOpenShow(true);
+    
+  };
+  const handleModalCloseShow = () => {
+    setIsModalOpenShow(false);
+  };
   //Modals Informacion
   useEffect(() => {
     if (isModalOpenDos) {
@@ -90,6 +103,7 @@ export default function Empleados() {
   const handleModalCloseDos = () => {
     setIsModalOpenDos(false);
   };
+
   //Modals Eliminar
 
   const handleDeleteModal = () => {
@@ -386,13 +400,34 @@ export default function Empleados() {
             }
           }
         }
-       
       }
     } catch (error) {
       console.error("Error al editar empleado y usuario:", error);
     }
     setShowModalEdit(false);
   };
+  //-----------------------------------------------------------Consume firebase detalle
+  useEffect(() => {
+    const DetalleData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Usuarios"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          const detalle = doc.data();
+          //-------------------------------------Aquí, verifica si el detalle tiene el código que deseas
+          if (detalle.Email === Email) {
+            data.push(detalle);
+          }
+        });
+
+        setInfoData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    console.log(Email);
+    DetalleData();
+  }, [Email]);
 
   return (
     <>
@@ -446,7 +481,6 @@ export default function Empleados() {
                       <th>Nombre</th>
                       <th>Primer Apellido</th>
                       <th>Segundo Apellido</th>
-
                       <th>Estado</th>
                       <th>Tipo</th>
                       <th>Correo</th>
@@ -463,7 +497,7 @@ export default function Empleados() {
                         <td>{user.Estado ?? "-"}</td>
                         <td>{user.TipoUsuario ?? "-"}</td>
                         <td>{user.Email ?? "-"}</td>
-                        
+
                         <td>
                           {user.Contrasena?.length
                             ? "*".repeat(user.Contrasena.length)
@@ -476,6 +510,10 @@ export default function Empleados() {
                             onClick={() => handleEditClick(user)}
                           />
                           <IoInformationCircleSharp
+                            onClick={() => {
+                              handleModalOpenShow();
+                              setEmail(user.Email);
+                            }}
                             className="iconsInfo"
                             title="Más Información."
                           />
@@ -485,6 +523,7 @@ export default function Empleados() {
                             onClick={() => {
                               handleDeleteModal();
                               setCedula(user.Cedula);
+
                             }}
                           />
                         </td>
@@ -493,6 +532,54 @@ export default function Empleados() {
                   </tbody>
                 </table>
               </div>
+            </section>
+            {/*-----------------------------------------Modals detalles*/}
+            <section>
+              {isModalOpenShow && (
+                <div className="modalInfo">
+                  <div className="modal-contentInfo">
+                    <FaRegTimesCircle
+                      className="iconsCloseInfo"
+                      onClick={handleModalCloseShow}
+                    />
+                    <table className="TablaEmpleados">
+                      <thead>
+                        <tr>
+                          <th>Codigo</th>
+                          <th>Tipo</th>
+                          <th>Bodega</th>
+                          <th>P.Venta</th>
+                          <th>Unidad</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {infoData.map((users, index) => {
+                          if (Email == "Usuarios") {
+                            const userDataIndex =
+                              index < infoData.length ? index : null;
+                            return (
+                              <tr key={users.Email}>
+                                
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Cedula
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Contrasena
+                                    : ""}
+                                </td>
+                              </tr>
+                            );
+                          }
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </section>
 
             <section>
@@ -802,7 +889,6 @@ export default function Empleados() {
                   <option value="Inactivo">Inactivo</option>
                 </select>
 
-                
                 <h3 className="textDos">Tipo De Usuario:</h3>
                 <select
                   className="inputRes"

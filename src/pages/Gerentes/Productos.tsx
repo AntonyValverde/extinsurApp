@@ -15,6 +15,7 @@ import {
   doc,
   getDocs,
   getFirestore,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -58,19 +59,14 @@ export default function Productos() {
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [filterValue2, setFilterValue2] = useState("");
   const [filteredData2, setFilteredData2] = useState<any[]>([]);
-  //Modals Eliminar
+  const [searchQuery, setSearchQuery] = useState("");
+  //--------------------------------------------------------------Modals Eliminar
 
   const handleDeleteModal = () => {
     setShowDeleteModal(true);
     handleDeleteUser(NumeroAleatorio);
   };
-  const handleConfirmDelete = () => {
-    handleDeleteUser(NumeroAleatorio);
-    setShowDeleteModal(false);
-  };
-  const handleCancelDelete = () => {
-    setShowDeleteModal(false);
-  };
+
   //------------------------------------------------------------Modals one show detalle
   useEffect(() => {
     if (isModalOpen) {
@@ -308,13 +304,16 @@ export default function Productos() {
         await addDoc(collection(db, "FechaEntrada"), fechaData);
       }
       await addDoc(collection(db, "Productos"), productosData);
+
+      const updateData = [...extintorData, { ...fechaActual, ...productData }];
+      setProductData(updateData);
       handleModalCloseDos();
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
     handleModalCloseDos();
   };
-  //Agregar Rotulo
+  //--------------------------------------------------------Agregar Rotulo
   const handleFormSubmitRotulos = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
@@ -530,7 +529,7 @@ export default function Productos() {
 
     DetalleData();
   }, [Codigo]);
-  //---------------------------------------------------------Buscador
+  //-------------------------------------------------------------Buscador
   useEffect(() => {
     const filtered = productData.filter((data) =>
       Object.keys(data).some((key) =>
@@ -554,6 +553,52 @@ export default function Productos() {
     setFilterValue(value);
     setFilterValue2(value);
   };
+  //Buscador
+  const countEmployesActiveAndInactive = () => {
+    const employeActive = productData.filter(
+      (user) => user.estado === "Activo"
+    );
+    const employeInactive = productData.filter(
+      (user) => user.estado === "Inactivo"
+    );
+    return {
+      CountActive: employeActive.length,
+      CountInactive: employeInactive.length,
+    };
+  };
+  const handleSearchChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSearchQuery(event.target.value);
+  };
+  //Actualizar
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "Productos"),
+      async (querySnapshot) => {
+        const employeesData: { id: string; Codigo: string }[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          employeesData.push({ id: doc.id, Codigo, ...data });
+        });
+
+         
+
+        const combinedData = employeesData.map((employee) => {
+          const relatedUser = productData.find(
+            (user) => user.Codigo === employee.Codigo
+          );
+          return { ...employee, ...relatedUser };
+        });
+
+        setProductData(combinedData); // Actualiza el estado local con los datos combinados
+      }
+    );
+    // Retorna una función de limpieza para detener la suscripción cuando el componente se desmonte
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   //---------------------------------------------------------------Return
   return (
     <>
@@ -1039,9 +1084,9 @@ export default function Productos() {
                     type="text"
                     className="BuscadorInput"
                     placeholder="Buscar..."
-                    value={filterValue}
+                    value={searchQuery}
                     name="Buscar"
-                    onChange={handleFilterChange}
+                    onChange={handleSearchChange}
                   />
                   <button
                     onClick={handleModalOpenDos}
@@ -1094,50 +1139,63 @@ export default function Productos() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredData.map((user, index) => {
-                      const userDataIndex =
-                        index < productData.length ? index : null;
-                      const dataTerceraTablaIndex =
-                        index < fechaData.length ? index : null;
+                    {productData
+                      .filter(
+                        (user) =>
+                          user.Codigo.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          ) ||
+                          user.Cantidad.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          ) ||
+                          user.Tipo.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          )
+                      )
+                      .map((user, index) => {
+                        const userDataIndex =
+                          index < productData.length ? index : null;
+                        const dataTerceraTablaIndex =
+                          index < fechaData.length ? index : null;
 
-                      return (
-                        <tr key={user.Codigo}>
-                          <td className="code">
-                            {userDataIndex !== null
-                              ? productData[userDataIndex].Codigo
-                              : ""}
-                          </td>
-                          <td>
-                            {userDataIndex !== null
-                              ? productData[userDataIndex].Cantidad
-                              : ""}
-                          </td>
-                          <td>
-                            {userDataIndex !== null
-                              ? productData[userDataIndex].Tipo
-                              : ""}
-                          </td>
-                          <td>
-                            {dataTerceraTablaIndex !== null
-                              ? `${fechaData[dataTerceraTablaIndex].Dia}/
+                        return (
+                          <tr key={user.Codigo}>
+                            <td className="code">
+                              {userDataIndex !== null
+                                ? productData[userDataIndex].Codigo
+                                : ""}
+                            </td>
+                            <td>
+                              {userDataIndex !== null
+                                ? productData[userDataIndex].Cantidad
+                                : ""}
+                            </td>
+                            <td>
+                              {userDataIndex !== null
+                                ? productData[userDataIndex].Tipo
+                                : ""}
+                            </td>
+                            <td>
+                              {dataTerceraTablaIndex !== null
+                                ? `${fechaData[dataTerceraTablaIndex].Dia}/
                                   ${fechaData[dataTerceraTablaIndex].Mes}/
                                   ${fechaData[dataTerceraTablaIndex].Anno}`
-                              : " "}
-                          </td>
-                          <td>
-                            <IoInformationCircleSharp
-                              onClick={() => {
-                                handleModalOpen();
-                                setCodigo(user.Codigo);
-                                setTipo(user.Tipo);
-                              }}
-                              className="iconsInfo"
-                              title="Más Información."
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
+                                : " "}
+                            </td>
+                            <td>
+                              <IoInformationCircleSharp
+                                onClick={() => {
+                                  handleModalOpen();
+                                  setCodigo(user.Codigo);
+                                  setTipo(user.Tipo);
+                                }}
+                                className="iconsInfo"
+                                title="Más Información."
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>
