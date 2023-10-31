@@ -35,6 +35,9 @@ export default function Movimientos() {
   const [userData, setUserData] = useState<any[]>([]);
   const [fechData, setDataFech] = useState<any[]>([]);
   const [detalle, setDetalleData] = useState<any[]>([]);
+  const [otro, setOtroData] = useState<any[]>([]);
+  const [extintor, setExtintorData] = useState<any[]>([]);
+  const [rotulos, setRotulosData] = useState<any[]>([]);
   //Variables
   const [Codigo, setCodigo] = useState("");
   const [IdDetalle, setIdDetalle] = useState("");
@@ -319,6 +322,46 @@ export default function Movimientos() {
         console.error("No se pudieron extraer los datos: " + error);
       }
     };
+    const extintorData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Extintores"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setExtintorData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    const otroData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Otros"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setOtroData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    extintorData();
+    const rotulosData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Rotulos"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setRotulosData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    otroData();
+    rotulosData();
+    extintorData();
     ProductData();
     fetchData();
     UsertData();
@@ -342,8 +385,9 @@ export default function Movimientos() {
         console.error("No se pudieron extraer los datos: " + error);
       }
     };
-
+     
     DetalleData();
+    
   }, [IdDetalle]); // Asegúrate de incluir codigoElegido en las dependencias
 
   return (
@@ -386,21 +430,27 @@ export default function Movimientos() {
                         <thead>
                           <tr>
                             <th>Usuario</th>
+                            <th>P.Venta</th>
                             <th>Id</th>
                             <th></th>
-                             
                           </tr>
                         </thead>
                         <tbody>
                           {detalle.map((users, index) => {
                             const userDataIndex =
                               index < detalle.length ? index : null;
-
+                              const productDataIndex =
+                              index < productData.length ? index : null;
                             return (
                               <tr key={users.IdDetalle}>
                                 <td className="code">
                                   {userDataIndex !== null
                                     ? detalle[userDataIndex].Codigo
+                                    : ""}
+                                </td>
+                                <td >
+                                {productDataIndex !== null
+                                    ? productData[productDataIndex].PrecioVenta
                                     : ""}
                                 </td>
                                 <td>
@@ -409,7 +459,6 @@ export default function Movimientos() {
                                     : ""}
                                 </td>
 
-                                
                                 <FaTrash
                                   className="iconsEliminar"
                                   title="Eliminar."
@@ -520,8 +569,9 @@ export default function Movimientos() {
                 <table className="TablaEmpleados">
                   <thead>
                     <tr>
-                      <th>Usuario</th>
                       <th>Id</th>
+                      <th>Usuario</th>
+                      <th>Descripción</th>
                       <th>Fecha Movimiento</th>
                       <th></th>
                     </tr>
@@ -534,8 +584,22 @@ export default function Movimientos() {
                       const dataTerceraTablaIndex =
                         index < fechData.length ? index : null;
 
+                      const dataOtroTablaIndex =
+                        index < otro.length ? index : null;
+
+                      const dataExtintorTablaIndex =
+                        index < extintor.length ? index : null;
+
+                      const dataRotuloTablaIndex =
+                        index < rotulos.length ? index : null;
+
                       return (
                         <tr key={users.IdDetalle}>
+                          <td>
+                            {userDataIndex !== null
+                              ? userData[userDataIndex].IdDetalle
+                              : ""}
+                          </td>
                           <td>
                             {userDataIndex !== null
                               ? userData[userDataIndex].Empleado
@@ -543,7 +607,7 @@ export default function Movimientos() {
                           </td>
                           <td>
                             {userDataIndex !== null
-                              ? userData[userDataIndex].IdDetalle
+                              ? userData[userDataIndex].Descripcion
                               : ""}
                           </td>
                           <td>
@@ -559,7 +623,6 @@ export default function Movimientos() {
                               ? fechData[dataTerceraTablaIndex].Anno
                               : ""}
                           </td>
-
                           <td>
                             <IoInformationCircleSharp
                               className="iconsInfo"

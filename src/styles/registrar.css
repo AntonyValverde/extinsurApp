@@ -60,6 +60,17 @@
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccccccd8;
+    color: #ffffff;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    background-color: #f8f5f522;
+}
+
+.inputResDos {
+    width: 90%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccccccd8;
     color: #110d0d;
     border-radius: 5px;
     margin-bottom: 1rem;

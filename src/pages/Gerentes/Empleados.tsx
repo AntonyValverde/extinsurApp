@@ -726,7 +726,7 @@ export default function Empleados() {
                     Fecha Nacimiento
                     <input
                       type="date"
-                      className="textTres"
+                      className="inputRes"
                       id="fechaNacimiento"
                       name="fechaNacimiento"
                       onChange={handleFechaNacimientoChange}
@@ -736,7 +736,7 @@ export default function Empleados() {
                   <h3 className="textDos">
                     Tipo de cédula
                     <select
-                      className="inputRes"
+                      className="inputResDos"
                       id="Tipo"
                       name="Tipo"
                       value={TipoCedula}

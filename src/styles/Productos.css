@@ -14,7 +14,7 @@
 
 .modal {
   position: absolute;
-  width: 70%;
+  width: 100%;
   display: grid;
   place-items: center;
   background-color: transparent;
@@ -22,10 +22,11 @@
 
 .modal-content {
   background: rgb(16, 8, 8); /*rgb(40, 235 , 140, 0.7);*/
-  width: 30vw;
+  width: 25vw;
   height: 70vh;
   margin-top: 2vw;
   padding: 20px;
+  border-radius: 1rem;
   box-shadow: 4px 4px 4px 4px rgba(64, 76, 127, 0.3);
   overflow: auto;
 }

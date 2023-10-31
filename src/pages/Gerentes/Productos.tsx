@@ -257,6 +257,7 @@ export default function Productos() {
           }
         }
       }
+      handleModalClose();
     } catch (error) {
       console.log("No se elimino.");
     }
