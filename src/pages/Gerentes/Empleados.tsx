@@ -51,11 +51,12 @@ export default function Empleados() {
   const [TipoCedula, setTipoCedula] = useState("");
   const [Cedula, setCedula] = useState("");
   const [Tipo, setTipo] = useState("");
-  const [TipoUsuario, setTipoUsuario] = useState("");
+  const [TipoEmpleado, setTipoEmpleado] = useState("");
   const [Estado, setEstado] = useState("");
   const [Ano, setAno] = useState("");
   const [Mes, setMes] = useState("");
   const [Dia, setDia] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [borrarConfirmado, setBorrarConfirmado] = useState(false);
   //Leer tablas
   const [userData, setUserData] = useState<any[]>([]);
@@ -85,7 +86,6 @@ export default function Empleados() {
 
   const handleModalOpenShow = () => {
     setIsModalOpenShow(true);
-    
   };
   const handleModalCloseShow = () => {
     setIsModalOpenShow(false);
@@ -120,7 +120,7 @@ export default function Empleados() {
   const handleDeleteUser = async (Cedula: string) => {
     try {
       const employeesQuery = await getDocs(
-        query(collection(db, "Usuarios"), where("Cedula", "==", Cedula))
+        query(collection(db, "Usuario"), where("Cedula", "==", Cedula))
       );
 
       if (!employeesQuery.empty) {
@@ -129,12 +129,12 @@ export default function Empleados() {
         const userId = employeeDoc.data().Cedula;
 
         // Eliminamos el documento del empleado
-        const employeeRef = doc(db, "Usuarios", employeeDoc.id);
+        const employeeRef = doc(db, "Usuario", employeeDoc.id);
         await deleteDoc(employeeRef);
 
         // Buscamos el documento del usuario relacionado al empleado
         const usersQuery = await getDocs(
-          query(collection(db, "Usuarios"), where("Cedula", "==", userId))
+          query(collection(db, "Usuario"), where("Cedula", "==", userId))
         );
       } else {
         console.log(
@@ -194,7 +194,7 @@ export default function Empleados() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Usuarios"));
+        const querydb = await getDocs(collection(db, "Usuario"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           data.push(doc.data());
@@ -232,7 +232,7 @@ export default function Empleados() {
     setTipoCedula("");
     setApellidoDos("");
     setApellidoUno("");
-    setTipoUsuario("");
+    setTipoEmpleado("");
     setTipo("");
     setEmail("");
     setContrasena("");
@@ -241,7 +241,7 @@ export default function Empleados() {
   const handleFormSubmitUsers = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const usersRef = collection(db, "Usuarios");
+      const usersRef = collection(db, "Usuario");
       const queryDB = await getDocs(
         query(
           usersRef,
@@ -256,7 +256,7 @@ export default function Empleados() {
       const UsersData = {
         Email,
         Contrasena,
-        TipoUsuario,
+        TipoEmpleado,
         Cedula,
         Nombre,
         Estado,
@@ -269,7 +269,7 @@ export default function Empleados() {
       };
 
       await createUserWithEmailAndPassword(auth, Email, Contrasena);
-      await addDoc(collection(db, "Usuarios"), UsersData);
+      await addDoc(collection(db, "Usuario"), UsersData);
       handleModalCloseOtro();
     } catch (error) {
       console.error("Error al agregar datos:", error);
@@ -288,7 +288,7 @@ export default function Empleados() {
     Ano: "",
     Mes: "",
     Dia: "",
-    TipoUsuario: "",
+    TipoEmpleado: "",
   });
   const handleModalCloseEdit = () => {
     setShowModalEdit(false);
@@ -297,8 +297,8 @@ export default function Empleados() {
     setTipoCedula("");
     setApellidoDos("");
     setApellidoUno("");
-    setTipoUsuario("");
-    setTipo("");
+    setTipoEmpleado("");
+    setTipoEmpleado("");
     setEmail("");
     setContrasena("");
   };
@@ -314,7 +314,7 @@ export default function Empleados() {
     Ano?: string;
     Mes?: string;
     Dia?: string;
-    TipoUsuario?: string;
+    TipoEmpleado?: string;
   }
 
   const [showModalEdit, setShowModalEdit] = useState(false);
@@ -331,7 +331,7 @@ export default function Empleados() {
       Ano: user.Ano ?? "",
       Mes: user.Mes ?? "",
       Dia: user.Dia ?? "",
-      TipoUsuario: user.TipoUsuario ?? "",
+      TipoEmpleado: user.TipoEmpleado ?? "",
     });
     setShowModalEdit(true);
   };
@@ -341,7 +341,7 @@ export default function Empleados() {
     try {
       const employeesQuery = await getDocs(
         query(
-          collection(db, "Usuarios"),
+          collection(db, "Usuario"),
           where("Cedula", "==", formData.Cedula)
         )
       );
@@ -350,7 +350,7 @@ export default function Empleados() {
         console.log("Cedula hallada");
         const usersQuery = await getDocs(
           query(
-            collection(db, "Usuarios"),
+            collection(db, "Usuario"),
             where("Cedula", "==", formData.Cedula)
           )
         );
@@ -372,11 +372,11 @@ export default function Empleados() {
             Ano: formData.Ano,
             Mes: formData.Mes,
             Dia: formData.Dia,
-            TipoUsuario: formData.TipoUsuario,
+            TipoEmpleado: formData.TipoEmpleado,
           };
 
           // Actualizamos el documento de usuario
-          await updateDoc(doc(db, "Usuarios", userId), updatedUserData);
+          await updateDoc(doc(db, "Usuario", userId), updatedUserData);
 
           //Actualizará la información si se cambió el correo
           if (formData.Email && formData.Email !== formData.Email) {
@@ -410,7 +410,7 @@ export default function Empleados() {
   useEffect(() => {
     const DetalleData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Usuarios"));
+        const querydb = await getDocs(collection(db, "Usuario"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           const detalle = doc.data();
@@ -428,6 +428,13 @@ export default function Empleados() {
     console.log(Email);
     DetalleData();
   }, [Email]);
+  //-----------------------------------------------------Buscador
+
+  const handleSearchChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSearchQuery(event.target.value);
+  };
 
   return (
     <>
@@ -449,6 +456,9 @@ export default function Empleados() {
                     type="text"
                     className="BuscadorInput"
                     placeholder="Buscar..."
+                    value={searchQuery}
+                    name="Buscar"
+                    onChange={handleSearchChange}
                   />
                   {/*Boton de registrar*/}
                   <button className="RegistrarButton" onClick={handleModalOpen}>
@@ -489,46 +499,67 @@ export default function Empleados() {
                     </tr>
                   </thead>
                   <tbody>
-                    {userData.map((user) => (
-                      <tr key={user.Cedula}>
-                        <td>{user.Nombre ?? "-"}</td>
-                        <td>{user.ApellidoUno ?? "-"}</td>
-                        <td>{user.ApellidoDos ?? "-"}</td>
-                        <td>{user.Estado ?? "-"}</td>
-                        <td>{user.TipoUsuario ?? "-"}</td>
-                        <td>{user.Email ?? "-"}</td>
+                    {userData
+                      .filter(
+                        (user) =>
+                          user.Nombre.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          ) ||
+                          user.ApellidoUno.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          ) ||
+                          user.ApellidoDos.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          )||
+                          user.Estado.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          )||
+                          user.TipoEmpleado.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          )||
+                          user.Email.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          )
+                      )
+                      .map((user) => (
+                        <tr key={user.Cedula}>
+                          <td>{user.Nombre ?? "-"}</td>
+                          <td>{user.ApellidoUno ?? "-"}</td>
+                          <td>{user.ApellidoDos ?? "-"}</td>
+                          <td>{user.Estado ?? "-"}</td>
+                          <td>{user.TipoEmpleado ?? "-"}</td>
+                          <td>{user.Email ?? "-"}</td>
 
-                        <td>
-                          {user.Contrasena?.length
-                            ? "*".repeat(user.Contrasena.length)
-                            : "*"}
-                        </td>
-                        <td>
-                          <FaEdit
-                            className="iconsEdit"
-                            title="Editar."
-                            onClick={() => handleEditClick(user)}
-                          />
-                          <IoInformationCircleSharp
-                            onClick={() => {
-                              handleModalOpenShow();
-                              setEmail(user.Email);
-                            }}
-                            className="iconsInfo"
-                            title="Más Información."
-                          />
-                          <FaTrash
-                            className="iconsEliminar"
-                            title="Eliminar."
-                            onClick={() => {
-                              handleDeleteModal();
-                              setCedula(user.Cedula);
-
-                            }}
-                          />
-                        </td>
-                      </tr>
-                    ))}
+                          <td>
+                            {user.Contrasena?.length
+                              ? "*".repeat(user.Contrasena.length)
+                              : "*"}
+                          </td>
+                          <td>
+                            <FaEdit
+                              className="iconsEdit"
+                              title="Editar."
+                              onClick={() => handleEditClick(user)}
+                            />
+                            <IoInformationCircleSharp
+                              onClick={() => {
+                                handleModalOpenShow();
+                                setEmail(user.Email);
+                              }}
+                              className="iconsInfo"
+                              title="Más Información."
+                            />
+                            <FaTrash
+                              className="iconsEliminar"
+                              title="Eliminar."
+                              onClick={() => {
+                                handleDeleteModal();
+                                setCedula(user.Cedula);
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
@@ -555,12 +586,11 @@ export default function Empleados() {
                       </thead>
                       <tbody>
                         {infoData.map((users, index) => {
-                          if (Email == "Usuarios") {
+                          if (Email == "Usuario") {
                             const userDataIndex =
                               index < infoData.length ? index : null;
                             return (
                               <tr key={users.Email}>
-                                
                                 <td>
                                   {userDataIndex !== null
                                     ? infoData[userDataIndex].Cedula
@@ -769,8 +799,8 @@ export default function Empleados() {
                   <h3 className="textDos">
                     Rol Del Usuario
                     <select
-                      value={TipoUsuario}
-                      onChange={(e) => setTipoUsuario(e.target.value)}
+                      value={TipoEmpleado}
+                      onChange={(e) => setTipoEmpleado(e.target.value)}
                       className="inputRes"
                       id="rol"
                       name="rol"
@@ -892,9 +922,9 @@ export default function Empleados() {
                 <h3 className="textDos">Tipo De Usuario:</h3>
                 <select
                   className="inputRes"
-                  value={formData.TipoUsuario}
+                  value={formData.TipoEmpleado}
                   onChange={(e) =>
-                    setFormData({ ...formData, TipoUsuario: e.target.value })
+                    setFormData({ ...formData, TipoEmpleado: e.target.value })
                   }
                 >
                   <option value="">Seleccione una opción</option>

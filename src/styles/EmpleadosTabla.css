@@ -124,6 +124,12 @@ th {
     height: 20px;
 }
 
+.iconsInfoDos {
+    width: 25px;
+    height: 25px;
+    color: white;
+}
+
 .iconsEliminar {
     color: red;
 }
@@ -182,7 +188,7 @@ input[type="date"] {
         display: flex;
         align-items: center;
         height: 5rem; /* Ajusta este porcentaje según tus necesidades */
-        width: 100%;
+        width: 45rem;
         overflow: auto;
         margin: 0 auto;
     }

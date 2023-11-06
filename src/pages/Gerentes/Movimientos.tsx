@@ -17,6 +17,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
@@ -41,7 +42,8 @@ export default function Movimientos() {
   //Variables
   const [Codigo, setCodigo] = useState("");
   const [IdDetalle, setIdDetalle] = useState("");
-  const [Descripcion, setDescripcion] = useState("");
+  const [IdMovimiento, setIdMovimiento] = useState("");
+  const [Detalle, setDetalle] = useState("");
   const [Empleado, setEmpleado] = useState("");
   const [Cedula, setCedula] = useState("");
   //Conexion fireBase
@@ -70,7 +72,7 @@ export default function Movimientos() {
     setIsModalOpenDos(false);
     setEmpleado("");
     setCodigo("");
-    setDescripcion("");
+    setDetalle("");
   };
   //Modals 3
   useEffect(() => {
@@ -198,8 +200,8 @@ export default function Movimientos() {
   //Numero ram
   const asignarNumeroAleatorio = () => {
     const numeroAleatorio = Math.floor(Math.random() * 99999);
-    setIdDetalle(numeroAleatorio.toString());
-    console.log(IdDetalle);
+    setIdMovimiento(numeroAleatorio.toString());
+    console.log(IdMovimiento);
     setCodigo("");
   };
 
@@ -208,28 +210,24 @@ export default function Movimientos() {
     event.preventDefault();
 
     try {
-      const usersRef = collection(db, "Movimientos");
+      const usersRef = collection(db, "Movimiento");
       const queryDB = await getDocs(
-        query(usersRef, where("IdDetalle", "==", IdDetalle))
+        query(usersRef, where("IdMovimiento", "==", IdMovimiento))
       );
       if (!queryDB.empty) {
         return;
       }
+      
       const productosData = {
-        Descripcion,
-        Empleado,
-        IdDetalle,
-      };
-
-      const extintoresData = {
-        IdDetalle,
         Anno,
-        Mes,
         Dia,
+        Mes,
+        Detalle,
+        IdMovimiento,
       };
 
-      await addDoc(collection(db, "Movimientos"), productosData);
-      await addDoc(collection(db, "FechaMovimiento"), extintoresData);
+      await addDoc(collection(db, "Movimiento"), productosData);
+       
 
       handleModalCloseDos();
     } catch (error) {
@@ -240,33 +238,68 @@ export default function Movimientos() {
   const handleFormSubmitOtro = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    event.preventDefault();
     try {
-      const otraColeccionQuery = query(
-        collection(db, "Productos"),
-        where("Codigo", "==", Codigo) // Cambia "Codigo" por el nombre del campo que contiene el código en "OtraColeccion"
-      );
-
-      const otraColeccionSnapshot = await getDocs(otraColeccionQuery);
-
-      if (!otraColeccionSnapshot.empty) {
-        const fechaData = {
-          IdDetalle,
-          Codigo,
-        };
-        await addDoc(collection(db, "Detalle"), fechaData);
+      const sourceCollectionRef = collection(db, "Producto");
+      const targetCollectionRef = collection(db, "Detalle");
+      const querySnapshot = await getDocs(query(sourceCollectionRef, where("Codigo", "==", Codigo)));
+  
+      if (querySnapshot.empty) {
         setCodigo("");
         const tiempoVisibleEnMilisegundos = 5000;
-        mostrarAlertaTemporal("Se agrego código.", tiempoVisibleEnMilisegundos);
-      } else {
-        const tiempoVisibleEnMilisegundos = 8000;
-        mostrarAlertaTemporal(
-          "No se encontro el producto",
-          tiempoVisibleEnMilisegundos
-        );
+        mostrarAlertaTemporal("No se encuentra el producto.", tiempoVisibleEnMilisegundos);
+        return;
       }
+  
+      // Recuperar los datos de la consulta
+      const sourceData = querySnapshot.docs[0].data();
+  
+       
+      const detalleDato ={
+          Anno: sourceData.Anno,
+          Bodega: sourceData.Bodega,
+          Cantidad: sourceData.Cantidad,
+          Codigo: sourceData.Codigo,
+          Detalle: sourceData.Detalle,
+          Dia: sourceData.Dia,
+          Mes: sourceData.Mes,
+          PrecioCompra: sourceData.PrecioCompra,
+          PrecioVenta: sourceData.PrecioVenta,
+          Tipo: sourceData.Tipo,
+          IdMovimiento: IdMovimiento,
+      };
+  
+      // Agregar los datos a la colección de destino
+      await addDoc(targetCollectionRef, detalleDato);
+      setCodigo("");
+        const tiempoVisibleEnMilisegundos = 5000;
+        mostrarAlertaTemporal("Se agrego código.", tiempoVisibleEnMilisegundos);
+        const employeesQuery = await getDocs(
+          query(collection(db, "Producto"), where("Codigo", "==", Codigo))
+        );
+  
+        if (!employeesQuery.empty) {
+          const employeeDoc = employeesQuery.docs[0];
+          const userId = employeeDoc.data().Cantidad;
+  
+          if (userId > 0) {
+            // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
+            await updateDoc(employeeDoc.ref, { Cantidad: userId - 1 });
+          } else {
+            const employeeRef = doc(db, "Producto", employeeDoc.id);
+            await deleteDoc(employeeRef);
+            console.log(`No se puede disminuir la cantidad, ya es 1 o menos.`);
+          }
+        } else {
+          console.log(
+            `El producto con código ${Codigo} no existe en la base de datos.`
+          );
+        }
     } catch (error) {
       console.error("Error al agregar datos :", error);
     }
+
+     
   };
   //Obtiene las variables de fecha
   function obtenerFechaActual(): Date {
@@ -283,11 +316,11 @@ export default function Movimientos() {
     handleModalOpenDos();
     asignarNumeroAleatorio(); // Llama a otra función aquí
   };
-  //Consume firebase
+  //-----------------------------------------------------Consume firebase
   useEffect(() => {
     const UsertData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Movimientos"));
+        const querydb = await getDocs(collection(db, "Movimiento"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           data.push(doc.data());
@@ -297,34 +330,9 @@ export default function Movimientos() {
         console.error("No se pudieron extraer los datos: " + error);
       }
     };
-
-    const fetchData = async () => {
+    const productoData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "FechaMovimiento"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setDataFech(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-    const ProductData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Detalle"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setProductData(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-    const extintorData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Extintores"));
+        const querydb = await getDocs(collection(db, "Producto"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           data.push(doc.data());
@@ -334,40 +342,11 @@ export default function Movimientos() {
         console.error("No se pudieron extraer los datos: " + error);
       }
     };
-    const otroData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Otros"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setOtroData(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-    extintorData();
-    const rotulosData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Rotulos"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setRotulosData(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-    otroData();
-    rotulosData();
-    extintorData();
-    ProductData();
-    fetchData();
+    productoData();
     UsertData();
   }, []);
 
-  //Consume firebase detalle
+  //------------------------------------------------------Consume firebase detalle
   useEffect(() => {
     const DetalleData = async () => {
       try {
@@ -376,7 +355,7 @@ export default function Movimientos() {
         querydb.forEach((doc) => {
           const detalle = doc.data();
           // Aquí, verifica si el detalle tiene el código que deseas
-          if (detalle.IdDetalle === IdDetalle) {
+          if (detalle.IdMovimiento === IdMovimiento) {
             data.push(detalle);
           }
         });
@@ -385,10 +364,9 @@ export default function Movimientos() {
         console.error("No se pudieron extraer los datos: " + error);
       }
     };
-     
+
     DetalleData();
-    
-  }, [IdDetalle]); // Asegúrate de incluir codigoElegido en las dependencias
+  }, [IdMovimiento]); // Asegúrate de incluir codigoElegido en las dependencias
 
   return (
     <>
@@ -421,7 +399,7 @@ export default function Movimientos() {
               <section>
                 {isModalOpen && (
                   <div className="modalInfo">
-                    <div className="modal-contentInfo">
+                    <div className="modal-contentInfoDos">
                       <FaRegTimesCircle
                         className="iconsCloseInfo"
                         onClick={handleModalClose}
@@ -429,18 +407,17 @@ export default function Movimientos() {
                       <table className="TablaEmpleados">
                         <thead>
                           <tr>
-                            <th>Usuario</th>
+                            <th>Codigo</th>
+                            <th>Detalle</th>
+                            <th>P.Compra</th>
                             <th>P.Venta</th>
-                            <th>Id</th>
-                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
                           {detalle.map((users, index) => {
                             const userDataIndex =
                               index < detalle.length ? index : null;
-                              const productDataIndex =
-                              index < productData.length ? index : null;
+                             
                             return (
                               <tr key={users.IdDetalle}>
                                 <td className="code">
@@ -448,26 +425,22 @@ export default function Movimientos() {
                                     ? detalle[userDataIndex].Codigo
                                     : ""}
                                 </td>
-                                <td >
-                                {productDataIndex !== null
-                                    ? productData[productDataIndex].PrecioVenta
+                                <td>
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Detalle
+                                    : ""}
+                                </td>
+                                 
+                                <td>
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].PrecioCompra
                                     : ""}
                                 </td>
                                 <td>
                                   {userDataIndex !== null
-                                    ? detalle[userDataIndex].IdDetalle
+                                    ? detalle[userDataIndex].PrecioVenta
                                     : ""}
                                 </td>
-
-                                <FaTrash
-                                  className="iconsEliminar"
-                                  title="Eliminar."
-                                  onClick={() => {
-                                    handleDeleteModal();
-                                    setCodigo(users.Codigo);
-                                    setIdDetalle(users.IdDetalle);
-                                  }}
-                                />
                               </tr>
                             );
                           })}
@@ -505,22 +478,13 @@ export default function Movimientos() {
                         </button>
                       </form>
                       <form onSubmit={handleFormSubmitExtintor}>
-                        <label className="textDos">Empleado:</label>
+                        <label className="textDos">Detalle:</label>
                         <input
                           className="inputRes"
                           type="text"
-                          value={Empleado}
-                          placeholder="Nombre"
-                          onChange={(e) => setEmpleado(e.target.value)}
-                          required
-                        />
-                        <label className="textDos">Descripción:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={Descripcion}
+                          value={Detalle}
                           placeholder="Descripción"
-                          onChange={(e) => setDescripcion(e.target.value)}
+                          onChange={(e) => setDetalle(e.target.value)}
                           required
                         />
 
@@ -569,10 +533,9 @@ export default function Movimientos() {
                 <table className="TablaEmpleados">
                   <thead>
                     <tr>
-                      <th>Id</th>
-                      <th>Usuario</th>
-                      <th>Descripción</th>
-                      <th>Fecha Movimiento</th>
+                      <th>Movimiento</th>
+                      <th>Detalle</th>
+                      <th>F.Movimiento</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -580,47 +543,30 @@ export default function Movimientos() {
                     {userData.map((users, index) => {
                       const userDataIndex =
                         index < userData.length ? index : null;
-
-                      const dataTerceraTablaIndex =
-                        index < fechData.length ? index : null;
-
-                      const dataOtroTablaIndex =
-                        index < otro.length ? index : null;
-
-                      const dataExtintorTablaIndex =
-                        index < extintor.length ? index : null;
-
-                      const dataRotuloTablaIndex =
-                        index < rotulos.length ? index : null;
-
                       return (
-                        <tr key={users.IdDetalle}>
-                          <td>
+                        <tr key={users.IdMovimiento}>
+                          <td className="code">
                             {userDataIndex !== null
-                              ? userData[userDataIndex].IdDetalle
+                              ? userData[userDataIndex].IdMovimiento
                               : ""}
                           </td>
                           <td>
                             {userDataIndex !== null
-                              ? userData[userDataIndex].Empleado
+                              ? userData[userDataIndex].Detalle
                               : ""}
                           </td>
+                           
                           <td>
                             {userDataIndex !== null
-                              ? userData[userDataIndex].Descripcion
-                              : ""}
-                          </td>
-                          <td>
-                            {dataTerceraTablaIndex !== null
-                              ? fechData[dataTerceraTablaIndex].Dia
+                              ?  userData[userDataIndex].Dia
                               : " "}
                             /
-                            {dataTerceraTablaIndex !== null
-                              ? fechData[dataTerceraTablaIndex].Mes
+                            {userDataIndex !== null
+                              ?  userData[userDataIndex].Mes
                               : ""}
                             /
-                            {dataTerceraTablaIndex !== null
-                              ? fechData[dataTerceraTablaIndex].Anno
+                            {userDataIndex !== null
+                              ?  userData[userDataIndex].Anno
                               : ""}
                           </td>
                           <td>
@@ -629,7 +575,7 @@ export default function Movimientos() {
                               title="Más Información."
                               onClick={() => {
                                 handleModalOpen();
-                                setIdDetalle(users.IdDetalle);
+                                setIdMovimiento(users.IdMovimiento);
                               }}
                             />
                           </td>

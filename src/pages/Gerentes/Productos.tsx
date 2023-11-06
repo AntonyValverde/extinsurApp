@@ -4,6 +4,7 @@ import {
   FaPenSquare,
   FaEdit,
   FaRegTimesCircle,
+  FaRegPlusSquare,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -13,16 +14,17 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "@/firebase/config";
 import { IoInformationCircleSharp } from "react-icons/io5";
-import { displayPartsToString } from "typescript";
 
 export default function Productos() {
   //-----------------------------------------------------------------Modals
@@ -64,7 +66,6 @@ export default function Productos() {
 
   const handleDeleteModal = () => {
     setShowDeleteModal(true);
-    handleDeleteUser(NumeroAleatorio);
   };
 
   //------------------------------------------------------------Modals one show detalle
@@ -77,6 +78,7 @@ export default function Productos() {
     setIsModalOpen(true);
   };
   const handleModalClose = () => {
+    setCantidad("");
     setIsModalOpen(false);
   };
   //----------------------------------------------------------Modals dos extintor
@@ -177,136 +179,114 @@ export default function Productos() {
     setShowColors(!showColors);
   };
   //---------------------------------------------------------Eliminar de la fireBase.
-  const handleDeleteUser = async (Cedula: string) => {
+  const handleDeleteUser = async (Codigo: string) => {
     try {
       const employeesQuery = await getDocs(
-        query(
-          collection(db, "Extintores"),
-          where("NumeroAleatorio", "==", NumeroAleatorio)
-        )
+        query(collection(db, "Producto"), where("Codigo", "==", Codigo))
       );
 
       if (!employeesQuery.empty) {
-        // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
         const employeeDoc = employeesQuery.docs[0];
-        const userId = employeeDoc.data().NumeroAleatorio;
+        const userId = employeeDoc.data().Cantidad;
 
-        // Eliminamos el documento del empleado
-        const employeeRef = doc(db, "Extintores", employeeDoc.id);
-        await deleteDoc(employeeRef);
-
-        // Buscamos el documento del usuario relacionado al empleado
-        const usersQuery = await getDocs(
-          query(
-            collection(db, "Extintores"),
-            where("NumeroAleatorio", "==", userId)
-          )
-        );
-      } else {
-        const employeesQuery = await getDocs(
-          query(
-            collection(db, "Rotulos"),
-            where("NumeroAleatorio", "==", NumeroAleatorio)
-          )
-        );
-
-        if (!employeesQuery.empty) {
-          // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
-          const employeeDoc = employeesQuery.docs[0];
-          const userId = employeeDoc.data().NumeroAleatorio;
-
-          // Eliminamos el documento del empleado
-          const employeeRef = doc(db, "Rotulos", employeeDoc.id);
-          await deleteDoc(employeeRef);
-
-          // Buscamos el documento del usuario relacionado al empleado
-          const usersQuery = await getDocs(
-            query(
-              collection(db, "Rotulos"),
-              where("NumeroAleatorio", "==", userId)
-            )
-          );
+        if (userId > 1) {
+          // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
+          await updateDoc(employeeDoc.ref, { Cantidad: userId - 1 });
+          const updateData = [...infoData];
+          setInfoData(updateData);
         } else {
-          const employeesQuery = await getDocs(
-            query(
-              collection(db, "Otros"),
-              where("NumeroAleatorio", "==", NumeroAleatorio)
-            )
-          );
-
-          if (!employeesQuery.empty) {
-            // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
-            const employeeDoc = employeesQuery.docs[0];
-            const userId = employeeDoc.data().NumeroAleatorio;
-
-            // Eliminamos el documento del empleado
-            const employeeRef = doc(db, "Otros", employeeDoc.id);
-            await deleteDoc(employeeRef);
-
-            // Buscamos el documento del usuario relacionado al empleado
-            const usersQuery = await getDocs(
-              query(
-                collection(db, "Otros"),
-                where("NumeroAleatorio", "==", userId)
-              )
-            );
-          } else {
-            console.log(
-              "No se encontró ningún empleado con la cédula especificada."
-            );
-          }
+          const employeeRef = doc(db, "Producto", employeeDoc.id);
+          await deleteDoc(employeeRef);
+          console.log(`No se puede disminuir la cantidad, ya es 1 o menos.`);
         }
+      } else {
+        console.log(
+          `El producto con código ${Codigo} no existe en la base de datos.`
+        );
       }
-      handleModalClose();
     } catch (error) {
-      console.log("No se elimino.");
+      console.error(`Error al disminuir la cantidad del producto: ${error}`);
     }
   };
+  //---------------------------------------------------------Eliminar de la fireBase.
+  const handleAddUser = async (Codigo: string) => {
+    try {
+      const employeesQuery = await getDocs(
+        query(collection(db, "Producto"), where("Codigo", "==", Codigo))
+      );
+
+      if (!employeesQuery.empty) {
+        const employeeDoc = employeesQuery.docs[0];
+        const userId = employeeDoc.data().Cantidad;
+
+        if (userId > 0) {
+          // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
+          await updateDoc(employeeDoc.ref, { Cantidad: userId + 1 });
+          const updateData = [...infoData];
+          setInfoData(updateData);
+        } else {
+          const employeeRef = doc(db, "Producto", employeeDoc.id);
+          await deleteDoc(employeeRef);
+          console.log(`No se puede disminuir la cantidad, ya es 1 o menos.`);
+        }
+      } else {
+        console.log(
+          `El producto con código ${Codigo} no existe en la base de datos.`
+        );
+      }
+    } catch (error) {
+      console.error(`Error al disminuir la cantidad del producto: ${error}`);
+    }
+  };
+
+  //-----------------------------------------------------------Consume firebase detalle
+  useEffect(() => {
+    const DetalleData = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Producto"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          const detalle = doc.data();
+          //-------------------------------------Aquí, verifica si el detalle tiene el código que deseas
+          if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
+            data.push(detalle);
+          }
+        });
+
+        setInfoData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+
+    DetalleData();
+  }, [Codigo]);
   //----------------------------------------------------------Agregar extintor
   const handleFormSubmitExtintor = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const usersRef = collection(db, "Productos");
+      const usersRef = collection(db, "Producto");
       const queryDB = await getDocs(
         query(usersRef, where("Codigo", "==", Codigo))
       );
       if (!queryDB.empty) {
         return;
       }
-      const cantidad = parseInt(Cantidad, 10);
       const productosData = {
+        Anno,
+        Bodega,
         Cantidad,
         Codigo,
-        Tipo: "Extintor",
+        Detalle,
+        Dia,
+        Mes,
+        PrecioCompra,
+        PrecioVenta,
+        Tipo,
       };
-      for (let i = 0; i < cantidad; i++) {
-        const numeroAleatorio = Math.floor(Math.random() * 1000);
-        const extintoresData = {
-          Agente,
-          Bodega,
-          Clase,
-          Codigo,
-          Peso,
-          Tipo: "Extintor",
-          PrecioCompra,
-          PrecioVenta,
-          NumeroAleatorio: numeroAleatorio,
-        };
-        const fechaData = {
-          Anno,
-          Mes,
-          Dia,
-          Tipo,
-          Codigo,
-          NumeroAleatorio: numeroAleatorio,
-        };
+      await addDoc(collection(db, "Producto"), productosData);
 
-        await addDoc(collection(db, "Extintores"), extintoresData);
-        await addDoc(collection(db, "FechaEntrada"), fechaData);
-      }
-      await addDoc(collection(db, "Productos"), productosData);
-
-      const updateData = [...extintorData, { ...fechaActual, ...productData }];
+      const updateData = [...productData];
       setProductData(updateData);
       handleModalCloseDos();
     } catch (error) {
@@ -314,103 +294,7 @@ export default function Productos() {
     }
     handleModalCloseDos();
   };
-  //--------------------------------------------------------Agregar Rotulo
-  const handleFormSubmitRotulos = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      const usersRef = collection(db, "Productos");
-      const queryDB = await getDocs(
-        query(usersRef, where("Codigo", "==", Codigo))
-      );
-      if (!queryDB.empty) {
-        return;
-      }
-      const productosData = {
-        Cantidad,
-        Codigo,
-        Tipo: "Rotulo",
-      };
-      const cantidad = parseInt(Cantidad, 10);
-      for (let i = 0; i < cantidad; i++) {
-        const numeroAleatorio = Math.floor(Math.random() * 1000);
-        const rotulosData = {
-          Bodega,
-          Codigo,
-          Nombre,
-          PrecioCompra,
-          Tipo: "Rotulo",
-          NumeroAleatorio: numeroAleatorio,
-        };
-        const fechaData = {
-          Anno,
-          Mes,
-          Dia,
-          Codigo,
-          Tipo,
-          NumeroAleatorio: numeroAleatorio,
-        };
-        await addDoc(collection(db, "Rotulos"), rotulosData);
-        await addDoc(collection(db, "FechaEntrada"), fechaData);
-      }
 
-      await addDoc(collection(db, "Productos"), productosData);
-
-      handleModalClose();
-    } catch (error) {
-      console.error("Error al agregar datos:", error);
-    }
-    handleModalCloseTres();
-  };
-  //--------------------------------------------------------------Agregar Otro
-  const handleFormSubmitOtro = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      const usersRef = collection(db, "Productos");
-      const queryDB = await getDocs(
-        query(usersRef, where("Codigo", "==", Codigo))
-      );
-      if (!queryDB.empty) {
-        return;
-      }
-      const productosData = {
-        Cantidad,
-        Codigo,
-        Tipo: "Otro",
-      };
-      const cantidad = parseInt(Cantidad, 10);
-      for (let i = 0; i < cantidad; i++) {
-        const numeroAleatorio = Math.floor(Math.random() * 1000);
-        const otrosData = {
-          Agente,
-          Bodega,
-          Clase,
-          Codigo,
-          Peso,
-          PrecioCompra,
-          PrecioVenta,
-          Tipo: "Otro",
-          NumeroAleatorio: numeroAleatorio,
-        };
-        const fechaData = {
-          Anno,
-          Mes,
-          Dia,
-          Codigo,
-          Tipo,
-          NumeroAleatorio: numeroAleatorio,
-        };
-        await addDoc(collection(db, "Otros"), otrosData);
-        await addDoc(collection(db, "FechaEntrada"), fechaData);
-      }
-
-      await addDoc(collection(db, "Productos"), productosData);
-
-      handleModalCloseCuatro();
-      handleModalClose();
-    } catch (error) {
-      console.error("Error al agregar datos:", error);
-    }
-  };
   //----------------------------------------------------Obtiene las variables de fecha
   function obtenerFechaActual(): Date {
     return new Date();
@@ -422,13 +306,11 @@ export default function Productos() {
   const Mes: number = fechaActual.getMonth() + 1;
   const Dia: number = fechaActual.getDate();
 
-  console.log("Fecha actual:", fechaActual);
-  console.log(`Año: ${Anno}, Mes: ${Mes}, Día: ${Dia}`);
-  //Consume fireBase
+  //---------------------------------------------------------------Consume fireBase
   useEffect(() => {
     const productData = async () => {
       try {
-        const queryDB = await getDocs(collection(db, "Productos"));
+        const queryDB = await getDocs(collection(db, "Producto"));
         const data: React.SetStateAction<any[]> = [];
         queryDB.forEach((doc) => {
           data.push(doc.data());
@@ -438,98 +320,10 @@ export default function Productos() {
         console.error("No se pudieron extraer los datos: " + error);
       }
     };
-    const fetchData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "FechaEntrada"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setFechCaja(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-    const RotulacionData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Rotulos"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setRotCaja(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-    const otroData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Otros"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setOtrosCaja(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-    const extintorData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Extintores"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          data.push(doc.data());
-        });
-        setExtCaja(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
 
-    fetchData();
-    RotulacionData();
-    otroData();
     productData();
-    extintorData();
   }, []);
-  //-----------------------------------------------------------Consume firebase detalle
-  useEffect(() => {
-    const DetalleData = async () => {
-      try {
-        const querydb = await getDocs(collection(db, "Extintores"));
-        const data: React.SetStateAction<any[]> = [];
-        querydb.forEach((doc) => {
-          const detalle = doc.data();
-          //-------------------------------------Aquí, verifica si el detalle tiene el código que deseas
-          if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
-            data.push(detalle);
-          }
-        });
 
-        const querydbTwo = await getDocs(collection(db, "Rotulos"));
-        querydbTwo.forEach((doc) => {
-          const detalle = doc.data();
-          if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
-            data.push(detalle);
-          }
-        });
-
-        const querydbThree = await getDocs(collection(db, "Otros"));
-        querydbThree.forEach((doc) => {
-          const detalle = doc.data();
-          if (detalle.Codigo === Codigo && detalle.Tipo === Tipo) {
-            data.push(detalle);
-          }
-        });
-        setInfoData(data);
-      } catch (error) {
-        console.error("No se pudieron extraer los datos: " + error);
-      }
-    };
-
-    DetalleData();
-  }, [Codigo]);
   //-------------------------------------------------------------Buscador
   useEffect(() => {
     const filtered = productData.filter((data) =>
@@ -554,36 +348,26 @@ export default function Productos() {
     setFilterValue(value);
     setFilterValue2(value);
   };
-  //Buscador
-  const countEmployesActiveAndInactive = () => {
-    const employeActive = productData.filter(
-      (user) => user.estado === "Activo"
-    );
-    const employeInactive = productData.filter(
-      (user) => user.estado === "Inactivo"
-    );
-    return {
-      CountActive: employeActive.length,
-      CountInactive: employeInactive.length,
-    };
-  };
+  //-----------------------------------------------------Buscador
+
   const handleSearchChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSearchQuery(event.target.value);
   };
-  //Actualizar
+  //-----------------------------------------------------Actualizar
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      collection(db, "Productos"),
+      collection(db, "Producto"),
       async (querySnapshot) => {
         const employeesData: { id: string; Codigo: string }[] = [];
+        const employeesDataTwo: { id: string; Codigo: string }[] = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           employeesData.push({ id: doc.id, Codigo, ...data });
+          const dataTwo = doc.data();
+          employeesDataTwo.push({ id: doc.id, Codigo, ...dataTwo });
         });
-
-         
 
         const combinedData = employeesData.map((employee) => {
           const relatedUser = productData.find(
@@ -591,7 +375,13 @@ export default function Productos() {
           );
           return { ...employee, ...relatedUser };
         });
-
+        const combinedDataTwo = employeesDataTwo.map((employee) => {
+          const relatedUserTwo = infoData.find(
+            (user) => user.Codigo === employee.Codigo
+          );
+          return { ...employee, ...relatedUserTwo };
+        });
+        setInfoData(combinedDataTwo);
         setProductData(combinedData); // Actualiza el estado local con los datos combinados
       }
     );
@@ -632,10 +422,11 @@ export default function Productos() {
                           onChange={(e) => setCantidad(e.target.value)}
                           required
                         />
+
                         <label className="textDos">Codigo:</label>
                         <input
                           className="inputRes"
-                          type="number"
+                          type="text"
                           value={Codigo}
                           placeholder="Codigo"
                           onChange={(e) => setCodigo(e.target.value)}
@@ -643,32 +434,27 @@ export default function Productos() {
                         />
 
                         <label className="textDos">Tipo:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
+                        <select
+                          className="inputResDos"
                           value={Tipo}
-                          placeholder="Tipo"
                           onChange={(e) => setTipo(e.target.value)}
                           required
-                        />
-                        <label className="textDos">Agente:</label>
+                        >
+                          <option value="Extintor">Extintor</option>
+                          <option value="Rotulo">Rotulo</option>
+                          <option value="Otro">Otro</option>
+                        </select>
+
+                        <label className="textDos">Detalle:</label>
                         <input
                           className="inputRes"
                           type="text"
-                          value={Agente}
-                          placeholder="Agente"
-                          onChange={(e) => setAgente(e.target.value)}
+                          value={Detalle}
+                          placeholder="Detalle"
+                          onChange={(e) => setDetalle(e.target.value)}
                           required
                         />
-                        <label className="textDos">Clase:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={Clase}
-                          placeholder="Clase"
-                          onChange={(e) => setClase(e.target.value)}
-                          required
-                        />
+
                         <label className="textDos">Bodega:</label>
                         <input
                           className="inputRes"
@@ -678,24 +464,17 @@ export default function Productos() {
                           onChange={(e) => setBodega(e.target.value)}
                           required
                         />
-                        <label className="textDos">Peso:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={Peso}
-                          placeholder="Peso"
-                          onChange={(e) => setPeso(e.target.value)}
-                          required
-                        />
+
                         <label className="textDos">Precio Compra:</label>
                         <input
                           className="inputRes"
-                          type="text"
+                          type="number"
                           value={PrecioCompra}
                           placeholder="Precio Compra"
                           onChange={(e) => setPrecioCompra(e.target.value)}
                           required
                         />
+
                         <label className="textDos">Precio Venta:</label>
                         <input
                           className="inputRes"
@@ -715,154 +494,11 @@ export default function Productos() {
                 )}
               </section>
 
-              {/*-------------------------------------------Modals add rotulo */}
-              <section>
-                {isModalOpenTres && (
-                  <div className="modalOtro">
-                    <div className="modal-contentOtro">
-                      <FaRegTimesCircle
-                        className="iconsClose"
-                        onClick={handleModalCloseTres}
-                      />
-                      <form onSubmit={handleFormSubmitRotulos}>
-                        <label className="textDos">Cantidad:</label>
-                        <input
-                          className="inputRes"
-                          type="number"
-                          value={Cantidad}
-                          placeholder="1"
-                          onChange={(e) => setCantidad(e.target.value)}
-                          required
-                        />
-                        <label className="textDos">Codigo:</label>
-                        <input
-                          className="inputRes"
-                          type="number"
-                          value={Codigo}
-                          placeholder="Codigo"
-                          onChange={(e) => setCodigo(e.target.value)}
-                          required
-                        />
-
-                        <label className="textDos">Nombre:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={Nombre}
-                          placeholder="Nombre"
-                          onChange={(e) => setNombre(e.target.value)}
-                          required
-                        />
-
-                        <label className="textDos">Bodega:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={Bodega}
-                          placeholder="Bodega"
-                          onChange={(e) => setBodega(e.target.value)}
-                          required
-                        />
-
-                        <label className="textDos">Precio Compra:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={PrecioCompra}
-                          placeholder="Precio Compra"
-                          onChange={(e) => setPrecioCompra(e.target.value)}
-                          required
-                        />
-                        <label className="textDos">Precio Venta:</label>
-                        <input
-                          className="inputRes"
-                          type="number"
-                          value={PrecioVenta}
-                          placeholder="Precio Venta"
-                          onChange={(e) => setPrecioVenta(e.target.value)}
-                          required
-                        />
-
-                        <button className="RegistrarButton" type="submit">
-                          Agregar
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                )}
-              </section>
-              {/*-----------------------------------------------Modals add otro*/}
-              <section>
-                {isModalOpenCuatro && (
-                  <div className="modalOtro">
-                    <div className="modal-contentOtro">
-                      <FaRegTimesCircle
-                        className="iconsClose"
-                        onClick={handleModalCloseCuatro}
-                      />
-                      <form onSubmit={handleFormSubmitOtro}>
-                        <label className="textDos">Cantidad:</label>
-                        <input
-                          className="inputRes"
-                          type="number"
-                          value={Cantidad}
-                          placeholder="1"
-                          onChange={(e) => setCantidad(e.target.value)}
-                          required
-                        />
-                        <label className="textDos">Codigo:</label>
-                        <input
-                          className="inputRes"
-                          type="number"
-                          value={Codigo}
-                          placeholder="Codigo"
-                          onChange={(e) => setCodigo(e.target.value)}
-                          required
-                        />
-
-                        <label className="textDos">Nombre:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={Nombre}
-                          placeholder="Nombre"
-                          onChange={(e) => setNombre(e.target.value)}
-                          required
-                        />
-
-                        <label className="textDos">Bodega:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={Bodega}
-                          placeholder="Bodega"
-                          onChange={(e) => setBodega(e.target.value)}
-                          required
-                        />
-
-                        <label className="textDos">Precio Compra:</label>
-                        <input
-                          className="inputRes"
-                          type="text"
-                          value={PrecioCompra}
-                          placeholder="Precio Compra"
-                          onChange={(e) => setPrecioCompra(e.target.value)}
-                          required
-                        />
-
-                        <button className="RegistrarButton" type="submit">
-                          Agregar
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                )}
-              </section>
               {/*-----------------------------------------Modals detalles*/}
               <section>
                 {isModalOpen && (
                   <div className="modalInfo">
-                    <div className="modal-contentInfo">
+                    <div className="modal-contentInfoDos">
                       <FaRegTimesCircle
                         className="iconsCloseInfo"
                         onClick={handleModalClose}
@@ -871,205 +507,163 @@ export default function Productos() {
                         <thead>
                           <tr>
                             <th>Codigo</th>
-                            <th>Tipo</th>
-                            <th>Bodega</th>
-                            <th>P.Venta</th>
-                            <th>Unidad</th>
-                            <th></th>
+                            <th>Cantidad</th>
+                            <th>Opciones</th>
                           </tr>
                         </thead>
                         <tbody>
                           {infoData.map((users, index) => {
-                            if (Tipo == "Extintor") {
-                              const userDataIndex =
-                                index < infoData.length ? index : null;
-                              const dataTerceraTablaIndex =
-                                index < extintorData.length ? index : null;
-                              return (
-                                <tr key={users.IdDetalle}>
-                                  <td className="code">
-                                    {userDataIndex !== null
-                                      ? infoData[userDataIndex].Codigo
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {userDataIndex !== null
-                                      ? infoData[userDataIndex].Tipo
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? extintorData[dataTerceraTablaIndex]
-                                          .Bodega
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? extintorData[dataTerceraTablaIndex]
-                                          .PrecioCompra
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? extintorData[dataTerceraTablaIndex]
-                                          .NumeroAleatorio
-                                      : ""}
-                                  </td>
+                            const userDataIndex =
+                              index < infoData.length ? index : null;
 
-                                  <td>
-                                    <FaTrash
-                                      className="iconsEliminar"
-                                      title="Eliminar."
-                                      onClick={() => {
-                                        handleDeleteModal();
-                                        setNumeroAleatorio(
-                                          users.NumeroAleatorio
-                                        );
-                                      }}
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            } else if (Tipo == "Rotulo") {
-                              const userDataIndex =
-                                index < infoData.length ? index : null;
-                              const dataTerceraTablaIndex =
-                                index < rotulacionData.length ? index : null;
-                              return (
-                                <tr key={users.IdDetalle}>
-                                  <td className="code">
-                                    {userDataIndex !== null
-                                      ? infoData[userDataIndex].Codigo
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {userDataIndex !== null
-                                      ? infoData[userDataIndex].Tipo
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? rotulacionData[dataTerceraTablaIndex]
-                                          .Bodega
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? rotulacionData[dataTerceraTablaIndex]
-                                          .PrecioCompra
-                                      : ""}
-                                  </td>
+                            return (
+                              <tr key={users.Codigo}>
+                                <td className="code">
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Codigo
+                                    : ""}
+                                </td>
 
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? rotulacionData[dataTerceraTablaIndex]
-                                          .NumeroAleatorio
-                                      : ""}
-                                  </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Cantidad
+                                    : ""}
+                                </td>
 
-                                  <td>
-                                    <FaTrash
-                                      className="iconsEliminar"
-                                      title="Eliminar."
-                                      onClick={() => {
-                                        handleDeleteModal();
-                                        setNumeroAleatorio(
-                                          users.NumeroAleatorio
-                                        );
-                                      }}
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            } else if (Tipo == "Otro") {
-                              const userDataIndex =
-                                index < infoData.length ? index : null;
-                              const dataTerceraTablaIndex =
-                                index < otrosData.length ? index : null;
+                                <td>
+                                  <FaTrash
+                                    className="iconsEliminar"
+                                    title="Eliminar."
+                                    onClick={() =>
+                                      handleDeleteUser(users.Codigo)
+                                    }
+                                  />
+                                  <FaRegPlusSquare
+                                    className="iconsInfo"
+                                    title="Agregar."
+                                    onClick={() => handleAddUser(users.Codigo)}
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      <table className="TablaEmpleados">
+                        <thead>
+                          <tr>
+                            <th>Fecha</th>
+                            <th>Detalle</th>
+                            <th>Tipo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {infoData.map((users, index) => {
+                            const userDataIndex =
+                              index < infoData.length ? index : null;
 
-                              return (
-                                <tr key={users.IdDetalle}>
-                                  <td className="code">
-                                    {userDataIndex !== null
-                                      ? infoData[userDataIndex].Codigo
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {userDataIndex !== null
-                                      ? infoData[userDataIndex].Tipo
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? otrosData[dataTerceraTablaIndex].Bodega
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? otrosData[dataTerceraTablaIndex]
-                                          .PrecioCompra
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? otrosData[dataTerceraTablaIndex]
-                                          .NumeroAleatorio
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    <FaTrash
-                                      className="iconsEliminar"
-                                      title="Eliminar."
-                                      onClick={() => {
-                                        handleDeleteModal();
-                                        setNumeroAleatorio(
-                                          users.NumeroAleatorio
-                                        );
-                                      }}
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            } else {
-                              const userDataIndex =
-                                index < infoData.length ? index : null;
-                              const dataTerceraTablaIndex =
-                                index < extintorData.length ? index : null;
+                            return (
+                              <tr key={users.Codigo}>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Dia
+                                    : ""}
+                                  /{" "}
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Mes
+                                    : ""}
+                                  /{" "}
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Anno
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Tipo
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Detalle
+                                    : ""}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      <table className="TablaEmpleados">
+                        <thead>
+                          <tr>
+                            <th>Bodega</th>
+                            <th>P.Compra</th>
+                            <th>P.Venta</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {infoData.map((users, index) => {
+                            const userDataIndex =
+                              index < infoData.length ? index : null;
 
-                              return (
-                                <tr key={users.IdDetalle}>
-                                  <td className="code">
-                                    {userDataIndex !== null
-                                      ? infoData[userDataIndex].Codigo
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {userDataIndex !== null
-                                      ? infoData[userDataIndex].Tipo
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? extintorData[dataTerceraTablaIndex]
-                                          .Bodega
-                                      : ""}
-                                  </td>
-                                  <td>
-                                    {dataTerceraTablaIndex !== null
-                                      ? extintorData[dataTerceraTablaIndex]
-                                          .PrecioCompra
-                                      : ""}
-                                  </td>
+                            return (
+                              <tr key={users.Codigo}>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].Bodega
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].PrecioCompra
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? infoData[userDataIndex].PrecioVenta
+                                    : ""}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      <table className="TablaEmpleados">
+                        <thead>
+                          <tr>
+                            <th>T.Compra</th>
+                            <th>T.Venta</th>
+                            <th>T.IVA</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {infoData.map((users, index) => {
+                            const userDataIndex =
+                              index < infoData.length ? index : null;
 
-                                  <td>
-                                    <FaTrash
-                                      className="iconsEliminar"
-                                      title="Eliminar."
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            }
+                            const cantidad =
+                              userDataIndex !== null
+                                ? infoData[userDataIndex].Cantidad
+                                : 0;
+                            const precioVenta =
+                              userDataIndex !== null
+                                ? infoData[userDataIndex].PrecioVenta
+                                : 0;
+
+                            const precioCompra =
+                              userDataIndex !== null
+                                ? infoData[userDataIndex].PrecioCompra
+                                : 0;
+                            const total = cantidad * precioVenta;
+                            const totalCompra = cantidad * precioCompra;
+                            const totalVentaIva = cantidad * precioVenta * 1.14;
+
+                            return (
+                              <tr key={users.Codigo}>
+                                <td>{totalCompra}</td>
+                                <td>{total}</td>
+                                <td>{totalVentaIva}</td>
+                              </tr>
+                            );
                           })}
                         </tbody>
                       </table>
@@ -1093,19 +687,7 @@ export default function Productos() {
                     onClick={handleModalOpenDos}
                     className="RegistrarButton"
                   >
-                    Extintor
-                  </button>
-                  <button
-                    onClick={handleModalOpenTres}
-                    className="RegistrarButton"
-                  >
-                    Rotulo
-                  </button>
-                  <button
-                    onClick={handleModalOpenCuatro}
-                    className="RegistrarButton"
-                  >
-                    Otro
+                    Producto
                   </button>
                   <div className="RegistrarButton">
                     <button onClick={toggleColorVisibility}>
@@ -1133,6 +715,7 @@ export default function Productos() {
                   <thead>
                     <tr>
                       <th>Código</th>
+                      <th>Detalle</th>
                       <th>Cantidad</th>
                       <th>Tipo</th>
                       <th>Ingresó</th>
@@ -1146,7 +729,7 @@ export default function Productos() {
                           user.Codigo.toLowerCase().includes(
                             searchQuery.toLowerCase()
                           ) ||
-                          user.Cantidad.toLowerCase().includes(
+                          user.Detalle.toLowerCase().includes(
                             searchQuery.toLowerCase()
                           ) ||
                           user.Tipo.toLowerCase().includes(
@@ -1154,35 +737,13 @@ export default function Productos() {
                           )
                       )
                       .map((user, index) => {
-                        const userDataIndex =
-                          index < productData.length ? index : null;
-                        const dataTerceraTablaIndex =
-                          index < fechaData.length ? index : null;
-
                         return (
                           <tr key={user.Codigo}>
-                            <td className="code">
-                              {userDataIndex !== null
-                                ? productData[userDataIndex].Codigo
-                                : ""}
-                            </td>
-                            <td>
-                              {userDataIndex !== null
-                                ? productData[userDataIndex].Cantidad
-                                : ""}
-                            </td>
-                            <td>
-                              {userDataIndex !== null
-                                ? productData[userDataIndex].Tipo
-                                : ""}
-                            </td>
-                            <td>
-                              {dataTerceraTablaIndex !== null
-                                ? `${fechaData[dataTerceraTablaIndex].Dia}/
-                                  ${fechaData[dataTerceraTablaIndex].Mes}/
-                                  ${fechaData[dataTerceraTablaIndex].Anno}`
-                                : " "}
-                            </td>
+                            <td className="code">{user.Codigo}</td>
+                            <td>{user.Detalle}</td>
+                            <td>{user.Cantidad}</td>
+                            <td>{user.Tipo}</td>
+                            <td>{`${user.Dia}/${user.Mes}/${user.Anno}`}</td>
                             <td>
                               <IoInformationCircleSharp
                                 onClick={() => {
@@ -1193,6 +754,18 @@ export default function Productos() {
                                 className="iconsInfo"
                                 title="Más Información."
                               />
+                              <FaTrash
+                                    className="iconsEliminar"
+                                    title="Eliminar."
+                                    onClick={() =>
+                                      handleDeleteUser(user.Codigo)
+                                    }
+                                  />
+                                  <FaRegPlusSquare
+                                    className="iconsInfo"
+                                    title="Agregar."
+                                    onClick={() => handleAddUser(user.Codigo)}
+                                  />
                             </td>
                           </tr>
                         );
