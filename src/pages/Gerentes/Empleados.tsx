@@ -443,7 +443,7 @@ export default function Empleados() {
           <div>
             <IndexGerenteInicioDos />
           </div>
-
+          
           <div className="bodyEmpleados">
             <section>
               <h1 className="tituloEmpleados">Empleados</h1>
