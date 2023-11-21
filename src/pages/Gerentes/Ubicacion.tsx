@@ -216,7 +216,7 @@ export default function Ubicacion() {
                         index < UbicationData.length ? index : null;
 
                       return (
-                        <tr key={users.Id}>
+                        <tr key={users.enlace}>
                           <td>
                             {userDataIndex !== null
                               ? UbicationData[userDataIndex].Descripcion
@@ -237,13 +237,7 @@ export default function Ubicacion() {
                               : ""}
                           </td>
 
-                          <td>
-                            <IoInformationCircleSharp
-                              onClick={handleModalOpen}
-                              className="iconsInfo"
-                              title="Más Información."
-                            />
-                          </td>
+                           
                         </tr>
                       );
                     })}

@@ -529,7 +529,7 @@ export default function Mantenimiento() {
                               index < detalle.length ? index : null;
 
                             return (
-                              <tr key={users.Codigo}>
+                              <tr key={users.IdMantenimiento}>
                                 <td>
                                   {userDataIndex !== null
                                     ? detalle[userDataIndex].Dia
@@ -572,7 +572,7 @@ export default function Mantenimiento() {
                               index < detalle.length ? index : null;
 
                             return (
-                              <tr key={users.Codigo}>
+                              <tr key={users.IdMantenimiento}>
                                 <td>
                                   {userDataIndex !== null
                                     ? detalle[userDataIndex].Bodega
@@ -624,7 +624,7 @@ export default function Mantenimiento() {
                             const totalVentaIva = cantidad * precioVenta * 1.14;
 
                             return (
-                              <tr key={users.Codigo}>
+                              <tr key={users.IdMantenimiento}>
                                 <td>{totalCompra}</td>
                                 <td>{total}</td>
                                 <td>{totalVentaIva}</td>
@@ -804,7 +804,7 @@ export default function Mantenimiento() {
                       const userDataIndex =
                         index < userData.length ? index : null;
                       return (
-                        <tr key={users.IdMovimiento}>
+                        <tr key={users.IdMantenimiento}>
                           <td className="code">
                             {userDataIndex !== null
                               ? userData[userDataIndex].IdMantenimiento

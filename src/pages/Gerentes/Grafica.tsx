@@ -97,15 +97,15 @@ export default function Grafica() {
           if (producto.Tipo === "Extintor") {
             if (!isNaN(producto.Cantidad)) {
               sumaExtintor += Number(producto.Cantidad);
-            } 
+            }
           } else if (producto.Tipo === "Rotulo") {
             if (!isNaN(producto.Cantidad)) {
               sumaRotulo += Number(producto.Cantidad);
-            } 
+            }
           } else if (producto.Tipo === "Otro") {
             if (!isNaN(producto.Cantidad)) {
               sumaOtro += Number(producto.Cantidad);
-            } 
+            }
           }
         });
         setRotulos(sumaRotulo);
@@ -254,7 +254,14 @@ export default function Grafica() {
               <div className="linea"></div>
               <div className="contenedorTablaGrafica">
                 <div className="circular">
-                  <div style={{ width: "60%", height: 270, marginTop: "3rem", marginLeft:"20%" }}>
+                  <div
+                    style={{
+                      width: "60%",
+                      height: 270,
+                      marginTop: "3rem",
+                      marginLeft: "20%",
+                    }}
+                  >
                     <ResponsiveContainer>
                       <PieChart>
                         <Pie
@@ -296,7 +303,14 @@ export default function Grafica() {
                   </div>
                 </div>
                 <div className="barras">
-                  <div style={{ width: "65%", height: 270, marginTop: "3rem", marginLeft:"18%" }}>
+                  <div
+                    style={{
+                      width: "65%",
+                      height: 270,
+                      marginTop: "3rem",
+                      marginLeft: "18%",
+                    }}
+                  >
                     <ResponsiveContainer width="100%" aspect={2}>
                       <BarChart
                         data={datos}

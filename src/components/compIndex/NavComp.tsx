@@ -8,28 +8,17 @@ import {
   FaTools,
   FaDirections,
   FaFireExtinguisher,
-  FaEnvelopeOpenText,
-  FaWhatsapp,
-  FaPortrait,
-  FaIcons,
-  FaTrash,
-  FaEdit,
 } from "react-icons/fa";
 import {
-  addDoc,
   collection,
   getDocs,
   getFirestore,
-  query,
-  where,
+   
 } from "firebase/firestore";
-import Link from "next/link";
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { IoInformationCircleSharp } from "react-icons/io5";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "@/firebase/config";
 
@@ -157,7 +146,7 @@ const Nav_index = ({}) => {
                     </thead>
                     <tbody>
                       {UbicacionData.map((user) => (
-                        <tr key={user.Id}>
+                        <tr key={user.enlace}>
                           <td className="textU">{user.Descripcion ?? "-"}</td>
                           <td className="textU">{user.enlace ?? "-"}</td>
                           <td className="textU">{user.HoraInicio ?? "-"} / {user.HoraCierre ?? "-"}</td>
