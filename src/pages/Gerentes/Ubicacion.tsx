@@ -70,7 +70,6 @@ export default function Ubicacion() {
     setDescripcion("");
     setHoraInicio("");
     setHoraCierre("");
-    
   };
 
   const [backgroundColor, setBackgroundColor] = useState<string>("white");
@@ -118,7 +117,9 @@ export default function Ubicacion() {
     event.preventDefault();
     try {
       const usersRef = collection(db, "Ubicacion");
-      const queryDB = await getDocs(query(usersRef, where("Link", "==", enlace)));
+      const queryDB = await getDocs(
+        query(usersRef, where("Link", "==", enlace))
+      );
       if (!queryDB.empty) {
         return;
       }
@@ -136,7 +137,6 @@ export default function Ubicacion() {
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
-
   };
 
   //Consume tabla de Ubicacion
@@ -206,7 +206,7 @@ export default function Ubicacion() {
                       <th>Descipcion</th>
                       <th>Horario</th>
                       <th>Dirección</th>
-                        
+
                       <th></th>
                     </tr>
                   </thead>
@@ -236,8 +236,12 @@ export default function Ubicacion() {
                               ? UbicationData[userDataIndex].enlace
                               : ""}
                           </td>
-
-                           
+                          <td>
+                            <FaTrash
+                              className="iconsEliminar"
+                              title="Eliminar."
+                            />
+                          </td>
                         </tr>
                       );
                     })}
@@ -324,7 +328,9 @@ export default function Ubicacion() {
                         onChange={(e) => setDescripcion(e.target.value)}
                       />
 
-                      <button className="btnAgregar" type="submit">Agregar</button>
+                      <button className="btnAgregar" type="submit">
+                        Agregar
+                      </button>
                     </form>
                   </div>
                 </div>
