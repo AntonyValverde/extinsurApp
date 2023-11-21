@@ -120,11 +120,11 @@ const Nav_index = ({}) => {
             <article className="articleInfo">
               ExtinSur corredores, servicios de mantenimiento y seguridad
               ciudadana, estamos siempre para usted, mira nuestros productos de
-              mejor calidad y visitanos en nuestros puestos de venta.
+              mejor calidad y visítanos en nuestros puestos de venta.
             </article>
 
             <article className="articleInfo">
-              Oficinas en San Rafael de ciudad Neily, entrada frente al salon
+              Oficinas en San Rafael de Ciudad Neily, entrada frente al salón
               comunal.
             </article>
 

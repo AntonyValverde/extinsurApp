@@ -32,7 +32,7 @@ const sidebarItems = [
         icon: FaMapMarkerAlt,
     },
     {
-        name: "Grafica",
+        name: "Estadísticas",
         href: "/Gerentes/Grafica",
         icon: FaChartBar,
     },

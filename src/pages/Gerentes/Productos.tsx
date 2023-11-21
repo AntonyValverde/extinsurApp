@@ -192,8 +192,6 @@ export default function Productos() {
         if (userId > 1) {
           // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
           await updateDoc(employeeDoc.ref, { Cantidad: userId - 1 });
-          const updateData = [...infoData];
-          setInfoData(updateData);
         } else {
           const employeeRef = doc(db, "Producto", employeeDoc.id);
           await deleteDoc(employeeRef);
@@ -222,8 +220,6 @@ export default function Productos() {
         if (userId > 0) {
           // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
           await updateDoc(employeeDoc.ref, { Cantidad: userId + 1 });
-          const updateData = [...infoData];
-          setInfoData(updateData);
         } else {
           const employeeRef = doc(db, "Producto", employeeDoc.id);
           await deleteDoc(employeeRef);
@@ -286,8 +282,7 @@ export default function Productos() {
       };
       await addDoc(collection(db, "Producto"), productosData);
 
-      const updateData = [...productData];
-      setProductData(updateData);
+      
       handleModalCloseDos();
     } catch (error) {
       console.error("Error al agregar datos:", error);
@@ -534,14 +529,20 @@ export default function Productos() {
                                   <FaTrash
                                     className="iconsEliminar"
                                     title="Eliminar."
-                                    onClick={() =>
-                                      handleDeleteUser(users.Codigo)
-                                    }
+                                    onClick={() => {
+                                      handleDeleteUser(users.Codigo);
+                                      const updateData = [...infoData];
+                                      setInfoData(updateData);
+                                    }}
                                   />
                                   <FaRegPlusSquare
                                     className="iconsInfo"
                                     title="Agregar."
-                                    onClick={() => handleAddUser(users.Codigo)}
+                                    onClick={() => {
+                                      handleAddUser(users.Codigo);
+                                      const updateData = [...infoData];
+                                      setInfoData(updateData);
+                                    }}
                                   />
                                 </td>
                               </tr>
@@ -683,8 +684,13 @@ export default function Productos() {
                     name="Buscar"
                     onChange={handleSearchChange}
                   />
+                   
                   <button
-                    onClick={handleModalOpenDos}
+                    onClick={() => {
+                      handleModalOpenDos();
+                      const updateData = [...infoData];
+                      setInfoData(updateData);
+                    }}
                     className="RegistrarButton"
                   >
                     Producto
@@ -755,17 +761,15 @@ export default function Productos() {
                                 title="Más Información."
                               />
                               <FaTrash
-                                    className="iconsEliminar"
-                                    title="Eliminar."
-                                    onClick={() =>
-                                      handleDeleteUser(user.Codigo)
-                                    }
-                                  />
-                                  <FaRegPlusSquare
-                                    className="iconsInfo"
-                                    title="Agregar."
-                                    onClick={() => handleAddUser(user.Codigo)}
-                                  />
+                                className="iconsEliminar"
+                                title="Eliminar."
+                                onClick={() => handleDeleteUser(user.Codigo)}
+                              />
+                              <FaRegPlusSquare
+                                className="iconsInfo"
+                                title="Agregar."
+                                onClick={() => handleAddUser(user.Codigo)}
+                              />
                             </td>
                           </tr>
                         );

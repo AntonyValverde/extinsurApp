@@ -73,8 +73,6 @@ export default function Ubicacion() {
     
   };
 
-   
-
   const [backgroundColor, setBackgroundColor] = useState<string>("white");
   const colors = [
     "#294D61",
@@ -114,6 +112,7 @@ export default function Ubicacion() {
   const toggleColorVisibility = () => {
     setShowColors(!showColors);
   };
+
   //Agregar ubicacion
   const handleFormSubmitUbication = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -129,7 +128,6 @@ export default function Ubicacion() {
         HoraInicio,
         HoraCierre,
         Descripcion,
-         
       };
 
       await addDoc(collection(db, "Ubicacion"), ubicationData);
@@ -155,7 +153,6 @@ export default function Ubicacion() {
         console.error("No se pudieron extraer los datos: " + error);
       }
     };
-
     fetchDates();
   }, []);
 
@@ -166,7 +163,6 @@ export default function Ubicacion() {
           <div>
             <IndexGerenteInicioDos />
           </div>
-
           <div className="bodyEmpleados">
             <section>
               <h1 className="tituloEmpleados">Ubicación</h1>

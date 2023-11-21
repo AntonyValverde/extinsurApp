@@ -90,16 +90,8 @@
   padding: 10px;
   overflow: auto;
 }
-.modal-content {
-  background: wheat; /*rgb(40, 235 , 140, 0.7);*/
-  width: 30vw;
-  height: 70vh;
-  margin-top: 2vw;
-  
-  padding: 20px;
-  box-shadow: 4px 4px 4px 4px rgb(172, 180, 212, 0.3);
-  overflow: auto;
-}
+ 
+ 
 /*Modal recuperar contraseña*/
 .modal-overlay {
   display: flex;

@@ -22,7 +22,9 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  onSnapshot,
 } from "firebase/firestore";
+
 import firebaseConfig from "@/firebase/config";
 import { initializeApp } from "firebase/app";
 import "firebase/firestore";
@@ -30,6 +32,8 @@ import "firebase/compat/firestore";
 import {
   EmailAuthProvider,
   createUserWithEmailAndPassword,
+  getAuth,
+  deleteUser,
   reauthenticateWithCredential,
   updateEmail,
 } from "firebase/auth";
@@ -52,7 +56,6 @@ export default function Empleados() {
   const [Cedula, setCedula] = useState("");
   const [Tipo, setTipo] = useState("");
   const [TipoEmpleado, setTipoEmpleado] = useState("");
-  const [Estado, setEstado] = useState("");
   const [Ano, setAno] = useState("");
   const [Mes, setMes] = useState("");
   const [Dia, setDia] = useState("");
@@ -144,11 +147,8 @@ export default function Empleados() {
     } catch (error) {
       console.log("No se elimino.");
     }
-  };
 
-  const handleFormSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    handleModalClose;
+    handleCancelDelete();
   };
   //Cambiar color
 
@@ -211,12 +211,21 @@ export default function Empleados() {
   //Fecha nacimiento
   const handleFechaNacimientoChange = (event: { target: { value: any } }) => {
     const fecha = event.target.value;
-    const partesFecha = fecha.split(" ");
+    const partesFecha = fecha.split("-");
+
+    console.log("Fecha original:", fecha);
+    console.log("Partes de la fecha:", partesFecha);
 
     if (partesFecha.length === 3) {
-      setAno(partesFecha[0]);
-      setMes(partesFecha[1]);
-      setDia(partesFecha[2]);
+      const [ano, mes, dia] = partesFecha;
+      setAno(ano);
+      setMes(mes);
+      setDia(dia);
+    } else {
+      console.log(
+        "La condición no se cumple. Longitud de partesFecha:",
+        partesFecha.length
+      );
     }
   };
 
@@ -237,7 +246,7 @@ export default function Empleados() {
     setEmail("");
     setContrasena("");
   };
-  //Agrega Usuarios/Empleados/Identificacion/FechaNacimiento
+  //Agrega Usuarios
   const handleFormSubmitUsers = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
@@ -259,7 +268,7 @@ export default function Empleados() {
         TipoEmpleado,
         Cedula,
         Nombre,
-        Estado,
+        Estado: "Activo",
         ApellidoUno,
         ApellidoDos,
         Ano,
@@ -270,7 +279,11 @@ export default function Empleados() {
 
       await createUserWithEmailAndPassword(auth, Email, Contrasena);
       await addDoc(collection(db, "Usuario"), UsersData);
+
       handleModalCloseOtro();
+
+      const updateData = [...userData];
+      setUserData(updateData);
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
@@ -340,10 +353,7 @@ export default function Empleados() {
 
     try {
       const employeesQuery = await getDocs(
-        query(
-          collection(db, "Usuario"),
-          where("Cedula", "==", formData.Cedula)
-        )
+        query(collection(db, "Usuario"), where("Cedula", "==", formData.Cedula))
       );
 
       if (!employeesQuery.empty) {
@@ -398,12 +408,15 @@ export default function Empleados() {
                 );
               }
             }
+            const updateData = [...userData];
+            setUserData(updateData);
           }
         }
       }
     } catch (error) {
       console.error("Error al editar empleado y usuario:", error);
     }
+
     setShowModalEdit(false);
   };
   //-----------------------------------------------------------Consume firebase detalle
@@ -425,7 +438,7 @@ export default function Empleados() {
         console.error("No se pudieron extraer los datos: " + error);
       }
     };
-    console.log(Email);
+
     DetalleData();
   }, [Email]);
   //-----------------------------------------------------Buscador
@@ -436,6 +449,34 @@ export default function Empleados() {
     setSearchQuery(event.target.value);
   };
 
+  //-----------------------------------------------------Actualizar
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "Usuario"),
+      async (querySnapshot) => {
+        const employeesData: { id: string; Cedula: string }[] = [];
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          employeesData.push({ id: doc.id, Cedula, ...data });
+        });
+
+        const combinedData = employeesData.map((employee) => {
+          const relatedUser = userData.find(
+            (user) => user.Codigo === employee.Cedula
+          );
+          return { ...employee, ...relatedUser };
+        });
+
+        setUserData(combinedData); // Actualiza el estado local con los datos combinados
+      }
+    );
+    // Retorna una función de limpieza para detener la suscripción cuando el componente se desmonte
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <>
       <div className="bodySidebar">
@@ -443,7 +484,7 @@ export default function Empleados() {
           <div>
             <IndexGerenteInicioDos />
           </div>
-          
+
           <div className="bodyEmpleados">
             <section>
               <h1 className="tituloEmpleados">Empleados</h1>
@@ -489,12 +530,14 @@ export default function Empleados() {
                   <thead>
                     <tr>
                       <th>Nombre</th>
-                      <th>Primer Apellido</th>
-                      <th>Segundo Apellido</th>
+                      <th>P.Apellido</th>
+                      <th>S.Apellido</th>
                       <th>Estado</th>
                       <th>Tipo</th>
                       <th>Correo</th>
-                      <th>Contraseña</th>
+                      <th>Cédula</th>
+                      <th>Fecha</th>
+
                       <th></th>
                     </tr>
                   </thead>
@@ -510,14 +553,17 @@ export default function Empleados() {
                           ) ||
                           user.ApellidoDos.toLowerCase().includes(
                             searchQuery.toLowerCase()
-                          )||
+                          ) ||
                           user.Estado.toLowerCase().includes(
                             searchQuery.toLowerCase()
-                          )||
+                          ) ||
                           user.TipoEmpleado.toLowerCase().includes(
                             searchQuery.toLowerCase()
-                          )||
+                          ) ||
                           user.Email.toLowerCase().includes(
+                            searchQuery.toLowerCase()
+                          ) ||
+                          user.Cedula.toLowerCase().includes(
                             searchQuery.toLowerCase()
                           )
                       )
@@ -529,32 +575,37 @@ export default function Empleados() {
                           <td>{user.Estado ?? "-"}</td>
                           <td>{user.TipoEmpleado ?? "-"}</td>
                           <td>{user.Email ?? "-"}</td>
+                          <td>{user.Cedula ?? "-"}</td>
+                          <td>{`${user.Dia}/${user.Mes}/${user.Ano}`}</td>
 
-                          <td>
-                            {user.Contrasena?.length
-                              ? "*".repeat(user.Contrasena.length)
-                              : "*"}
-                          </td>
                           <td>
                             <FaEdit
                               className="iconsEdit"
                               title="Editar."
-                              onClick={() => handleEditClick(user)}
+                              onClick={() => {
+                                handleEditClick(user);
+                                const updateData = [...userData];
+                                setUserData(updateData);
+                              }}
                             />
-                            <IoInformationCircleSharp
+
+                            {/*<IoInformationCircleSharp
                               onClick={() => {
                                 handleModalOpenShow();
                                 setEmail(user.Email);
                               }}
                               className="iconsInfo"
                               title="Más Información."
-                            />
+                            />*/}
+
                             <FaTrash
                               className="iconsEliminar"
                               title="Eliminar."
                               onClick={() => {
                                 handleDeleteModal();
                                 setCedula(user.Cedula);
+                                const updateData = [...userData];
+                                setUserData(updateData);
                               }}
                             />
                           </td>
@@ -716,20 +767,7 @@ export default function Empleados() {
                       required
                     />
                   </h3>
-                  <h3 className="textDos">
-                    Estado
-                    <select
-                      value={Estado}
-                      onChange={(e) => setEstado(e.target.value)}
-                      className="inputRes"
-                      id="Estado"
-                      name="Estado"
-                    >
-                      <option value="">Seleccione una opción</option>
-                      <option value="Activo">Activo</option>
-                      <option value="Inactivo">Inactivo</option>
-                    </select>
-                  </h3>
+
                   <h3 className="textDos">
                     Primer Apellido
                     <input
@@ -764,6 +802,16 @@ export default function Empleados() {
                     ></input>
                   </h3>
                   <h3 className="textDos">
+                    Cédula
+                    <input
+                      type="text"
+                      className="inputRes"
+                      placeholder="Cédula"
+                      value={Cedula}
+                      onChange={(e) => setCedula(e.target.value)}
+                    />
+                  </h3>
+                  <h3 className="textDos">
                     Tipo de cédula
                     <select
                       className="inputResDos"
@@ -786,22 +834,13 @@ export default function Empleados() {
                       </option>
                     </select>
                   </h3>
-                  <h3 className="textDos">
-                    Cédula
-                    <input
-                      type="text"
-                      className="inputRes"
-                      placeholder="Cédula"
-                      value={Cedula}
-                      onChange={(e) => setCedula(e.target.value)}
-                    />
-                  </h3>
+
                   <h3 className="textDos">
                     Rol Del Usuario
                     <select
                       value={TipoEmpleado}
                       onChange={(e) => setTipoEmpleado(e.target.value)}
-                      className="inputRes"
+                      className="inputResDos"
                       id="rol"
                       name="rol"
                     >
@@ -902,7 +941,7 @@ export default function Empleados() {
                     className="textTres"
                     id="fechaNacimiento"
                     name="fechaNacimiento"
-                    onChange={handleFechaNacimientoChange}
+                    onChange={(e) => handleFechaNacimientoChange(e)}
                     required
                   ></input>
                 </h3>
@@ -940,9 +979,8 @@ export default function Empleados() {
         )}
         {showDeleteModal && (
           <div className="modal">
-            <div className="modal-content">
+            <div className="modalcontentDelete">
               <p className="textDos">
-                <FaDumpsterFire className="iconsClose" />
                 ¿Estás seguro de qué quieres eliminar este usuario?
               </p>
               <button className="botonRes" onClick={handleConfirmDelete}>

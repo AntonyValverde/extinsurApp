@@ -30,18 +30,19 @@
   box-shadow: 4px 4px 4px 4px rgba(64, 76, 127, 0.3);
   overflow: auto;
 }
+
 .modalDelete {
   position: absolute;
-  width: 70%;
+  width: 100%;
   display: grid;
   place-items: center;
   background-color: transparent;
 }
-.modal-contentDelete {
-  background: rgb(255, 123, 123); /*rgb(40, 235 , 140, 0.7);*/
-  width: 30vw;
-  height: 20vh;
-  margin-top: 2vw;
+.modalcontentDelete {
+  background: rgb(0, 0, 0); /*rgb(40, 235 , 140, 0.7);*/
+  width: 26vw;
+  height: 25vh;
+  margin: 2vw auto; /* Agregamos 'auto' para centrar horizontalmente */
   padding: 20px;
   box-shadow: 4px 4px 4px 4px rgba(90, 108, 181, 0.3);
   overflow: auto;

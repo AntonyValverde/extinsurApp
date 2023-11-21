@@ -1,6 +1,7 @@
 import {
   FaDumpsterFire,
   FaEdit,
+  FaRegPlusSquare,
   FaRegTimesCircle,
   FaTrash,
 } from "react-icons/fa";
@@ -53,7 +54,7 @@ export default function Mantenimiento() {
   const [DiaRevision, setDiaRevision] = useState("");
   const [NombreNegocio, setNombreNegocio] = useState("");
   const [Codigo, setCodigo] = useState("");
-  const [Deatalle, setDetalle] = useState("");
+  const [Detalle, setDetalle] = useState("");
   //Conexion fireBase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -224,26 +225,13 @@ export default function Mantenimiento() {
     event.preventDefault();
 
     try {
-      const sourceCollectionRef = collection(db, "Producto");
-      const targetCollectionRef = collection(db, "Mantenimiento");
-      const querySnapshot = await getDocs(
-        query(sourceCollectionRef, where("Codigo", "==", Codigo))
-      );
-
       const usersRef = collection(db, "Mantenimiento");
       const queryDB = await getDocs(
-        query(usersRef, where("IdMantenimiento", "==", IdMantenimiento))
+        query(usersRef, where("IdMovimiento", "==", IdMantenimiento))
       );
       if (!queryDB.empty) {
-        const tiempoVisibleEnMilisegundos = 5000;
-        mostrarAlertaTemporal(
-          "No se encuentra el producto.",
-          tiempoVisibleEnMilisegundos
-        );
         return;
       }
-      // Recuperar los datos de la consulta
-      const sourceData = querySnapshot.docs[0].data();
 
       const productosData = {
         AnnoEntrega,
@@ -267,17 +255,51 @@ export default function Mantenimiento() {
       console.error("Error al agregar datos :", error);
     }
   };
+  //Editar
+  //Editar tabla Usuarios
+  const [formData, setFormData] = useState({
+    Codigo: "",
+    Cantidad: "",
+  });
+
+  interface User {
+    Codigo?: string;
+    Cantidad?: string;
+  }
+
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const handleEditClick = (user: User) => {
+    setFormData({
+      Codigo: user.Codigo ?? "",
+      Cantidad: user.Cantidad ?? "",
+    });
+    setShowModalEdit(true);
+  };
   //Add detalle
   const handleFormSubmitOtro = async (event: React.FormEvent) => {
-    event.preventDefault();
-
     event.preventDefault();
     try {
       const sourceCollectionRef = collection(db, "Producto");
       const targetCollectionRef = collection(db, "DetalleMantenimiento");
+
       const querySnapshot = await getDocs(
         query(sourceCollectionRef, where("Codigo", "==", Codigo))
       );
+
+      const querySnapshotTwo = await getDocs(
+        query(targetCollectionRef, where("Codigo", "==", Codigo))
+      );
+
+      if (!querySnapshotTwo.empty) {
+        setCodigo("");
+        const tiempoVisibleEnMilisegundos = 5000;
+        mostrarAlertaTemporal(
+          "Se sumo un producto.",
+          tiempoVisibleEnMilisegundos
+        );
+
+        return;
+      }
 
       if (querySnapshot.empty) {
         setCodigo("");
@@ -345,7 +367,7 @@ export default function Mantenimiento() {
   useEffect(() => {
     const UsertData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Movimiento"));
+        const querydb = await getDocs(collection(db, "Mantenimiento"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           data.push(doc.data());
@@ -357,7 +379,7 @@ export default function Mantenimiento() {
     };
     const productoData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Producto"));
+        const querydb = await getDocs(collection(db, "DetalleMantenimiento"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           data.push(doc.data());
@@ -375,7 +397,7 @@ export default function Mantenimiento() {
   useEffect(() => {
     const DetalleData = async () => {
       try {
-        const querydb = await getDocs(collection(db, "Mantenimiento"));
+        const querydb = await getDocs(collection(db, "DetalleMantenimiento"));
         const data: React.SetStateAction<any[]> = [];
         querydb.forEach((doc) => {
           const detalle = doc.data();
@@ -456,7 +478,90 @@ export default function Mantenimiento() {
                         <thead>
                           <tr>
                             <th>Codigo</th>
+                            <th>Cantidad</th>
+                            <th>Opciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {detalle.map((users, index) => {
+                            const userDataIndex =
+                              index < detalle.length ? index : null;
+
+                            return (
+                              <tr key={users.IdMantenimiento}>
+                                <td className="code">
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Codigo
+                                    : ""}
+                                </td>
+
+                                <td>
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Cantidad
+                                    : ""}
+                                </td>
+
+                                <td>
+                                  <FaTrash
+                                    className="iconsEliminar"
+                                    title="Eliminar."
+                                    onClick={() =>
+                                      handleDeleteUser(users.Codigo)
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      <table className="TablaEmpleados">
+                        <thead>
+                          <tr>
+                            <th>Fecha</th>
                             <th>Detalle</th>
+                            <th>Tipo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {detalle.map((users, index) => {
+                            const userDataIndex =
+                              index < detalle.length ? index : null;
+
+                            return (
+                              <tr key={users.Codigo}>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Dia
+                                    : ""}
+                                  /{" "}
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Mes
+                                    : ""}
+                                  /{" "}
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Anno
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Tipo
+                                    : ""}
+                                </td>
+                                <td>
+                                  {userDataIndex !== null
+                                    ? detalle[userDataIndex].Detalle
+                                    : ""}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      <table className="TablaEmpleados">
+                        <thead>
+                          <tr>
+                            <th>Bodega</th>
                             <th>P.Compra</th>
                             <th>P.Venta</th>
                           </tr>
@@ -467,18 +572,12 @@ export default function Mantenimiento() {
                               index < detalle.length ? index : null;
 
                             return (
-                              <tr key={users.IdDetalle}>
-                                <td className="code">
-                                  {userDataIndex !== null
-                                    ? detalle[userDataIndex].Codigo
-                                    : ""}
-                                </td>
+                              <tr key={users.Codigo}>
                                 <td>
                                   {userDataIndex !== null
-                                    ? detalle[userDataIndex].Detalle
+                                    ? detalle[userDataIndex].Bodega
                                     : ""}
                                 </td>
-
                                 <td>
                                   {userDataIndex !== null
                                     ? detalle[userDataIndex].PrecioCompra
@@ -489,6 +588,46 @@ export default function Mantenimiento() {
                                     ? detalle[userDataIndex].PrecioVenta
                                     : ""}
                                 </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      <table className="TablaEmpleados">
+                        <thead>
+                          <tr>
+                            <th>T.Compra</th>
+                            <th>T.Venta</th>
+                            <th>T.IVA</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {detalle.map((users, index) => {
+                            const userDataIndex =
+                              index < detalle.length ? index : null;
+
+                            const cantidad =
+                              userDataIndex !== null
+                                ? detalle[userDataIndex].Cantidad
+                                : 0;
+                            const precioVenta =
+                              userDataIndex !== null
+                                ? detalle[userDataIndex].PrecioVenta
+                                : 0;
+
+                            const precioCompra =
+                              userDataIndex !== null
+                                ? detalle[userDataIndex].PrecioCompra
+                                : 0;
+                            const total = cantidad * precioVenta;
+                            const totalCompra = cantidad * precioCompra;
+                            const totalVentaIva = cantidad * precioVenta * 1.14;
+
+                            return (
+                              <tr key={users.Codigo}>
+                                <td>{totalCompra}</td>
+                                <td>{total}</td>
+                                <td>{totalVentaIva}</td>
                               </tr>
                             );
                           })}
@@ -511,7 +650,7 @@ export default function Mantenimiento() {
                       />
                       <form onSubmit={handleFormSubmitOtro}>
                         <label className="textDos">Codigo:</label>
-                         
+
                         <input
                           className="inputRes"
                           type="text"
@@ -525,7 +664,11 @@ export default function Mantenimiento() {
                           type="submit"
                           id="mas"
                         >
-                          Agregar
+                          Más
+                          <IoInformationCircleSharp
+                            className="iconsInfo"
+                            title="Darle (más) para agregar el código."
+                          />
                         </button>
                       </form>
                       <form onSubmit={handleFormSubmitExtintor}>
@@ -587,16 +730,16 @@ export default function Mantenimiento() {
                         <input
                           className="inputRes"
                           type="text"
-                          value={Deatalle}
+                          value={Direccion}
                           placeholder="Dirección"
-                          onChange={(e) => setDetalle(e.target.value)}
+                          onChange={(e) => setDireccion(e.target.value)}
                           required
                         />
                         <label className="textDos">Detalle:</label>
                         <input
                           className="inputRes"
                           type="text"
-                          value={Deatalle}
+                          value={Detalle}
                           placeholder="Detalle"
                           onChange={(e) => setDetalle(e.target.value)}
                           required
@@ -647,9 +790,12 @@ export default function Mantenimiento() {
                 <table className="TablaEmpleados">
                   <thead>
                     <tr>
-                      <th>Movimiento</th>
-                      <th>Detalle</th>
-                      <th>F.Movimiento</th>
+                      <th>N°</th>
+                      <th>Negocio</th>
+                      <th>Encargado</th>
+                      <th>Dirección</th>
+                      <th>F. Revisión</th>
+
                       <th></th>
                     </tr>
                   </thead>
@@ -661,26 +807,36 @@ export default function Mantenimiento() {
                         <tr key={users.IdMovimiento}>
                           <td className="code">
                             {userDataIndex !== null
-                              ? userData[userDataIndex].IdMovimiento
+                              ? userData[userDataIndex].IdMantenimiento
                               : ""}
                           </td>
                           <td>
                             {userDataIndex !== null
-                              ? userData[userDataIndex].Detalle
+                              ? userData[userDataIndex].NombreNegocio
+                              : ""}
+                          </td>
+                          <td>
+                            {userDataIndex !== null
+                              ? userData[userDataIndex].Nombre
+                              : ""}
+                          </td>
+                          <td>
+                            {userDataIndex !== null
+                              ? userData[userDataIndex].Direccion
                               : ""}
                           </td>
 
                           <td>
                             {userDataIndex !== null
-                              ? userData[userDataIndex].Dia
+                              ? userData[userDataIndex].DiaRevision
                               : " "}
                             /
                             {userDataIndex !== null
-                              ? userData[userDataIndex].Mes
+                              ? userData[userDataIndex].MesRevision
                               : ""}
                             /
                             {userDataIndex !== null
-                              ? userData[userDataIndex].Anno
+                              ? userData[userDataIndex].AnnoRevision
                               : ""}
                           </td>
                           <td>

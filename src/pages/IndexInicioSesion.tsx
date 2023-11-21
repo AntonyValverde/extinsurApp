@@ -45,7 +45,7 @@ export default function IndexInicioSesion() {
 
       const user = auth.currentUser;
       const userEmail = user?.email;
-      const usersRef = collection(db, "Usuarios");
+      const usersRef = collection(db, "Usuario");
       const querySnapshot = await getDocs(
         query(usersRef, where("Email", "==", userEmail))
       );
@@ -53,7 +53,7 @@ export default function IndexInicioSesion() {
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
-        const userType = userData.TipoUsuario;
+        const userType = userData.TipoEmpleado;
         if (userType === "Empleado") {
           router.push("/Empleados/ProductosEm");
         } else if (userType === "Gerente") {

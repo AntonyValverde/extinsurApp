@@ -22,12 +22,13 @@ import {
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 
-
-
 export default function Grafica() {
-
-    const [dataCaja, setDataCaja] = useState<any[]>([]);
-    const [dateCaja, setDateCaja] = useState<any[]>([]);
+  const [dataCaja, setDataCaja] = useState<any[]>([]);
+  const [dateCaja, setDateCaja] = useState<any[]>([]);
+  const [dateCajaFin, setDateCajaFin] = useState<any[]>([]);
+  const [Rotulos, setRotulos] = useState(0);
+  const [Extintores, setExtintores] = useState(0);
+  const [Otros, setOtros] = useState(0);
   const [backgroundColor, setBackgroundColor] = useState<string>("white");
   const colors = [
     "#294D61",
@@ -64,26 +65,55 @@ export default function Grafica() {
   }, []);
   useEffect(() => {
     const cajaDataUnsubscribe = onSnapshot(
-      collection(db, "Movimientos"),
+      collection(db, "Movimiento"),
       (querySnapshot) => {
         const data: React.SetStateAction<any[]> = [];
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
         });
+        setDateCaja(data);
+      }
+    );
+    const cajaDataFinanzas = onSnapshot(
+      collection(db, "Finanzas"),
+      (querySnapshot) => {
+        const data: React.SetStateAction<any[]> = [];
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setDateCajaFin(data);
+      }
+    );
+    const cajaDataProduct = onSnapshot(
+      collection(db, "Producto"),
+      (querySnapshot) => {
+        let sumaExtintor = 0;
+        let sumaRotulo = 0;
+        let sumaOtro = 0;
+        const data: React.SetStateAction<any[]> = [];
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+          const producto = doc.data();
+          if (producto.Tipo === "Extintor") {
+            if (!isNaN(producto.Cantidad)) {
+              sumaExtintor += Number(producto.Cantidad);
+            } 
+          } else if (producto.Tipo === "Rotulo") {
+            if (!isNaN(producto.Cantidad)) {
+              sumaRotulo += Number(producto.Cantidad);
+            } 
+          } else if (producto.Tipo === "Otro") {
+            if (!isNaN(producto.Cantidad)) {
+              sumaOtro += Number(producto.Cantidad);
+            } 
+          }
+        });
+        setRotulos(sumaRotulo);
+        setExtintores(sumaExtintor);
+        setOtros(sumaOtro);
         setDataCaja(data);
       }
     );
-
-    const cajaDataProduct = onSnapshot(
-        collection(db, "Productos"),
-        (querySnapshot) => {
-          const data: React.SetStateAction<any[]> = [];
-          querySnapshot.forEach((doc) => {
-            data.push(doc.data());
-          });
-          setDateCaja(data);
-        }
-      );
 
     return () => {
       cajaDataUnsubscribe();
@@ -91,15 +121,27 @@ export default function Grafica() {
     };
   }, []);
 
-  const datos = dataCaja.map((item) => ({
-    fecha: item.IdDetalle,
-    Total: item.Empleado,
+  const datos = dateCajaFin.map((item) => ({
+    fecha: item.Dia + "/" + item.Mes + "/" + item.Anno,
+    Total: item.Total,
+    IVA: item.TIVA,
+    Ganancias: item.Ganancias,
   }));
 
+  //------------------
+
+  //--------------------
+
   const num = dateCaja.map((item) => ({
-     
-    name: item.Tipo , Cantidad: item.Cantidad
+    name: item.Tipo,
+    Cantidad: item.Cantidad,
   }));
+
+  const nume = [
+    { name: "Rotulos", Cantidad: Rotulos },
+    { name: "Extintores", Cantidad: Extintores },
+    { name: "Otros", Cantidad: Otros },
+  ];
 
   const datis = [
     {
@@ -144,12 +186,6 @@ export default function Grafica() {
       Costo: 8120,
       Ganancias: 11890,
     } /*23000 total*/,
-  ];
-
-  const nume = [
-    { name: "Rotulos", Cantidad: 400 },
-    { name: "Extintores", Cantidad: 300 },
-    { name: "Otros", Cantidad: 300 },
   ];
 
   const dates = [
@@ -213,47 +249,77 @@ export default function Grafica() {
 
           <div className="bodyGrafica">
             <section>
-              <h1 className="tituloEmpleados">Graficas</h1>
+              <h1 className="tituloEmpleados">Estadísticas</h1>
 
               <div className="linea"></div>
               <div className="contenedorTablaGrafica">
                 <div className="circular">
-                  <div style={{ width: "60%", height: 250 }}>
+                  <div style={{ width: "60%", height: 270, marginTop: "3rem", marginLeft:"20%" }}>
                     <ResponsiveContainer>
                       <PieChart>
                         <Pie
                           dataKey="Cantidad"
                           data={nume}
                           fill="#8884d8"
-                          label
+                          label={({
+                            cx,
+                            cy,
+                            midAngle,
+                            innerRadius,
+                            outerRadius,
+                            value,
+                            index,
+                          }) => {
+                            const RADIAN = Math.PI / 180;
+                            const radius =
+                              25 + innerRadius + (outerRadius - innerRadius);
+                            const x =
+                              cx + radius * Math.cos(-midAngle * RADIAN);
+                            const y =
+                              cy + radius * Math.sin(-midAngle * RADIAN);
+
+                            return (
+                              <text
+                                x={x}
+                                y={y}
+                                fill="#8884d8"
+                                textAnchor={x > cx ? "start" : "end"}
+                                dominantBaseline="central"
+                              >
+                                {`${nume[index].name}: ${value}`}
+                              </text>
+                            );
+                          }}
                         />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
-
-                  <ResponsiveContainer width="100%" aspect={2}>
-                    <BarChart
-                      data={datos}
-                      width={500}
-                      height={300}
-                      margin={{
-                        top: 5,
-                        right: 40,
-                        left: 20,
-                        bottom: 5,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="4 1 2" />
-                      <XAxis dataKey="fecha" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="Total" fill="#6b48ff" />
-                      <Bar dataKey="IVA" fill="#1ee3cf" />
-                      <Bar dataKey="Costo" fill="#ff00e6" />
-                      <Bar dataKey="Ganancias" fill="#018509" />
-                    </BarChart>
-                  </ResponsiveContainer>
+                </div>
+                <div className="barras">
+                  <div style={{ width: "65%", height: 270, marginTop: "3rem", marginLeft:"18%" }}>
+                    <ResponsiveContainer width="100%" aspect={2}>
+                      <BarChart
+                        data={datos}
+                        width={500}
+                        height={300}
+                        margin={{
+                          top: 5,
+                          right: 40,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="4 1 2" />
+                        <XAxis dataKey="fecha" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="Total" fill="#6b48ff" />
+                        <Bar dataKey="IVA" fill="#1ee3cf" />
+                        <Bar dataKey="Ganancias" fill="#018509" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
                 <div className="barras">
                   <div style={{ width: "100%", height: 300 }}>

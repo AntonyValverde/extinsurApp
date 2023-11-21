@@ -20,9 +20,14 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "@/firebase/firebase";
+import { auth, db } from "@/firebase/firebase";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "@/firebase/config";
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updateEmail,
+} from "firebase/auth";
 
 export default function Movimientos() {
   //Modals
@@ -46,6 +51,11 @@ export default function Movimientos() {
   const [Detalle, setDetalle] = useState("");
   const [Empleado, setEmpleado] = useState("");
   const [Cedula, setCedula] = useState("");
+  const [Total, setTotal] = useState(0);
+  const [TotalCompra, setTotalCompra] = useState(0);
+  const [TIVA, setTIVA] = useState(0);
+  const [Ganancias, setGanancias] = useState(0);
+
   //Conexion fireBase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -217,7 +227,7 @@ export default function Movimientos() {
       if (!queryDB.empty) {
         return;
       }
-      
+
       const productosData = {
         Anno,
         Dia,
@@ -227,7 +237,6 @@ export default function Movimientos() {
       };
 
       await addDoc(collection(db, "Movimiento"), productosData);
-       
 
       handleModalCloseDos();
     } catch (error) {
@@ -235,73 +244,181 @@ export default function Movimientos() {
     }
   };
   //Add detalle
+  const [formData, setFormData] = useState({
+    Total: "",
+    TIVA: "",
+    TotalCompra: "",
+    Ganancias: "",
+    IdMovimiento: "",
+  });
+  interface User {
+    Total?: string;
+    TIVA?: string;
+    TotalCompra?: string;
+    Ganancias?: string;
+    IdMovimiento?: string;
+  }
+
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const handleEditClick = (user: User) => {
+    setFormData({
+      Total: user.Total ?? "",
+      TIVA: user.TIVA ?? "",
+      TotalCompra: user.TotalCompra ?? "",
+      Ganancias: user.Ganancias ?? "",
+      IdMovimiento: user.IdMovimiento ?? "",
+    });
+    setShowModalEdit(true);
+  };
+
   const handleFormSubmitOtro = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    event.preventDefault();
+    console.log("1");
     try {
+      console.log("2");
+      const usersRef = collection(db, "Finanzas");
+
       const sourceCollectionRef = collection(db, "Producto");
       const targetCollectionRef = collection(db, "Detalle");
-      const querySnapshot = await getDocs(query(sourceCollectionRef, where("Codigo", "==", Codigo)));
-  
+
+      const querySnapshot = await getDocs(
+        query(sourceCollectionRef, where("Codigo", "==", Codigo))
+      );
+
+      console.log(IdMovimiento);
+      const QueryDos = await getDocs(
+        query(usersRef, where("IdMovimiento", "==", IdMovimiento))
+      );
+
       if (querySnapshot.empty) {
         setCodigo("");
         const tiempoVisibleEnMilisegundos = 5000;
-        mostrarAlertaTemporal("No se encuentra el producto.", tiempoVisibleEnMilisegundos);
+        mostrarAlertaTemporal(
+          "No se encuentra el producto.",
+          tiempoVisibleEnMilisegundos
+        );
         return;
       }
-  
+
       // Recuperar los datos de la consulta
       const sourceData = querySnapshot.docs[0].data();
-  
-       
-      const detalleDato ={
-          Anno: sourceData.Anno,
-          Bodega: sourceData.Bodega,
-          Cantidad: sourceData.Cantidad,
-          Codigo: sourceData.Codigo,
-          Detalle: sourceData.Detalle,
-          Dia: sourceData.Dia,
-          Mes: sourceData.Mes,
-          PrecioCompra: sourceData.PrecioCompra,
-          PrecioVenta: sourceData.PrecioVenta,
-          Tipo: sourceData.Tipo,
-          IdMovimiento: IdMovimiento,
+      
+
+      const detalleDato = {
+        Anno: sourceData.Anno,
+        Bodega: sourceData.Bodega,
+        Cantidad: sourceData.Cantidad,
+        Codigo: sourceData.Codigo,
+        Detalle: sourceData.Detalle,
+        Dia: sourceData.Dia,
+        Mes: sourceData.Mes,
+        PrecioCompra: sourceData.PrecioCompra,
+        PrecioVenta: sourceData.PrecioVenta,
+        Tipo: sourceData.Tipo,
+        IdMovimiento: IdMovimiento,
       };
-  
+
+      console.log("3");
+      try {
+        if (!QueryDos.empty) {
+          console.log("Finanza hallada");
+          const usersQuery = await getDocs(
+            query(usersRef, where("IdMovimiento", "==", IdMovimiento))
+          );
+
+          const sourceDataDos = usersQuery.docs[0].data();
+
+          let IVA;
+          let GananciasAux;
+          let GananciasAuxDos;
+          let TotalCompraAux;
+          let TOTAL;
+
+          if (!usersQuery.empty) {
+            const userDoc = usersQuery.docs[0];
+            const userId = userDoc.id;
+
+            TOTAL =
+              parseFloat(sourceDataDos.Total) + parseFloat(sourceData.PrecioVenta);
+            
+            GananciasAux =
+              parseFloat(sourceData.PrecioVenta) -
+              parseFloat(sourceData.PrecioCompra);
+            GananciasAuxDos = parseFloat(sourceDataDos.Ganancias) + GananciasAux;
+            TotalCompraAux =
+              parseFloat(sourceDataDos.TotalCompra) +
+              parseFloat(sourceData.PrecioCompra);
+            if (!isNaN(TOTAL)) {
+              IVA = Math.round(TOTAL * 1.15); 
+
+              console.log("Total:", TOTAL);
+              console.log("IVA:", IVA);
+            } else {
+              console.error("Error en la conversión a número");
+            }
+            console.log("5");
+            const updatedUserData = {
+              Total: TOTAL,
+              TIVA: IVA,
+              TotalCompra: TotalCompraAux,
+              Ganancias: GananciasAuxDos,
+            };
+
+            // Actualizamos el documento de usuario
+            await updateDoc(doc(db, "Finanzas", userId), updatedUserData);
+          } 
+        }else {
+          console.log("7");
+          const productosData = {
+            Total: sourceData.PrecioVenta,
+            TotalCompra: sourceData.PrecioCompra,
+            Ganancias: sourceData.PrecioVenta - sourceData.PrecioCompra,
+            TIVA: sourceData.PrecioCompra * 1.15,
+            IdMovimiento: IdMovimiento,
+            Anno,
+            Dia,
+            Mes,
+          };
+
+          await addDoc(usersRef, productosData);
+        }
+      } catch (error) {
+        console.error("Error al agregar datos :", error);
+      }
+
       // Agregar los datos a la colección de destino
       await addDoc(targetCollectionRef, detalleDato);
-      setCodigo("");
-        const tiempoVisibleEnMilisegundos = 5000;
-        mostrarAlertaTemporal("Se agrego código.", tiempoVisibleEnMilisegundos);
-        const employeesQuery = await getDocs(
-          query(collection(db, "Producto"), where("Codigo", "==", Codigo))
-        );
-  
-        if (!employeesQuery.empty) {
-          const employeeDoc = employeesQuery.docs[0];
-          const userId = employeeDoc.data().Cantidad;
-  
-          if (userId > 0) {
-            // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
-            await updateDoc(employeeDoc.ref, { Cantidad: userId - 1 });
-          } else {
-            const employeeRef = doc(db, "Producto", employeeDoc.id);
-            await deleteDoc(employeeRef);
-            console.log(`No se puede disminuir la cantidad, ya es 1 o menos.`);
-          }
+
+      const tiempoVisibleEnMilisegundos = 5000;
+      mostrarAlertaTemporal("Se agrego código.", tiempoVisibleEnMilisegundos);
+
+      const employeesQuery = await getDocs(
+        query(collection(db, "Producto"), where("Codigo", "==", Codigo))
+      );
+
+      if (!employeesQuery.empty) {
+        const employeeDoc = employeesQuery.docs[0];
+        const userId = employeeDoc.data().Cantidad;
+
+        if (userId > 0) {
+          // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
+          await updateDoc(employeeDoc.ref, { Cantidad: userId - 1 });
         } else {
-          console.log(
-            `El producto con código ${Codigo} no existe en la base de datos.`
-          );
+          const employeeRef = doc(db, "Producto", employeeDoc.id);
+          await deleteDoc(employeeRef);
+          console.log(`No se puede disminuir la cantidad, ya es 1 o menos.`);
         }
+      } else {
+        console.log(
+          `El producto con código ${Codigo} no existe en la base de datos.`
+        );
+      }
+      setCodigo("");
     } catch (error) {
       console.error("Error al agregar datos :", error);
     }
-
-     
   };
-  //Obtiene las variables de fecha
+  //-----------------------------------------------Obtiene las variables de fecha
   function obtenerFechaActual(): Date {
     return new Date();
   }
@@ -417,7 +534,7 @@ export default function Movimientos() {
                           {detalle.map((users, index) => {
                             const userDataIndex =
                               index < detalle.length ? index : null;
-                             
+
                             return (
                               <tr key={users.IdDetalle}>
                                 <td className="code">
@@ -430,7 +547,7 @@ export default function Movimientos() {
                                     ? detalle[userDataIndex].Detalle
                                     : ""}
                                 </td>
-                                 
+
                                 <td>
                                   {userDataIndex !== null
                                     ? detalle[userDataIndex].PrecioCompra
@@ -467,7 +584,9 @@ export default function Movimientos() {
                           type="text"
                           value={Codigo}
                           placeholder="Codigo"
-                          onChange={(e) => setCodigo(e.target.value)}
+                          onChange={(e) => {
+                            setCodigo(e.target.value);
+                          }}
                         />
                         <button
                           className="RegistrarButton"
@@ -475,6 +594,10 @@ export default function Movimientos() {
                           id="mas"
                         >
                           Más
+                          <IoInformationCircleSharp
+                            className="iconsInfo"
+                            title="Darle (más) para agregar el código."
+                          />
                         </button>
                       </form>
                       <form onSubmit={handleFormSubmitExtintor}>
@@ -555,18 +678,18 @@ export default function Movimientos() {
                               ? userData[userDataIndex].Detalle
                               : ""}
                           </td>
-                           
+
                           <td>
                             {userDataIndex !== null
-                              ?  userData[userDataIndex].Dia
+                              ? userData[userDataIndex].Dia
                               : " "}
                             /
                             {userDataIndex !== null
-                              ?  userData[userDataIndex].Mes
+                              ? userData[userDataIndex].Mes
                               : ""}
                             /
                             {userDataIndex !== null
-                              ?  userData[userDataIndex].Anno
+                              ? userData[userDataIndex].Anno
                               : ""}
                           </td>
                           <td>
