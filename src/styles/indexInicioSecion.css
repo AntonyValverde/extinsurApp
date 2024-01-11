@@ -329,12 +329,14 @@
   
   .contenedorFormulario {
     width: 90%;
+    top: 18rem;
     height: auto;
   }
   .contenedorInicio {
     width: 80%;
     top: 45vh;
     max-width: 100%;
+    overflow: auto;
   }
 
   .titulo {
