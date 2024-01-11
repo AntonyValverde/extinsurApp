@@ -490,6 +490,142 @@ export default function Empleados() {
               <h1 className="tituloEmpleados">Empleados</h1>
 
               <div className="linea"></div>
+              {isModalOpenOtro && (
+                <div className="modalOtro">
+                  <div className="modal-contentOtro">
+                    <FaRegTimesCircle
+                      className="iconsClose"
+                      onClick={handleModalCloseOtro}
+                    />
+
+                    <form onSubmit={handleFormSubmitUsers}>
+                      <div>
+                        <h3 className="textDos">
+                          Email
+                          <input
+                            type="text"
+                            className="inputRes"
+                            placeholder="Email"
+                            value={Email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                          />
+                        </h3>
+                        <h3 className="textDos">
+                          Contraseña
+                          <input
+                            type="text"
+                            className="inputRes"
+                            placeholder="Contraseña"
+                            value={Contrasena}
+                            onChange={(e) => setContrasena(e.target.value)}
+                            required
+                          />
+                        </h3>
+                        <h3 className="textDos">
+                          Nombre
+                          <input
+                            type="text"
+                            className="inputRes"
+                            placeholder="Nombre"
+                            value={Nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                            required
+                          />
+                        </h3>
+
+                        <h3 className="textDos">
+                          Primer Apellido
+                          <input
+                            type="text"
+                            className="inputRes"
+                            placeholder="Primer Apellido"
+                            value={ApellidoUno}
+                            onChange={(e) => setApellidoUno(e.target.value)}
+                            required
+                          />
+                        </h3>
+                        <h3 className="textDos">
+                          Segundo Apellido
+                          <input
+                            type="text"
+                            className="inputRes"
+                            placeholder="Segundo Apellido"
+                            value={ApellidoDos}
+                            onChange={(e) => setApellidoDos(e.target.value)}
+                            required
+                          />
+                        </h3>
+                        <h3 className="textDos">
+                          Fecha Nacimiento
+                          <input
+                            type="date"
+                            className="inputRes"
+                            id="fechaNacimiento"
+                            name="fechaNacimiento"
+                            onChange={handleFechaNacimientoChange}
+                            required
+                          ></input>
+                        </h3>
+                        <h3 className="textDos">
+                          Cédula
+                          <input
+                            type="text"
+                            className="inputRes"
+                            placeholder="Cédula"
+                            value={Cedula}
+                            onChange={(e) => setCedula(e.target.value)}
+                          />
+                        </h3>
+                        <h3 className="textDos">
+                          Tipo de cédula
+                          <select
+                            className="inputResDos"
+                            id="Tipo"
+                            name="Tipo"
+                            value={TipoCedula}
+                            onChange={(e) => setTipoCedula(e.target.value)}
+                          >
+                            <option value="">Seleccione una opción</option>
+                            <option value="Cédula nacional">
+                              {" "}
+                              Cédula nacional
+                            </option>
+                            <option value="Cédula de Indígena">
+                              Cédula de Indígena
+                            </option>
+                            <option value="Cédula de Residencia">
+                              Cédula de Residencia
+                            </option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="Carné de estudiante">
+                              Carné de estudiante
+                            </option>
+                          </select>
+                        </h3>
+
+                        <h3 className="textDos">
+                          Rol Del Usuario
+                          <select
+                            value={TipoEmpleado}
+                            onChange={(e) => setTipoEmpleado(e.target.value)}
+                            className="inputResDos"
+                            id="rol"
+                            name="rol"
+                          >
+                            <option value="">Seleccione una opción</option>
+                            <option value="Empleado">Empleado</option>
+                            <option value="Gerente">Gerente</option>
+                          </select>
+                        </h3>
+                        <button className="botonRes" type="submit">
+                          Agregar Usuario
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
               <div className="contenedorTabla">
                 {/*Buscador y contenedor*/}
                 <div className="buscadorContainer">
@@ -724,139 +860,7 @@ export default function Empleados() {
             </section>
           </div>
         </div>
-        {isModalOpenOtro && (
-          <div className="modal">
-            <div className="modal-content">
-              <FaRegTimesCircle
-                className="iconsClose"
-                onClick={handleModalCloseOtro}
-              />
 
-              <form onSubmit={handleFormSubmitUsers}>
-                <div>
-                  <h3 className="textDos">
-                    Email
-                    <input
-                      type="text"
-                      className="inputRes"
-                      placeholder="Email"
-                      value={Email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </h3>
-                  <h3 className="textDos">
-                    Contraseña
-                    <input
-                      type="text"
-                      className="inputRes"
-                      placeholder="Contraseña"
-                      value={Contrasena}
-                      onChange={(e) => setContrasena(e.target.value)}
-                      required
-                    />
-                  </h3>
-                  <h3 className="textDos">
-                    Nombre
-                    <input
-                      type="text"
-                      className="inputRes"
-                      placeholder="Nombre"
-                      value={Nombre}
-                      onChange={(e) => setNombre(e.target.value)}
-                      required
-                    />
-                  </h3>
-
-                  <h3 className="textDos">
-                    Primer Apellido
-                    <input
-                      type="text"
-                      className="inputRes"
-                      placeholder="Primer Apellido"
-                      value={ApellidoUno}
-                      onChange={(e) => setApellidoUno(e.target.value)}
-                      required
-                    />
-                  </h3>
-                  <h3 className="textDos">
-                    Segundo Apellido
-                    <input
-                      type="text"
-                      className="inputRes"
-                      placeholder="Segundo Apellido"
-                      value={ApellidoDos}
-                      onChange={(e) => setApellidoDos(e.target.value)}
-                      required
-                    />
-                  </h3>
-                  <h3 className="textDos">
-                    Fecha Nacimiento
-                    <input
-                      type="date"
-                      className="inputRes"
-                      id="fechaNacimiento"
-                      name="fechaNacimiento"
-                      onChange={handleFechaNacimientoChange}
-                      required
-                    ></input>
-                  </h3>
-                  <h3 className="textDos">
-                    Cédula
-                    <input
-                      type="text"
-                      className="inputRes"
-                      placeholder="Cédula"
-                      value={Cedula}
-                      onChange={(e) => setCedula(e.target.value)}
-                    />
-                  </h3>
-                  <h3 className="textDos">
-                    Tipo de cédula
-                    <select
-                      className="inputResDos"
-                      id="Tipo"
-                      name="Tipo"
-                      value={TipoCedula}
-                      onChange={(e) => setTipoCedula(e.target.value)}
-                    >
-                      <option value="">Seleccione una opción</option>
-                      <option value="Cédula nacional"> Cédula nacional</option>
-                      <option value="Cédula de Indígena">
-                        Cédula de Indígena
-                      </option>
-                      <option value="Cédula de Residencia">
-                        Cédula de Residencia
-                      </option>
-                      <option value="Pasaporte">Pasaporte</option>
-                      <option value="Carné de estudiante">
-                        Carné de estudiante
-                      </option>
-                    </select>
-                  </h3>
-
-                  <h3 className="textDos">
-                    Rol Del Usuario
-                    <select
-                      value={TipoEmpleado}
-                      onChange={(e) => setTipoEmpleado(e.target.value)}
-                      className="inputResDos"
-                      id="rol"
-                      name="rol"
-                    >
-                      <option value="">Seleccione una opción</option>
-                      <option value="Empleado">Empleado</option>
-                      <option value="Gerente">Gerente</option>
-                    </select>
-                  </h3>
-                  <button className="botonRes" type="submit">
-                    Agregar Usuario
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
         {showModalEdit && (
           <div className="modal">
             <div className="modal-content">
