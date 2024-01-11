@@ -247,7 +247,7 @@ export default function Grafica() {
             <IndexGerenteInicioDos />
           </div>
 
-          <div className="bodyGrafica">
+          <div className="bodyEmpleados">
             <section>
               <h1 className="tituloEmpleados">Estadísticas</h1>
 
@@ -385,13 +385,7 @@ export default function Grafica() {
                 <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">
                   Ubicación
                 </Link>
-                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">
-                  Gráficas
-                </Link>
-
-                <div className="sidebar_linkTres center-button">
-                  <a href="./RegistrarEmpleados"> Agregar</a>
-                </div>
+                 
 
                 <Link className="sidebar_linkTres" href="/">
                   Inicio

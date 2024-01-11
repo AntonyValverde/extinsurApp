@@ -192,12 +192,13 @@ input[type="date"] {
         display: flex;
         align-items: center;
         height: 5rem; /* Ajusta este porcentaje según tus necesidades */
-        width: 45rem;
+        width: 35rem;
         overflow: auto;
         margin: 0 auto;
     }
 
     .TablaEmpleados {
+        align-items: center;
         width: 10%;
         font-size: 16px;
     }

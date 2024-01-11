@@ -354,16 +354,12 @@ export default function Ubicacion() {
                 >
                   Mantenimiento
                 </Link>
-                <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">
-                  Ubicación
-                </Link>
-                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">
+                 
+                <Link className="sidebar_linkTres" href="/Gerentes/Gráfica">
                   Gráficas
                 </Link>
 
-                <div className="sidebar_linkTres center-button">
-                  <a href="./RegistrarEmpleados"> Agregar</a>
-                </div>
+                
 
                 <Link className="sidebar_linkTres" href="/">
                   Inicio

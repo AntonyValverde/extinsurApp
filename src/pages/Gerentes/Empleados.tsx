@@ -853,7 +853,7 @@ export default function Empleados() {
                 <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">
                   Ubicación
                 </Link>
-                <Link className="sidebar_linkDos" href="/Gerentes/Graficas">
+                <Link className="sidebar_linkDos" href="/Gerentes/Grafica">
                   Gráficas
                 </Link>
               </div>

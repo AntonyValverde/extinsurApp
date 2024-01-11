@@ -733,8 +733,8 @@ export default function Movimientos() {
                 <Link className="sidebar_linkDos" href="/Gerentes/Productos">
                   Productos
                 </Link>
-                <Link className="sidebar_linkDos" href="/Gerentes/Movimientos">
-                  Movimientos
+                <Link className="sidebar_linkDos" href="/">
+                  Inicio
                 </Link>
                 <Link
                   className="sidebar_linkDos"
@@ -745,7 +745,7 @@ export default function Movimientos() {
                 <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">
                   Ubicación
                 </Link>
-                <Link className="sidebar_linkDos" href="/Gerentes/Graficas">
+                <Link className="sidebar_linkDos" href="/Gerentes/Grafica">
                   Gráficas
                 </Link>
               </div>

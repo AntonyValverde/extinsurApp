@@ -885,9 +885,9 @@ export default function Mantenimiento() {
                 </Link>
                 <Link
                   className="sidebar_linkDos"
-                  href="/Gerentes/Mantenimiento"
+                  href="/"
                 >
-                  Mantenimiento
+                 Inicio
                 </Link>
                 <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">
                   Ubicación

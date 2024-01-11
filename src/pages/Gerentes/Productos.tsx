@@ -783,15 +783,11 @@ export default function Productos() {
             {/*----------------------------------------------------Responsive for phone*/}
             <section>
               <div className="containerButton">
-                <div className="sidebar_linkTres" onClick={handleModalOpenTres}>
-                  <h1>Agregar</h1>
-                </div>
+                
                 <Link className="sidebar_linkTres" href="/Gerentes/Empleados">
                   Empleados
                 </Link>
-                <Link className="sidebar_linkTres" href="/Gerentes/Productos">
-                  Productos
-                </Link>
+                 
                 <Link className="sidebar_linkTres" href="/Gerentes/Movimientos">
                   Movimientos
                 </Link>
@@ -807,7 +803,7 @@ export default function Productos() {
                 <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">
                   Gráficas
                 </Link>
-                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">
+                <Link className="sidebar_linkTres" href="/Gerentes/Gráfica">
                   Inicio
                 </Link>
               </div>
