@@ -25,6 +25,18 @@ import { db } from "@/firebase/firebase";
 export default function Grafica() {
   const [dataCaja, setDataCaja] = useState<any[]>([]);
   const [dateCaja, setDateCaja] = useState<any[]>([]);
+  const [dateMesEne, setMesEne] = useState(0);
+  const [dateMesFeb, setMesFeb] = useState(0);
+  const [dateMesMar, setMesMar] = useState(0);
+  const [dateMesAbr, setMesAbr] = useState(0);
+  const [dateMesMay, setMesMay] = useState(0);
+  const [dateMesJun, setMesJun] = useState(0);
+  const [dateMesJul, setMesJul] = useState(0);
+  const [dateMesAgo, setMesAgo] = useState(0);
+  const [dateMesSep, setMesSep] = useState(0);
+  const [dateMesOct, setMesOct] = useState(0);
+  const [dateMesNov, setMesNov] = useState(0);
+  const [dateMesDic, setMesDic] = useState(0);
   const [dateCajaFin, setDateCajaFin] = useState<any[]>([]);
   const [Rotulos, setRotulos] = useState(0);
   const [Extintores, setExtintores] = useState(0);
@@ -65,12 +77,89 @@ export default function Grafica() {
   }, []);
   useEffect(() => {
     const cajaDataUnsubscribe = onSnapshot(
-      collection(db, "Movimiento"),
+      collection(db, "Finanzas"),
       (querySnapshot) => {
+        const dat: React.SetStateAction<any[]> = [];
         const data: React.SetStateAction<any[]> = [];
+        let Ene = 0;
+        let Feb = 0;
+        let Mar = 0;
+        let Abr = 0;
+        let May = 0;
+        let Jun = 0;
+        let Jul = 0;
+        let Ago = 0;
+        let Sep = 0;
+        let Oct = 0;
+        let Nov = 0;
+        let Dic = 0;
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
+          dat.push(doc.data());
+          const Mess = doc.data();
+          if (Mess.Mes == 1){
+            if (!isNaN(Mess.Ganancias)) {
+              Ene += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 2){
+            if (!isNaN(Mess.Ganancias)) {
+              Feb += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 3){
+            if (!isNaN(Mess.Ganancias)) {
+              Mar += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 4){
+            if (!isNaN(Mess.Ganancias)) {
+              Abr += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 5){
+            if (!isNaN(Mess.Ganancias)) {
+              May += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 6){
+            if (!isNaN(Mess.Ganancias)) {
+              Jun += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 7){
+            if (!isNaN(Mess.Ganancias)) {
+              Jul += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 8){
+            if (!isNaN(Mess.Ganancias)) {
+              Oct += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 9){
+            if (!isNaN(Mess.Ganancias)) {
+              Sep += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 10){
+            if (!isNaN(Mess.Ganancias)) {
+              Ago += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 11){
+            if (!isNaN(Mess.Ganancias)) {
+              Nov += Number(Mess.Ganancias);
+            }
+          }else if (Mess.Mes == 12){
+            if (!isNaN(Mess.Ganancias)) {
+              Dic += Number(Mess.Ganancias);
+            }
+          }
         });
+        
+        setMesEne(Ene);
+        setMesFeb(Feb);
+        setMesAbr(Abr);
+        setMesMar(Mar);
+        setMesMay(May);
+        setMesJun(Jun);
+        setMesJul(Jul);
+        setMesOct(Oct);
+        setMesSep(Sep);
+        setMesAgo(Ago);
+        setMesNov(Nov);
+        setMesDic(Dic);
         setDateCaja(data);
       }
     );
@@ -143,99 +232,56 @@ export default function Grafica() {
     { name: "Otros", Cantidad: Otros },
   ];
 
-  const datis = [
-    {
-      fecha: "23/03/22",
-      Total: 35000,
-      IVA: 4550,
-      Costo: 8000,
-      Ganancias: 22450,
-    } /*35000 total*/,
-    {
-      fecha: "12/01/21",
-      Total: 44000,
-      IVA: 5720,
-      Costo: 10030,
-      Ganancias: 28250,
-    } /*44000total*/,
-    {
-      fecha: "23/12/20",
-      Total: 23000,
-      IVA: 2990,
-      Costo: 11000,
-      Ganancias: 9010,
-    } /*23000 total*/,
-    {
-      fecha: "22/02/22",
-      Total: 54000,
-      IVA: 7020,
-      Costo: 12530,
-      Ganancias: 34450,
-    } /*54000 total*/,
-    {
-      fecha: "02/04/23",
-      Total: 33000,
-      IVA: 4290,
-      Costo: 21800,
-      Ganancias: 6910,
-    } /*33000 total*/,
-    {
-      fecha: "21/11/21",
-      Total: 23000,
-      IVA: 2990,
-      Costo: 8120,
-      Ganancias: 11890,
-    } /*23000 total*/,
-  ];
+  
 
   const dates = [
     {
       Mes: "Ene",
-      Ganancias: 454000,
+      Ganancias: dateMesEne,
     },
     {
       Mes: "Feb",
-      Ganancias: 2123000,
+      Ganancias: dateMesFeb,
     },
     {
-      Mes: "Marz",
-      Ganancias: 2322300,
+      Mes: "Mar",
+      Ganancias: dateMesMar,
     },
     {
       Mes: "Abr",
-      Ganancias: 3332000,
+      Ganancias: dateMesAbr,
     },
     {
       Mes: "May",
-      Ganancias: 530330,
+      Ganancias: dateMesMay,
     },
     {
       Mes: "Jun",
-      Ganancias: 2673000,
+      Ganancias: dateMesJun,
     },
     {
       Mes: "Jul",
-      Ganancias: 898300,
+      Ganancias: dateMesJul,
     },
     {
       Mes: "Agos",
-      Ganancias: 3978000,
+      Ganancias: dateMesAgo,
     },
     {
       Mes: "Sep",
-      Ganancias: 778300,
+      Ganancias: dateMesSep,
     },
     {
       Mes: "Oct",
-      Ganancias: 1313000,
+      Ganancias: dateMesOct,
     },
     {
       Mes: "Nov",
-      Ganancias: 2313000,
+      Ganancias: dateMesNov,
     },
     {
       Mes: "Dic",
-      Ganancias: 523000,
+      Ganancias: dateMesDic,
     },
   ];
 
@@ -336,12 +382,12 @@ export default function Grafica() {
                   </div>
                 </div>
                 <div className="barras">
-                  <div style={{ width: "100%", height: 300 }}>
+                  <div style={{ width: "100%", height: 300, marginTop: 100 }}>
                     <ResponsiveContainer>
                       <AreaChart
                         data={dates}
                         margin={{
-                          top: 50,
+                          top: 30,
                           right: 30,
                           left: 50,
                           bottom: 0,
@@ -385,7 +431,7 @@ export default function Grafica() {
                 <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">
                   Ubicación
                 </Link>
-                 
+                
 
                 <Link className="sidebar_linkTres" href="/">
                   Inicio

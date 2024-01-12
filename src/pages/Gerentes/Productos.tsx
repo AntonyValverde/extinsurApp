@@ -800,10 +800,10 @@ export default function Productos() {
                 <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">
                   Ubicación
                 </Link>
-                <Link className="sidebar_linkTres" href="/Gerentes/Gráficas">
+                <Link className="sidebar_linkTres" href="/Gerentes/Gráfica">
                   Gráficas
                 </Link>
-                <Link className="sidebar_linkTres" href="/Gerentes/Gráfica">
+                <Link className="sidebar_linkTres" href="/">
                   Inicio
                 </Link>
               </div>
