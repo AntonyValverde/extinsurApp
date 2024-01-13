@@ -800,8 +800,8 @@ export default function Productos() {
                 <Link className="sidebar_linkTres" href="/Gerentes/Ubicacion">
                   Ubicación
                 </Link>
-                <Link className="sidebar_linkTres" href="/Gerentes/Gráfica">
-                  Gráficas
+                <Link className="sidebar_linkTres" href="/Gerentes/Grafica">
+                  Estadísticas
                 </Link>
                 <Link className="sidebar_linkTres" href="/">
                   Inicio

@@ -883,17 +883,18 @@ export default function Mantenimiento() {
                 <Link className="sidebar_linkDos" href="/Gerentes/Movimientos">
                   Movimientos
                 </Link>
+                
+                <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">
+                  Ubicación
+                </Link>
+                <Link className="sidebar_linkDos" href="/Gerentes/Grafica">
+                  Estadísticas
+                </Link>
                 <Link
                   className="sidebar_linkDos"
                   href="/"
                 >
                  Inicio
-                </Link>
-                <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">
-                  Ubicación
-                </Link>
-                <Link className="sidebar_linkDos" href="/Gerentes/Graficas">
-                  Gráficas
                 </Link>
               </div>
             </section>

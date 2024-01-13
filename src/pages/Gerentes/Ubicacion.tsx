@@ -354,13 +354,9 @@ export default function Ubicacion() {
                 >
                   Mantenimiento
                 </Link>
-                 
-                <Link className="sidebar_linkTres" href="/Gerentes/Gráfica">
-                  Gráficas
+                <Link className="sidebar_linkTres" href="/Gerentes/Grafica">
+                  Estadísticas
                 </Link>
-
-                
-
                 <Link className="sidebar_linkTres" href="/">
                   Inicio
                 </Link>

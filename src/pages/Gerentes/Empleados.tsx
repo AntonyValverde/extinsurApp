@@ -835,9 +835,7 @@ export default function Empleados() {
             <div className="linea"></div>
             <section>
               <div className="containerButton">
-                <Link className="sidebar_linkDos" href="/">
-                  Salir
-                </Link>
+                
                 <Link className="sidebar_linkDos" href="/Gerentes/Productos">
                   Productos
                 </Link>
@@ -854,7 +852,10 @@ export default function Empleados() {
                   Ubicación
                 </Link>
                 <Link className="sidebar_linkDos" href="/Gerentes/Grafica">
-                  Gráficas
+                  Estadística
+                </Link>
+                <Link className="sidebar_linkDos" href="/">
+                  Inicio
                 </Link>
               </div>
             </section>
