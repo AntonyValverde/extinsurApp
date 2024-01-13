@@ -23,15 +23,13 @@ export default function IndexInicioSesion() {
   const [VerContrasena, setVerContrasena] = useState(false);
   const [Contrasena, setPassword] = useState("");
   const [Email, setEmail] = useState("");
-   
+
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpenError, setIsModalOpenError] = useState(false);
   const [dateUser, setDateUser] = useState("");
 
   const [showError, setShowError] = useState(false);
-
-
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -87,8 +85,6 @@ export default function IndexInicioSesion() {
     setVerContrasena(!VerContrasena);
   };
 
-  
-
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
@@ -100,7 +96,7 @@ export default function IndexInicioSesion() {
   const handlePasswordReset = async () => {
     if (!Email) {
       setErrorMessage("Por favor ingrese un correo...");
-      
+
       /*tiempo de mensaje*/
       setShowError(true);
       setTimeout(() => {
@@ -164,26 +160,22 @@ export default function IndexInicioSesion() {
 
             {isOpen && (
               <div className="modal-overlay">
-                <div className="modal-content">
-              
-                {showError}
+                <div className="modal-content2">
+                  {showError}
                   <button className=" buttonMas" onClick={closeModal}>
                     {" "}
                     <FaTimes className="ico-close" />
                   </button>
-                  
+
                   <h1 className="texh1Mo">Recuperar contraseña</h1>
                   <div className="form">
-                    <div className="icons">
-                       
-                      <input
-                        className="user-name"
-                        type="text"
-                        name="nombreUsuario"
-                        placeholder="Ingrese su correo"
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
+                    <input
+                      className="user-name"
+                      type="text"
+                      name="nombreUsuario"
+                      placeholder="Ingrese su correo"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
                   <button onClick={handlePasswordReset} className="buttonAcep2">
                     Aceptar
@@ -191,7 +183,7 @@ export default function IndexInicioSesion() {
                 </div>
               </div>
             )}
-             
+
             <div className="cajax">
               <div className="contenedor-en-fila">
                 <a className="IniciarSecionLink" onClick={handleLogin}>

@@ -194,7 +194,7 @@ input[type="date"] {
         height: 5rem; /* Ajusta este porcentaje según tus necesidades */
         width: 35rem;
         overflow: auto;
-        margin: 0 auto;
+        margin: 0 0 0 0;
     }
 
     .TablaEmpleados {

@@ -302,8 +302,8 @@ export default function Grafica() {
                 <div className="circular">
                   <div
                     style={{
-                      width: "60%",
-                      height: 270,
+                      width: "70%",
+                      height: "15rem",
                       marginTop: "3rem",
                       marginLeft: "20%",
                     }}

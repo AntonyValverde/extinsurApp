@@ -621,7 +621,7 @@ export default function Mantenimiento() {
                                 : 0;
                             const total = cantidad * precioVenta;
                             const totalCompra = cantidad * precioCompra;
-                            const totalVentaIva = cantidad * precioVenta * 1.14;
+                            const totalVentaIva = Math.round(cantidad * precioVenta * 1.14);
 
                             return (
                               <tr key={users.IdMantenimiento}>

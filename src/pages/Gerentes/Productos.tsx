@@ -697,7 +697,7 @@ export default function Productos() {
                   </button>
                   <div className="RegistrarButton">
                     <button onClick={toggleColorVisibility}>
-                      {showColors ? "Ocultar colores" : "Mostrar colores"}
+                      {showColors ? "Salir" : "Colores"}
                     </button>
                     <div
                       className={`colorPalette ${

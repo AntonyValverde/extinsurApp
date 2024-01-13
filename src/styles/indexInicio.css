@@ -20,9 +20,9 @@
 
 @media (max-width: 767px) {
   .body {
-    height: 550vh;
+    height: 170rem;
     width: 180vh;
-    background-image: white;
+    background-image: rgb(7, 1, 1);
     padding-bottom: 0;
   }
 }
@@ -539,6 +539,15 @@ body.modal-open .modalNavExtintor {
 
 
 @media (max-width: 768px) {
+  .ContenedorUbicacion {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente en el eje principal */
+    align-items: center; /* Centra verticalmente en el eje transversal */
+    height: auto; /* Ajusta la altura según sea necesario */
+    overflow-x: auto; /* Habilita el desplazamiento vertical */
+    padding: 20px;
+  }
+
   .Center{
     display: flex; /* Establecer el contenedor como flexbox */
     justify-content: center; /* Centrar horizontalmente los elementos */
@@ -550,10 +559,10 @@ body.modal-open .modalNavExtintor {
     top: 44vh;
     width: 90%;
     
-    height: 450vh;
-    background-color: rgba(2, 3, 69, 0.467);
+    height: 150rem;
+    background-color: rgba(2, 3, 69, 0);
     border-radius: 10px;
-    border: 1px solid #100d0d;
+    border: 1px solid #100d0d00;
     padding: 10px;
     overflow: auto;
     display: flex; /* Establecer el contenedor como flexbox */
@@ -608,7 +617,7 @@ body.modal-open .modalNavExtintor {
     position: absolute;
     width: 155vb;
     max-width: none;
-    height: 420vh;
+    height: auto;
     display: 10px;
 
      
@@ -670,6 +679,9 @@ body.modal-open .modalNavExtintor {
 
   }
 
+  .modal-overlay{
+    background-color: white;
+  }
   .navServicios {
     top: 360vh;
     position: absolute;
@@ -824,6 +836,7 @@ body.modal-open .modalNavExtintor {
   }
 
   .footerInicio {
+    height: 20rem;
     font-size: 34px;
   }
   .linkMaps{

@@ -101,18 +101,32 @@
   top: 25px;
   left: 0;
   width: 100%;
+  height: 30rem;
   background-color: transparent;
-  color: #000;
+  color: #f1f1f1;
+  overflow: auto;
+}
+
+.modal-content2 {
+  background: black;
+  width: 20vw;
+  height: 20rem;
+  margin-top: 5vw;
+  padding: 20px;
+  box-shadow: 4px 4px 4px 4px rgb(172, 180, 212, 0.3);
+  overflow: auto;
+  border-radius: 10px 10px 10px 10px;
 }
 .buttonAcep2 {
   margin-left: 50px;
+  display: flex;
   font-size: medium;
   text-align: center;
   background: #45a049;
   border: 2px solid #65aaad;
   padding: 8px 18px;
   border-radius: 5px;
-  width: 50%; /* Cambiado a un porcentaje para que se ajuste proporcionalmente */
+  width: 33%; /* Cambiado a un porcentaje para que se ajuste proporcionalmente */
   margin: 15px auto 10px; /* Alineado verticalmente en el centro y margen horizontal automático */
 }
 .buttonMas {
@@ -143,7 +157,9 @@
 .form {
   position: static;
   display: inline-block;
+  align-items: center;
   padding-top: 15%;
+  width: 100%;
 }
 .icons {
   position: relative;
@@ -154,11 +170,12 @@
   width: 100%;
   margin-bottom: 20%;
   padding: 1%;
-  margin-left: 35%;
   text-indent: 18px;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: 18px;
   font: bold;
+  text-align-last: center;
+  text-align: center;
   background-color: black;
   border: none;
   border-bottom: 2px solid blue;
@@ -323,7 +340,20 @@
   margin-bottom: 1rem;
   cursor: pointer;
 }
-
+ 
+@media only screen and (max-width: 600px) {
+  .modal-content2 {
+    width: 50vw; /* Se ajusta aún más para dispositivos más pequeños */
+  }
+}
+@media screen and (max-width: 1000px) {
+  .modal-content2 {
+    width: 30vw; /* Se ajusta aún más para dispositivos más pequeños */
+  }
+  .buttonAcep2{
+    width: 6rem;
+  }
+}
 /* Estilos para dispositivos móviles */
 @media (max-width: 768px) {
   
