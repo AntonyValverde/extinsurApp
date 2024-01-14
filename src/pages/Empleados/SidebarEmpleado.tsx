@@ -27,11 +27,7 @@ const sidebarItems = [
         href: "/Empleados/UbicacionEm",
         icon: FaMapMarkerAlt,
     },
-    {
-        name: "Grafica",
-        href: "/Empleados/GraficaEm",
-        icon: FaChartBar,
-    },
+     
     {
         name: "Inicio",
         href: "/",
