@@ -10,6 +10,8 @@ import {
   query,
   where,
   addDoc,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 import firebaseConfig from "@/firebase/config";
 import { initializeApp } from "firebase/app";
@@ -28,6 +30,8 @@ export default function Ubicacion() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
+  //Modals Eliminar
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   //Tablas
   const [UbicationData, setUbicationData] = useState<any[]>([]);
   //Conexion fireBase
@@ -62,6 +66,7 @@ export default function Ubicacion() {
   }, [isModalOpenTres]);
 
   const handleModalOpenTres = () => {
+    asignarNumeroAleatorio();
     setIsModalOpenTres(true);
   };
   const handleModalCloseTres = () => {
@@ -70,6 +75,50 @@ export default function Ubicacion() {
     setDescripcion("");
     setHoraInicio("");
     setHoraCierre("");
+  };
+
+  //Modals Eliminar
+
+  const handleDeleteModal = () => {
+    setShowDeleteModal(true);
+  };
+  const handleConfirmDelete = () => {
+    handleDeleteUser(Id);
+    setShowDeleteModal(false);
+  };
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+  };
+  //Eliminar de la fireBase.
+  const handleDeleteUser = async (Id: string) => {
+    try {
+      const employeesQuery = await getDocs(
+        query(collection(db, "Ubicacion"), where("Id", "==", Id))
+      );
+
+      if (!employeesQuery.empty) {
+        // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
+        const employeeDoc = employeesQuery.docs[0];
+        const userId = employeeDoc.data().Id;
+
+        // Eliminamos el documento del empleado
+        const employeeRef = doc(db, "Ubicacion", employeeDoc.id);
+        await deleteDoc(employeeRef);
+
+        // Buscamos el documento del usuario relacionado al empleado
+        const usersQuery = await getDocs(
+          query(collection(db, "Ubicacion"), where("Id", "==", userId))
+        );
+      } else {
+        console.log(
+          "No se encontró ningún empleado con la cédula especificada."
+        );
+      }
+    } catch (error) {
+      console.log("No se elimino.");
+    }
+
+    handleCancelDelete();
   };
 
   const [backgroundColor, setBackgroundColor] = useState<string>("white");
@@ -111,6 +160,12 @@ export default function Ubicacion() {
   const toggleColorVisibility = () => {
     setShowColors(!showColors);
   };
+  //Numero ram
+  const asignarNumeroAleatorio = () => {
+    const numeroAleatorio = Math.floor(Math.random() * 99999);
+    setId(numeroAleatorio.toString());
+    console.log(Id);
+  };
 
   //Agregar ubicacion
   const handleFormSubmitUbication = async (event: React.FormEvent) => {
@@ -118,17 +173,17 @@ export default function Ubicacion() {
     try {
       const usersRef = collection(db, "Ubicacion");
       const queryDB = await getDocs(
-        query(usersRef, where("Link", "==", enlace))
+        query(usersRef, where("Id", "==", Id))
       );
       if (!queryDB.empty) {
         return;
       }
-
       const ubicationData = {
         enlace,
         HoraInicio,
         HoraCierre,
         Descripcion,
+        Id,
       };
 
       await addDoc(collection(db, "Ubicacion"), ubicationData);
@@ -185,9 +240,8 @@ export default function Ubicacion() {
                       {showColors ? "Ocultar colores" : "Mostrar colores"}
                     </button>
                     <div
-                      className={`colorPalette ${
-                        showColors ? "visible" : "hidden"
-                      }`}
+                      className={`colorPalette ${showColors ? "visible" : "hidden"
+                        }`}
                     >
                       {colors.map((color) => (
                         <div
@@ -211,12 +265,12 @@ export default function Ubicacion() {
                     </tr>
                   </thead>
                   <tbody>
-                    {UbicationData.map((users, index) => {
+                    {UbicationData.map((Id, index) => {
                       const userDataIndex =
                         index < UbicationData.length ? index : null;
 
                       return (
-                        <tr key={users.enlace}>
+                        <tr key={index}>
                           <td>
                             {userDataIndex !== null
                               ? UbicationData[userDataIndex].Descripcion
@@ -240,6 +294,12 @@ export default function Ubicacion() {
                             <FaTrash
                               className="iconsEliminar"
                               title="Eliminar."
+                              onClick={() => {
+                                handleDeleteModal();
+                                setId(Id.Id);
+                                const updateData = [...UbicationData];
+                                setUbicationData(updateData);
+                              }}
                             />
                           </td>
                         </tr>
@@ -332,6 +392,21 @@ export default function Ubicacion() {
                         Agregar
                       </button>
                     </form>
+                  </div>
+                </div>
+              )}
+              {showDeleteModal && (
+                <div className="modal">
+                  <div className="modalcontentDelete">
+                    <p className="textDos">
+                      ¿Estás seguro de qué quieres eliminar este usuario?
+                    </p>
+                    <button className="botonRes" onClick={handleConfirmDelete}>
+                      Sí
+                    </button>
+                    <button className="botonRes" onClick={handleCancelDelete}>
+                      No
+                    </button>
                   </div>
                 </div>
               )}

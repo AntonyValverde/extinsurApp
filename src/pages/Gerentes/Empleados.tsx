@@ -666,8 +666,6 @@ export default function Empleados() {
                   <thead>
                     <tr>
                       <th>Nombre</th>
-                      <th>P.Apellido</th>
-                      <th>S.Apellido</th>
                       <th>Estado</th>
                       <th>Tipo</th>
                       <th>Correo</th>
@@ -705,9 +703,8 @@ export default function Empleados() {
                       )
                       .map((user) => (
                         <tr key={user.Cedula}>
-                          <td>{user.Nombre ?? "-"}</td>
-                          <td>{user.ApellidoUno ?? "-"}</td>
-                          <td>{user.ApellidoDos ?? "-"}</td>
+                          <td>{user.Nombre ?? "-"} {user.ApellidoUno ?? "-"} {user.ApellidoDos ?? "-"}</td>
+                           
                           <td>{user.Estado ?? "-"}</td>
                           <td>{user.TipoEmpleado ?? "-"}</td>
                           <td>{user.Email ?? "-"}</td>

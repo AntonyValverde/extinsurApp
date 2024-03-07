@@ -6,7 +6,6 @@ import { SidebarContext } from "./SidebarContextEm";
  
 
 const sidebarItems = [
-     
     {
         name: "Productos",
         href: "/Empleados/ProductosEm",
