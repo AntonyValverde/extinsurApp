@@ -39,7 +39,22 @@ import {
 } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 
-export default function Empleados() {
+
+
+export default function Empleados(
+  {
+    UserData: Datass
+
+  }:{
+    UserData: any [
+
+    ]
+  }
+
+) {
+  
+
+
   //Modals
   const [isModalOpen, setIsEditarOpen] = useState(false);
   const [isModalOpenShow, setIsModalOpenShow] = useState(false);
@@ -62,7 +77,7 @@ export default function Empleados() {
   const [searchQuery, setSearchQuery] = useState("");
   const [borrarConfirmado, setBorrarConfirmado] = useState(false);
   //Leer tablas
-  const [userData, setUserData] = useState<any[]>([]);
+  const [userData, setUserData] = useState<any[]>(Datass || []);
   const [dataCaja, setDataCaja] = useState<any[]>([]);
   const [infoData, setInfoData] = useState<any[]>([]);
   //Inicializa firebase
@@ -504,6 +519,7 @@ export default function Empleados() {
                           Email
                           <input
                             type="text"
+                            id="email"
                             className="inputRes"
                             placeholder="Email"
                             value={Email}
@@ -515,6 +531,7 @@ export default function Empleados() {
                           Contraseña
                           <input
                             type="text"
+                            id="contra"
                             className="inputRes"
                             placeholder="Contraseña"
                             value={Contrasena}
@@ -526,6 +543,7 @@ export default function Empleados() {
                           Nombre
                           <input
                             type="text"
+                            id="nombre"
                             className="inputRes"
                             placeholder="Nombre"
                             value={Nombre}
@@ -538,6 +556,7 @@ export default function Empleados() {
                           Primer Apellido
                           <input
                             type="text"
+                            id="apeUno"
                             className="inputRes"
                             placeholder="Primer Apellido"
                             value={ApellidoUno}
@@ -549,6 +568,7 @@ export default function Empleados() {
                           Segundo Apellido
                           <input
                             type="text"
+                            id="apeDos"
                             className="inputRes"
                             placeholder="Segundo Apellido"
                             value={ApellidoDos}
@@ -560,8 +580,8 @@ export default function Empleados() {
                           Fecha Nacimiento
                           <input
                             type="date"
-                            className="inputRes"
                             id="fechaNacimiento"
+                            className="inputRes"
                             name="fechaNacimiento"
                             onChange={handleFechaNacimientoChange}
                             required
@@ -571,6 +591,7 @@ export default function Empleados() {
                           Cédula
                           <input
                             type="text"
+                            id="cedula"
                             className="inputRes"
                             placeholder="Cédula"
                             value={Cedula}
@@ -675,6 +696,7 @@ export default function Empleados() {
                       <th></th>
                     </tr>
                   </thead>
+                  {userData && userData.length > 0 && (
                   <tbody>
                     {userData
                       .filter(
@@ -721,7 +743,6 @@ export default function Empleados() {
                                 setUserData(updateData);
                               }}
                             />
-
                             {/*<IoInformationCircleSharp
                               onClick={() => {
                                 handleModalOpenShow();
@@ -730,7 +751,6 @@ export default function Empleados() {
                               className="iconsInfo"
                               title="Más Información."
                             />*/}
-
                             <FaTrash
                               className="iconsEliminar"
                               title="Eliminar."
@@ -745,6 +765,7 @@ export default function Empleados() {
                         </tr>
                       ))}
                   </tbody>
+                  )}
                 </table>
               </div>
             </section>
@@ -936,17 +957,7 @@ export default function Empleados() {
                   }
                   required
                 />
-                <h3 className="textDos">
-                  Fecha Nacimiento
-                  <input
-                    type="date"
-                    className="textTres"
-                    id="fechaNacimiento"
-                    name="fechaNacimiento"
-                    onChange={(e) => handleFechaNacimientoChange(e)}
-                    required
-                  ></input>
-                </h3>
+                 
                 <h3 className="textDos">Estado:</h3>
                 <select
                   className="inputRes"

@@ -13,7 +13,7 @@ import {
   collection,
   getDocs,
   getFirestore,
-   
+
 } from "firebase/firestore";
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
@@ -22,7 +22,29 @@ import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "@/firebase/config";
 
-const Nav_index = ({}) => {
+interface NavProps {
+  UbicacionDatas: {
+    Descripcion: string;
+    enlace: string;
+    HoraInicio: string;
+    HoraCierre: string;
+  }[];
+  handleRecargaClick: () => void;
+  handleRevisionClick: () => void;
+  handleModalClick: () => void;
+  handleModalCloseClick: () => void;
+  handleModalCloseDoss: () => void;
+}
+
+const Nav_index: React.FC<NavProps> = ({
+  UbicacionDatas,
+  handleRecargaClick,
+  handleRevisionClick,
+  handleModalClick,
+  handleModalCloseClick,
+  handleModalCloseDoss
+
+}) => {
   //Conexion fireBase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -97,46 +119,48 @@ const Nav_index = ({}) => {
 
     ubicacionData();
   }, []);
+
   return (
     <>
-      <div className="Center">
-        <nav className="navInfo">
-          <h1 className="h1Info">
-            <span className="text">Extinsur</span>
-            <FaFire className="icons"></FaFire>
+      <div className="Center" data-testid="div-principal">
+        <nav className="navInfo" data-testid="nav-info">
+          <h1 className="h1Info" title="Titulo Inicio" data-testid="h1-titulo-inicio">
+            <span className="text" title="Titulo Inicio" data-testid="span-titulo-inicio">Extinsur</span>
+            <FaFire className="icons" data-testid="icons-fire"></FaFire>
           </h1>
-          <div>
-            <article className="articleInfo">
+          <div data-testid="div-articulos">
+            <article title="InfoArticulo" className="articleInfo" data-testid="article-info1">
               ExtinSur corredores, servicios de mantenimiento y seguridad
               ciudadana, estamos siempre para usted, mira nuestros productos de
               mejor calidad y visítanos en nuestros puestos de venta.
             </article>
 
-            <article className="articleInfo">
+            <article className="articleInfo" data-testid="article-info2">
               Oficinas en San Rafael de Ciudad Neily, entrada frente al salón
               comunal.
             </article>
 
-            <article className="articleInfo">
+            <article className="articleInfo" data-testid="article-info3">
               Coordenadas exactas:
               <a
                 className="linkMaps"
-                href=" https://maps.app.goo.gl/h9W78QoU8gpUr5uR9 "
+                href="https://maps.app.goo.gl/h9W78QoU8gpUr5uR9"
+                data-testid="link-maps"
               >
                 {" "}
                 Oficinas ExtinSur{" "}
               </a>
             </article>
 
-            <article className="articleInfo">
-              <h1 className="h1Info">
-                <span className="text">Puestos de venta</span>
-                <FaMapMarked className="icons"></FaMapMarked>
+            <article className="articleInfo" data-testid="article-info">
+              <h1 className="h1Info" data-testid="h1-puestos-venta">
+                <span className="text" data-testid="span-puestos-venta">Puestos de venta</span>
+                <FaMapMarked className="icons" data-testid="icons-map"></FaMapMarked>
               </h1>
 
-              <div className="ContenedorUbicacion">
-                <article className="articleInfoTres">
-                  <table className="tablaUbication">
+              <div className="ContenedorUbicacion" data-testid="ContenedorUbicacion">
+                <article className="articleInfoTres" data-testid="article-info-tres">
+                  <table className="tablaUbication" data-testid="table-ubicacion">
                     <thead>
                       <tr>
                         <th>Ubicación</th>
@@ -145,12 +169,17 @@ const Nav_index = ({}) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {UbicacionData.map((user) => (
-                        <tr key={user.enlace}>
-                          <td className="textU">{user.Descripcion ?? "-"}</td>
-                          <td className="textU">{user.enlace ?? "-"}</td>
-                          <td className="textU">{user.HoraInicio ?? "-"} / {user.HoraCierre ?? "-"}</td>
-                          
+                      {UbicacionData.map((user, index) => (
+                        <tr key={index} data-testid={'ubicacion-row-${index}'}>
+                          <td className="textU" data-testid={`ubicacion-descripcion-${index}`}>
+                            {user.Descripcion ?? "-"}
+                          </td>
+                          <td className="textU" data-testid={`ubicacion-enlace-${index}`}>
+                            {user.enlace ?? "-"}
+                          </td>
+                          <td className="textU" data-testid={`ubicacion-horario-${index}`}>
+                            {user.HoraInicio ?? "-"} / {user.HoraCierre ?? "-"}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -158,66 +187,75 @@ const Nav_index = ({}) => {
                 </article>
               </div>
             </article>
-            <article className="articleDos">
+            <article className="articleDos" data-testid="article-servicios">
               <h1 className="h1Info">
-                <span className="text">Servicios</span>
-                <FaTools className="icons"></FaTools>
+                <span className="text" data-testid="span-servicios">Servicios</span>
+                <FaTools className="icons" data-testid="icons-servicios"></FaTools>
               </h1>
               <div>
-                <article className="articleInfo">
+                <article className="articleInfo" data-testid="article-mantenimiento">
                   <button
                     onClick={handleMantenimientoOpen}
                     className="buttonBorderDos"
+                    data-testid="button-mantenimiento"
                   >
-                    <span className="textOpcionesPro">Mantenimiento</span>
-                    <FaCogs className="iconsPro"></FaCogs>
+                    <span className="textOpcionesPro" data-testid="span-mantenimiento">Mantenimiento</span>
+                    <FaCogs className="iconsPro" data-testid="icons-mantenimiento"></FaCogs>
                   </button>
                 </article>
 
-                <article className="articleInfo">
+                <article className="articleInfo" data-testid="article-recarga">
                   <button
                     onClick={handleRecargaOpen}
                     className="buttonBorderDos"
+                    data-testid="button-recarga"
                   >
-                    <span className="textOpcionesPro">Recarga</span>
-                    <FaBroom className="iconsPro"></FaBroom>
+                    <span className="textOpcionesPro" data-testid="span-recarga">Recarga</span>
+                    <FaBroom className="iconsPro" data-testid="icons-recarga"></FaBroom>
                   </button>
                 </article>
 
-                <article className="articleInfo">
+                <article className="articleInfo" data-testid="article-revision">
                   <button
                     onClick={handleRevisionOpen}
                     className="buttonBorderDos"
+                    data-testid="button-revision"
                   >
-                    <span className="textOpcionesPro">Revisión</span>
-                    <FaBriefcase className="iconsPro"></FaBriefcase>
+                    <span className="textOpcionesPro" data-testid="span-revision">Revisión</span>
+                    <FaBriefcase className="iconsPro" data-testid="icons-revision"></FaBriefcase>
                   </button>
                 </article>
               </div>
             </article>
-            <article className="articleDos">
+
+            <article className="articleDos" data-testid="article-productos">
               <h1 className="h1Info">
                 <span className="text">Productos</span>
                 <FaStore className="icons"></FaStore>
               </h1>
               <div>
-                <article className="articleInfo">
+                <article className="articleInfo" data-testid="article-extintores">
                   <button
                     onClick={handleModalOpenDos}
                     className="buttonBorderDos"
+                    data-testid="button-extintores"
                   >
                     <span className="textOpcionesPro">Extintores</span>
                     <FaFireExtinguisher className="iconsPro"></FaFireExtinguisher>
                   </button>
                 </article>
-                <article className="articleInfo">
-                  <button onClick={handleModalOpen} className="buttonBorderDos">
+                <article className="articleInfo" data-testid="article-rotulos">
+                  <button
+                    onClick={handleModalOpen}
+                    className="buttonBorderDos"
+                    data-testid="button-rotulos"
+                  >
                     <span className="textOpcionesPro">Rotulos</span>
                     <FaDirections className="iconsPro"></FaDirections>
                   </button>
                 </article>
               </div>
-              <section>
+              <section data-testid="modal-section">
                 {isModalOpenDos && (
                   <div className="modalNavExtintor ">
                     <div
@@ -298,9 +336,10 @@ const Nav_index = ({}) => {
                   </div>
                 )}
               </section>
-              <section>
+
+              <section data-testid="modal-section">
                 {isModalOpen && (
-                  <div className="modalNavExtintor ">
+                  <div className="modalNavExtintor " data-testid="modal-container">
                     <div
                       className="modalDivExtintor"
                       style={{
@@ -324,10 +363,11 @@ const Nav_index = ({}) => {
                           top: "10px",
                           right: "10px",
                         }}
+                        data-testid="close-button"
                       >
                         SALIR
                       </button>
-                      <article style={{ textAlign: "center" }}>
+                      <article style={{ textAlign: "center" }} data-testid="rotulos-article">
                         <h2
                           style={{
                             fontSize: "24px",
@@ -343,7 +383,7 @@ const Nav_index = ({}) => {
                           infiniteLoop={true}
                           showThumbs={false}
                         >
-                          <div>
+                          <div data-testid="image-div1">
                             <img
                               width="300"
                               height="300"
@@ -353,7 +393,7 @@ const Nav_index = ({}) => {
                               style={{ borderRadius: "5px" }}
                             />
                           </div>
-                          <div>
+                          <div data-testid="image-div2">
                             <img
                               width="300"
                               height="300"
@@ -363,7 +403,7 @@ const Nav_index = ({}) => {
                               style={{ borderRadius: "5px" }}
                             />
                           </div>
-                          <div>
+                          <div data-testid="image-div3">
                             <img
                               width="300"
                               height="300"
@@ -375,13 +415,14 @@ const Nav_index = ({}) => {
                           </div>
                         </Carousel>
                       </article>
+
                     </div>
                   </div>
                 )}
               </section>
-              <section>
+              <section data-testid="mantenimiento-section2">
                 {IsMantenimiento && (
-                  <div className="modalNavExtintor ">
+                  <div className="modalNavExtintor " data-testid="mantenimiento-container">
                     <div
                       className="modalDivExtintor"
                       style={{
@@ -405,10 +446,11 @@ const Nav_index = ({}) => {
                           top: "10px",
                           right: "10px",
                         }}
+                        data-testid="close-button-mantenimiento"
                       >
                         SALIR
                       </button>
-                      <article style={{ textAlign: "center" }}>
+                      <article style={{ textAlign: "center" }} data-testid="mantenimiento-article">
                         <h1
                           style={{
                             fontSize: "35px",
@@ -495,9 +537,9 @@ const Nav_index = ({}) => {
                   </div>
                 )}
               </section>
-              <section>
+              <section data-testid="recarga-section">
                 {IsRecarga && (
-                  <div className="modalNavExtintor ">
+                  <div className="modalNavExtintor " data-testid="recarga-container">
                     <div
                       className="modalDivExtintor"
                       style={{
@@ -521,10 +563,11 @@ const Nav_index = ({}) => {
                           top: "10px",
                           right: "10px",
                         }}
+                        data-testid="close-button-recarga"
                       >
                         SALIR
                       </button>
-                      <article style={{ textAlign: "center" }}>
+                      <article style={{ textAlign: "center" }} data-testid="recarga-article">
                         <h1
                           style={{
                             fontSize: "35px",
@@ -541,9 +584,7 @@ const Nav_index = ({}) => {
                             color: "#000000",
                           }}
                         >
-                          Ofrecemos servicios de recarga de extintores
-                          disponibles en diversos puntos de venta para empresas,
-                          personas y cualquier entidad que adquiera extintores.
+                          Ofrecemos servicios de recarga de extintores disponibles en diversos puntos de venta para empresas, personas y cualquier entidad que adquiera extintores.
                         </h2>
                         <h2
                           style={{
@@ -591,9 +632,9 @@ const Nav_index = ({}) => {
                   </div>
                 )}
               </section>
-              <section>
+              <section  data-testid="revision-section">
                 {IsRevision && (
-                  <div className="modalNavExtintor ">
+                  <div className="modalNavExtintor" data-testid="revision-container">
                     <div
                       className="modalDivExtintor"
                       style={{
@@ -617,10 +658,11 @@ const Nav_index = ({}) => {
                           top: "10px",
                           right: "10px",
                         }}
+                        data-testid="close-button-revision"
                       >
                         SALIR
                       </button>
-                      <article style={{ textAlign: "center" }}>
+                      <article style={{ textAlign: "center" }} data-testid="revision-article"> 
                         <h1
                           style={{
                             fontSize: "35px",
