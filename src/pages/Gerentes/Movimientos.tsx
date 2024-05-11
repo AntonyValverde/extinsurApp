@@ -237,11 +237,13 @@ export default function Movimientos() {
       };
 
       await addDoc(collection(db, "Movimiento"), productosData);
-
-      handleModalCloseDos();
+      const updateData = [...userData];
+      setUserData(updateData);
+      
     } catch (error) {
       console.error("Error al agregar datos :", error);
     }
+    handleModalCloseDos();
   };
   //Add detalle
   const [formData, setFormData] = useState({

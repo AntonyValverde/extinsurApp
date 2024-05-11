@@ -92,24 +92,6 @@ export default function Ubicacion() {
                     className="BuscadorInput"
                     placeholder="Buscar..."
                   />
-                  <button
-                    onClick={handleModalOpenTres}
-                    className="RegistrarButton"
-                  >
-                    Registrar
-                  </button>
-                  <div className="RegistrarButton">
-                    <div className="colorPalette">
-                      {colors.map((color) => (
-                        <div
-                          key={color}
-                          className="colorBox"
-                          style={{ backgroundColor: color }}
-                          onClick={() => changeBackgroundColor(color)}
-                        ></div>
-                      ))}
-                    </div>
-                  </div>
                 </div>
                 <table className="TablaEmpleados">
                   <thead>
@@ -128,14 +110,7 @@ export default function Ubicacion() {
                       <td>https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7</td>
                       <td>4 Horas</td>
 
-                      <td>
-                        <FaEdit className="iconsEdit" title="Editar." />
-                        <IoInformationCircleSharp
-                          className="iconsInfo"
-                          title="Más Información."
-                        />
-                        <FaTrash className="iconsEliminar" title="Eliminar." />
-                      </td>
+                       
                     </tr>
                     <tr>
                       <td>14/04/2021</td>
@@ -143,14 +118,7 @@ export default function Ubicacion() {
                       <td>https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6</td>
                       <td>6 horas</td>
 
-                      <td>
-                        <FaEdit className="iconsEdit" title="Editar." />
-                        <IoInformationCircleSharp
-                          className="iconsInfo"
-                          title="Más Información."
-                        />
-                        <FaTrash className="iconsEliminar" title="Eliminar." />
-                      </td>
+                     
                     </tr>
                   </tbody>
                 </table>

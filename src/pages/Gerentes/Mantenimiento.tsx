@@ -249,11 +249,13 @@ export default function Mantenimiento() {
       };
 
       await addDoc(collection(db, "Mantenimiento"), productosData);
-
-      handleModalCloseDos();
+      const updateData = [...userData];
+      setUserData(updateData);
+      
     } catch (error) {
       console.error("Error al agregar datos :", error);
     }
+    handleModalCloseDos();
   };
   //Editar
   //Editar tabla Usuarios

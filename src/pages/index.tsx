@@ -13,7 +13,17 @@ export default function Home() {
         </header>
         <div className='navCompIndex' data-testid="navCompIndex">
           <article className='navIndex' data-testid="article">
-            <Nav_index></Nav_index>
+            <Nav_index UbicacionDatas={[]} handleRecargaClick={function (): void {
+              throw new Error('Function not implemented.');
+            } } handleRevisionClick={function (): void {
+              throw new Error('Function not implemented.');
+            } } handleModalClick={function (): void {
+              throw new Error('Function not implemented.');
+            } } handleModalCloseClick={function (): void {
+              throw new Error('Function not implemented.');
+            } } handleModalCloseDoss={function (): void {
+              throw new Error('Function not implemented.');
+            } }></Nav_index>
           </article>
         </div>
         <footer className="footerInicio" data-testid="footer">

@@ -109,6 +109,9 @@ export default function Ubicacion() {
         const usersQuery = await getDocs(
           query(collection(db, "Ubicacion"), where("Id", "==", userId))
         );
+
+        const updateData = [...UbicationData];
+        setUbicationData(updateData);
       } else {
         console.log(
           "No se encontró ningún empleado con la cédula especificada."
@@ -188,10 +191,12 @@ export default function Ubicacion() {
 
       await addDoc(collection(db, "Ubicacion"), ubicationData);
 
-      handleModalCloseTres();
+      const updateData = [...UbicationData];
+      setUbicationData(updateData);
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
+    handleModalCloseTres();
   };
 
   //Consume tabla de Ubicacion

@@ -295,13 +295,13 @@ export default function Empleados(
       await createUserWithEmailAndPassword(auth, Email, Contrasena);
       await addDoc(collection(db, "Usuario"), UsersData);
 
-      handleModalCloseOtro();
-
       const updateData = [...userData];
       setUserData(updateData);
+      
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
+    handleModalCloseOtro();
   };
   //Editar tabla Usuarios
   const [formData, setFormData] = useState({
