@@ -273,153 +273,92 @@ export default function Movimientos() {
     setShowModalEdit(true);
   };
 
-  const handleFormSubmitOtro = async (event: React.FormEvent) => {
+  const handleFormSubmitOtro = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    console.log("1");
+    console.log("Iniciando el proceso de adición de detalle...");
     try {
-      console.log("2");
-      const usersRef = collection(db, "Finanzas");
+      const productoRef = collection(db, "Producto");
+      const finanzasRef = collection(db, "Finanzas");
+      const detalleRef = collection(db, "Detalle");
 
-      const sourceCollectionRef = collection(db, "Producto");
-      const targetCollectionRef = collection(db, "Detalle");
-
-      const querySnapshot = await getDocs(
-        query(sourceCollectionRef, where("Codigo", "==", Codigo))
-      );
-
-      console.log(IdMovimiento);
-      const QueryDos = await getDocs(
-        query(usersRef, where("IdMovimiento", "==", IdMovimiento))
-      );
-
-      if (querySnapshot.empty) {
-        setCodigo("");
-        const tiempoVisibleEnMilisegundos = 5000;
-        mostrarAlertaTemporal(
-          "No se encuentra el producto.",
-          tiempoVisibleEnMilisegundos
-        );
+      // Busca el producto especificado
+      const productoSnapshot = await getDocs(query(productoRef, where("Codigo", "==", Codigo)));
+      if (productoSnapshot.empty) {
+        mostrarAlertaTemporal("No se encuentra el producto.", 5000);
         return;
       }
 
-      // Recuperar los datos de la consulta
-      const sourceData = querySnapshot.docs[0].data();
-      
+      // Datos del producto
+      const productoData = productoSnapshot.docs[0].data();
+      const productoId = productoSnapshot.docs[0].id;
 
-      const detalleDato = {
-        Anno: sourceData.Anno,
-        Bodega: sourceData.Bodega,
-        Cantidad: sourceData.Cantidad,
-        Codigo: sourceData.Codigo,
-        Detalle: sourceData.Detalle,
-        Dia: sourceData.Dia,
-        Mes: sourceData.Mes,
-        PrecioCompra: sourceData.PrecioCompra,
-        PrecioVenta: sourceData.PrecioVenta,
-        Tipo: sourceData.Tipo,
-        IdMovimiento: IdMovimiento,
+      // Prepara el detalle a agregar
+      const nuevoDetalle = {
+        Anno,
+        Dia,
+        Mes,
+        Detalle: productoData.Detalle,
+        Bodega: productoData.Bodega,
+        Cantidad: productoData.Cantidad,
+        Codigo: productoData.Codigo,
+        PrecioCompra: productoData.PrecioCompra,
+        PrecioVenta: productoData.PrecioVenta,
+        Tipo: productoData.Tipo,
+        IdMovimiento,
       };
 
-      console.log("3");
-      try {
-        if (!QueryDos.empty) {
-          console.log("Finanza hallada");
-          const usersQuery = await getDocs(
-            query(usersRef, where("IdMovimiento", "==", IdMovimiento))
-          );
+      // Agrega el nuevo detalle
+      await addDoc(detalleRef, nuevoDetalle);
 
-          const sourceDataDos = usersQuery.docs[0].data();
+      // Busca finanzas relacionadas al movimiento
+      const finanzasSnapshot = await getDocs(query(finanzasRef, where("IdMovimiento", "==", IdMovimiento)));
+      if (!finanzasSnapshot.empty) {
+        // Actualiza las finanzas existentes
+        const finanzasData = finanzasSnapshot.docs[0].data();
+        const finanzasId = finanzasSnapshot.docs[0].id;
 
-          let IVA;
-          let GananciasAux;
-          let GananciasAuxDos;
-          let TotalCompraAux;
-          let TOTAL;
+        const totalActualizado = parseFloat(finanzasData.Total) + parseFloat(productoData.PrecioVenta);
+        const gananciasActualizadas = parseFloat(finanzasData.Ganancias) + (parseFloat(productoData.PrecioVenta) - parseFloat(productoData.PrecioCompra));
+        const totalCompraActualizado = parseFloat(finanzasData.TotalCompra) + parseFloat(productoData.PrecioCompra);
+        const ivaActualizado = totalActualizado * 1.15;
 
-          if (!usersQuery.empty) {
-            const userDoc = usersQuery.docs[0];
-            const userId = userDoc.id;
-
-            TOTAL =
-              parseFloat(sourceDataDos.Total) + parseFloat(sourceData.PrecioVenta);
-            
-            GananciasAux =
-              parseFloat(sourceData.PrecioVenta) -
-              parseFloat(sourceData.PrecioCompra);
-            GananciasAuxDos = parseFloat(sourceDataDos.Ganancias) + GananciasAux;
-            TotalCompraAux =
-              parseFloat(sourceDataDos.TotalCompra) +
-              parseFloat(sourceData.PrecioCompra);
-            if (!isNaN(TOTAL)) {
-              IVA = Math.round(TOTAL * 1.15); 
-
-              console.log("Total:", TOTAL);
-              console.log("IVA:", IVA);
-            } else {
-              console.error("Error en la conversión a número");
-            }
-            console.log("5");
-            const updatedUserData = {
-              Total: TOTAL,
-              TIVA: IVA,
-              TotalCompra: TotalCompraAux,
-              Ganancias: GananciasAuxDos,
-            };
-
-            // Actualizamos el documento de usuario
-            await updateDoc(doc(db, "Finanzas", userId), updatedUserData);
-          } 
-        }else {
-          console.log("7");
-          const productosData = {
-            Total: sourceData.PrecioVenta,
-            TotalCompra: sourceData.PrecioCompra,
-            Ganancias: sourceData.PrecioVenta - sourceData.PrecioCompra,
-            TIVA: sourceData.PrecioCompra * 1.15,
-            IdMovimiento: IdMovimiento,
-            Anno,
-            Dia,
-            Mes,
-          };
-
-          await addDoc(usersRef, productosData);
-        }
-      } catch (error) {
-        console.error("Error al agregar datos :", error);
-      }
-
-      // Agregar los datos a la colección de destino
-      await addDoc(targetCollectionRef, detalleDato);
-
-      const tiempoVisibleEnMilisegundos = 5000;
-      mostrarAlertaTemporal("Se agrego código.", tiempoVisibleEnMilisegundos);
-
-      const employeesQuery = await getDocs(
-        query(collection(db, "Producto"), where("Codigo", "==", Codigo))
-      );
-
-      if (!employeesQuery.empty) {
-        const employeeDoc = employeesQuery.docs[0];
-        const userId = employeeDoc.data().Cantidad;
-
-        if (userId > 0) {
-          // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
-          await updateDoc(employeeDoc.ref, { Cantidad: userId - 1 });
-        } else {
-          const employeeRef = doc(db, "Producto", employeeDoc.id);
-          await deleteDoc(employeeRef);
-          console.log(`No se puede disminuir la cantidad, ya es 1 o menos.`);
-        }
+        await updateDoc(doc(db, "Finanzas", finanzasId), {
+          Total: totalActualizado,
+          TIVA: ivaActualizado,
+          TotalCompra: totalCompraActualizado,
+          Ganancias: gananciasActualizadas,
+        });
       } else {
-        console.log(
-          `El producto con código ${Codigo} no existe en la base de datos.`
-        );
+        // Crea nuevas finanzas si no existen
+        const nuevasFinanzas = {
+          Total: productoData.PrecioVenta,
+          TotalCompra: productoData.PrecioCompra,
+          Ganancias: productoData.PrecioVenta - productoData.PrecioCompra,
+          TIVA: productoData.PrecioCompra * 1.15,
+          IdMovimiento,
+          Anno,
+          Dia,
+          Mes,
+        };
+        await addDoc(finanzasRef, nuevasFinanzas);
       }
-      setCodigo("");
+
+      // Actualiza el stock del producto
+      if (productoData.Cantidad > 0) {
+        await updateDoc(doc(db, "Producto", productoId), { Cantidad: productoData.Cantidad - 1 });
+      } else {
+        // Considera manejar el caso cuando no hay stock
+        console.log(`El producto con código ${Codigo} está agotado.`);
+      }
+
+      mostrarAlertaTemporal("Detalle agregado correctamente.", 5000);
+      setCodigo("");  // Limpiar el campo código después de la operación
     } catch (error) {
-      console.error("Error al agregar datos :", error);
+      console.error("Error al agregar detalle:", error);
+      mostrarAlertaTemporal("Error al agregar detalle.", 5000);
     }
-  };
+};
+
   //-----------------------------------------------Obtiene las variables de fecha
   function obtenerFechaActual(): Date {
     return new Date();

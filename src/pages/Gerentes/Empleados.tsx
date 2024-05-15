@@ -45,14 +45,14 @@ export default function Empleados(
   {
     UserData: Datass
 
-  }:{
-    UserData: any [
+  }: {
+    UserData: any[
 
     ]
   }
 
 ) {
-  
+
 
 
   //Modals
@@ -122,6 +122,18 @@ export default function Empleados(
     setIsModalOpenDos(false);
   };
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "Usuario"), (querySnapshot) => {
+      const users = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setUserData(users);
+    });
+
+    return () => unsubscribe();  // Desuscribirse al desmontar el componente
+  }, []);
+
   //Modals Eliminar
 
   const handleDeleteModal = () => {
@@ -142,31 +154,24 @@ export default function Empleados(
       );
 
       if (!employeesQuery.empty) {
-        // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
         const employeeDoc = employeesQuery.docs[0];
-        const userId = employeeDoc.data().Cedula;
 
         // Eliminamos el documento del empleado
-        const employeeRef = doc(db, "Usuario", employeeDoc.id);
-        await deleteDoc(employeeRef);
+        await deleteDoc(doc(db, "Usuario", employeeDoc.id));
 
-        // Buscamos el documento del usuario relacionado al empleado
-        const usersQuery = await getDocs(
-          query(collection(db, "Usuario"), where("Cedula", "==", userId))
-        );
+        // Actualizamos el estado para reflejar la eliminación
+        setUserData(currentUsers => currentUsers.filter(user => user.Cedula !== Cedula));
       } else {
-        console.log(
-          "No se encontró ningún empleado con la cédula especificada."
-        );
+        console.log("No se encontró ningún empleado con la cédula especificada.");
       }
     } catch (error) {
-      console.log("No se elimino.");
+      console.error("Error al eliminar el empleado:", error);
     }
 
-    handleCancelDelete();
-  };
-  //Cambiar color
+    handleCancelDelete(); // Asegúrate que esta función se define correctamente
+};
 
+  //Cambiar color
   const [backgroundColor, setBackgroundColor] = useState<string>("#6DA5C0");
   const colors = [
     "#294D61",
@@ -262,22 +267,10 @@ export default function Empleados(
     setContrasena("");
   };
   //Agrega Usuarios
-  const handleFormSubmitUsers = async (event: React.FormEvent) => {
+  const handleFormSubmitUsers = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
-      const usersRef = collection(db, "Usuario");
-      const queryDB = await getDocs(
-        query(
-          usersRef,
-          where("Email", "==", Email),
-          where("Contrasena", "==", Contrasena)
-        )
-      );
-      if (!queryDB.empty) {
-        setIsModalOpen(true);
-        return;
-      }
-      const UsersData = {
+      const newUserData = {
         Email,
         Contrasena,
         TipoEmpleado,
@@ -292,17 +285,18 @@ export default function Empleados(
         TipoCedula,
       };
 
+      // Solo crea el usuario en Auth y Firestore, no actualices userData aquí
       await createUserWithEmailAndPassword(auth, Email, Contrasena);
-      await addDoc(collection(db, "Usuario"), UsersData);
+      await addDoc(collection(db, "Usuario"), newUserData);
 
-      const updateData = [...userData];
-      setUserData(updateData);
-      
+      // Cerrar modal
+      handleModalCloseOtro();
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
-    handleModalCloseOtro();
   };
+
+
   //Editar tabla Usuarios
   const [formData, setFormData] = useState({
     Email: "",
@@ -668,9 +662,8 @@ export default function Empleados(
                       {showColors ? "Ocultar colores" : "Mostrar colores"}
                     </button>
                     <div
-                      className={`colorPalette ${
-                        showColors ? "visible" : "hidden"
-                      }`}
+                      className={`colorPalette ${showColors ? "visible" : "hidden"
+                        }`}
                     >
                       {colors.map((color) => (
                         <div
@@ -697,53 +690,53 @@ export default function Empleados(
                     </tr>
                   </thead>
                   {userData && userData.length > 0 && (
-                  <tbody>
-                    {userData
-                      .filter(
-                        (user) =>
-                          user.Nombre.toLowerCase().includes(
-                            searchQuery.toLowerCase()
-                          ) ||
-                          user.ApellidoUno.toLowerCase().includes(
-                            searchQuery.toLowerCase()
-                          ) ||
-                          user.ApellidoDos.toLowerCase().includes(
-                            searchQuery.toLowerCase()
-                          ) ||
-                          user.Estado.toLowerCase().includes(
-                            searchQuery.toLowerCase()
-                          ) ||
-                          user.TipoEmpleado.toLowerCase().includes(
-                            searchQuery.toLowerCase()
-                          ) ||
-                          user.Email.toLowerCase().includes(
-                            searchQuery.toLowerCase()
-                          ) ||
-                          user.Cedula.toLowerCase().includes(
-                            searchQuery.toLowerCase()
-                          )
-                      )
-                      .map((user) => (
-                        <tr key={user.Cedula}>
-                          <td>{user.Nombre ?? "-"} {user.ApellidoUno ?? "-"} {user.ApellidoDos ?? "-"}</td>
-                           
-                          <td>{user.Estado ?? "-"}</td>
-                          <td>{user.TipoEmpleado ?? "-"}</td>
-                          <td>{user.Email ?? "-"}</td>
-                          <td>{user.Cedula ?? "-"}</td>
-                          <td>{`${user.Dia}/${user.Mes}/${user.Ano}`}</td>
+                    <tbody>
+                      {userData
+                        .filter(
+                          (user) =>
+                            user.Nombre.toLowerCase().includes(
+                              searchQuery.toLowerCase()
+                            ) ||
+                            user.ApellidoUno.toLowerCase().includes(
+                              searchQuery.toLowerCase()
+                            ) ||
+                            user.ApellidoDos.toLowerCase().includes(
+                              searchQuery.toLowerCase()
+                            ) ||
+                            user.Estado.toLowerCase().includes(
+                              searchQuery.toLowerCase()
+                            ) ||
+                            user.TipoEmpleado.toLowerCase().includes(
+                              searchQuery.toLowerCase()
+                            ) ||
+                            user.Email.toLowerCase().includes(
+                              searchQuery.toLowerCase()
+                            ) ||
+                            user.Cedula.toLowerCase().includes(
+                              searchQuery.toLowerCase()
+                            )
+                        )
+                        .map((user) => (
+                          <tr key={user.Cedula}>
+                            <td>{user.Nombre ?? "-"} {user.ApellidoUno ?? "-"} {user.ApellidoDos ?? "-"}</td>
 
-                          <td>
-                            <FaEdit
-                              className="iconsEdit"
-                              title="Editar."
-                              onClick={() => {
-                                handleEditClick(user);
-                                const updateData = [...userData];
-                                setUserData(updateData);
-                              }}
-                            />
-                            {/*<IoInformationCircleSharp
+                            <td>{user.Estado ?? "-"}</td>
+                            <td>{user.TipoEmpleado ?? "-"}</td>
+                            <td>{user.Email ?? "-"}</td>
+                            <td>{user.Cedula ?? "-"}</td>
+                            <td>{`${user.Dia}/${user.Mes}/${user.Ano}`}</td>
+
+                            <td>
+                              <FaEdit
+                                className="iconsEdit"
+                                title="Editar."
+                                onClick={() => {
+                                  handleEditClick(user);
+                                  const updateData = [...userData];
+                                  setUserData(updateData);
+                                }}
+                              />
+                              {/*<IoInformationCircleSharp
                               onClick={() => {
                                 handleModalOpenShow();
                                 setEmail(user.Email);
@@ -751,20 +744,20 @@ export default function Empleados(
                               className="iconsInfo"
                               title="Más Información."
                             />*/}
-                            <FaTrash
-                              className="iconsEliminar"
-                              title="Eliminar."
-                              onClick={() => {
-                                handleDeleteModal();
-                                setCedula(user.Cedula);
-                                const updateData = [...userData];
-                                setUserData(updateData);
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
+                              <FaTrash
+                                className="iconsEliminar"
+                                title="Eliminar."
+                                onClick={() => {
+                                  handleDeleteModal();
+                                  setCedula(user.Cedula);
+                                  const updateData = [...userData];
+                                  setUserData(updateData);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
                   )}
                 </table>
               </div>
@@ -853,7 +846,7 @@ export default function Empleados(
             <div className="linea"></div>
             <section>
               <div className="containerButton">
-                
+
                 <Link className="sidebar_linkDos" href="/Gerentes/Productos">
                   Productos
                 </Link>
@@ -957,7 +950,7 @@ export default function Empleados(
                   }
                   required
                 />
-                 
+
                 <h3 className="textDos">Estado:</h3>
                 <select
                   className="inputRes"

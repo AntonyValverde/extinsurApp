@@ -17,6 +17,7 @@ import {
   doc,
   getDocs,
   getFirestore,
+  onSnapshot,
   query,
   updateDoc,
   where,
@@ -220,101 +221,87 @@ export default function Mantenimiento() {
     console.log(IdMantenimiento);
   };
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "Mantenimiento"), (snapshot) => {
+      const mantenimientos = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setUserData(mantenimientos);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
   //Add movimientos
   const handleFormSubmitExtintor = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    const mantenimientoData = {
+      fechaEntrega,
+      fechaRevision,
+      Nombre,
+      NombreNegocio,
+      ApellidoUno,
+      ApellidoDos,
+      IdMantenimiento,
+      Direccion,
+      Detalle,
+    };
+
     try {
-      const usersRef = collection(db, "Mantenimiento");
-      const queryDB = await getDocs(
-        query(usersRef, where("IdMovimiento", "==", IdMantenimiento))
-      );
-      if (!queryDB.empty) {
-        return;
-      }
+      const docRef = await addDoc(collection(db, "Mantenimiento"), mantenimientoData);
+      console.log("Documento agregado con ID: ", docRef.id);
 
-      const productosData = {
-        AnnoEntrega,
-        AnnoRevision,
-        MesEntrega,
-        MesRevision,
-        DiaEntrega,
-        DiaRevision,
-        Nombre,
-        NombreNegocio,
-        ApellidoUno,
-        ApellidoDos,
-        IdMantenimiento,
-        Direccion,
-      };
-
-      await addDoc(collection(db, "Mantenimiento"), productosData);
-      const updateData = [...userData];
-      setUserData(updateData);
-      
+      // Actualizamos la lista de mantenimientos después de agregar un nuevo registro
+      setUserData(prevData => [...prevData, { ...mantenimientoData, id: docRef.id }]);
+      mostrarAlertaTemporal("Mantenimiento agregado exitosamente.", 5000);
+        
+      // Resetear campos para limpieza
+      setFechaEntrega("");
+      setFechaRevision("");
+      setNombre("");
+      setApellidoUno("");
+      setApellidoDos("");
+      setDireccion("");
+      setNombreNegocio("");
+      setDetalle("");
+      // Cierra el modal después de agregar los datos
+      handleModalCloseDos();
     } catch (error) {
-      console.error("Error al agregar datos :", error);
+      console.error("Error al agregar datos: ", error);
     }
-    handleModalCloseDos();
   };
   //Editar
-  //Editar tabla Usuarios
-  const [formData, setFormData] = useState({
-    Codigo: "",
-    Cantidad: "",
-  });
-
-  interface User {
-    Codigo?: string;
-    Cantidad?: string;
-  }
-
-  const [showModalEdit, setShowModalEdit] = useState(false);
-  const handleEditClick = (user: User) => {
-    setFormData({
-      Codigo: user.Codigo ?? "",
-      Cantidad: user.Cantidad ?? "",
-    });
-    setShowModalEdit(true);
-  };
   //Add detalle
   const handleFormSubmitOtro = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!Codigo) {
+      mostrarAlertaTemporal("Por favor ingrese un código de producto válido.", 5000);
+      return;
+    }
+
     try {
       const sourceCollectionRef = collection(db, "Producto");
       const targetCollectionRef = collection(db, "DetalleMantenimiento");
 
-      const querySnapshot = await getDocs(
-        query(sourceCollectionRef, where("Codigo", "==", Codigo))
-      );
-
-      const querySnapshotTwo = await getDocs(
-        query(targetCollectionRef, where("Codigo", "==", Codigo))
-      );
-
-      if (!querySnapshotTwo.empty) {
-        setCodigo("");
-        const tiempoVisibleEnMilisegundos = 5000;
-        mostrarAlertaTemporal(
-          "Se sumo un producto.",
-          tiempoVisibleEnMilisegundos
-        );
-
-        return;
-      }
+      const querySnapshot = await getDocs(query(sourceCollectionRef, where("Codigo", "==", Codigo)));
 
       if (querySnapshot.empty) {
         setCodigo("");
-        const tiempoVisibleEnMilisegundos = 5000;
-        mostrarAlertaTemporal(
-          "No se encuentra el producto.",
-          tiempoVisibleEnMilisegundos
-        );
+        mostrarAlertaTemporal("No se encuentra el producto con el código proporcionado.", 5000);
         return;
       }
 
-      // Recuperar los datos de la consulta
       const sourceData = querySnapshot.docs[0].data();
+
+      const querySnapshotTwo = await getDocs(query(targetCollectionRef, where("Codigo", "==", Codigo)));
+      if (!querySnapshotTwo.empty) {
+        setCodigo("");
+        mostrarAlertaTemporal("El producto ya ha sido agregado anteriormente.", 5000);
+        return;
+      }
 
       const detalleDato = {
         Anno: sourceData.Anno,
@@ -330,34 +317,19 @@ export default function Mantenimiento() {
         IdMantenimiento: IdMantenimiento,
       };
 
-      // Agregar los datos a la colección de destino
       await addDoc(targetCollectionRef, detalleDato);
+      mostrarAlertaTemporal("Detalle de mantenimiento agregado correctamente.", 5000);
       setCodigo("");
-      const tiempoVisibleEnMilisegundos = 5000;
-      mostrarAlertaTemporal("Se agrego código.", tiempoVisibleEnMilisegundos);
-      const employeesQuery = await getDocs(
-        query(collection(db, "Producto"), where("Codigo", "==", Codigo))
-      );
 
-      if (!employeesQuery.empty) {
-        const employeeDoc = employeesQuery.docs[0];
-        const userId = employeeDoc.data().Cantidad;
-
-        if (userId > 0) {
-          // Si la cantidad actual es mayor que 1, disminuye la cantidad en 1
-          await updateDoc(employeeDoc.ref, { Cantidad: userId - 1 });
-        } else {
-          const employeeRef = doc(db, "Producto", employeeDoc.id);
-          await deleteDoc(employeeRef);
-          console.log(`No se puede disminuir la cantidad, ya es 1 o menos.`);
-        }
+      // Actualiza la cantidad en el inventario
+      if (sourceData.Cantidad > 1) {
+        await updateDoc(querySnapshot.docs[0].ref, { Cantidad: sourceData.Cantidad - 1 });
       } else {
-        console.log(
-          `El producto con código ${Codigo} no existe en la base de datos.`
-        );
+        await deleteDoc(querySnapshot.docs[0].ref);
+        console.log("Producto agotado y eliminado del inventario.");
       }
     } catch (error) {
-      console.error("Error al agregar datos :", error);
+      console.error("Error al agregar detalle de mantenimiento:", error);
     }
   };
 
@@ -417,29 +389,22 @@ export default function Mantenimiento() {
     DetalleData();
   }, [IdMantenimiento]); // Asegúrate de incluir codigoElegido en las dependencias
 
-  //Fecha entrega
-  const handleFechaNacimientoChange = (event: { target: { value: any } }) => {
-    const fecha = event.target.value;
-    const partesFecha = fecha.split(" ");
+  // Utilizaremos un solo estado para cada fecha
+  const [fechaEntrega, setFechaEntrega] = useState("");
+  const [fechaRevision, setFechaRevision] = useState("");
 
-    if (partesFecha.length === 3) {
-      setAnnoEntrega(partesFecha[0]);
-      setMesEntrega(partesFecha[1]);
-      setDiaEntrega(partesFecha[2]);
-    }
+  // Manejador de cambios para la fecha de entrega
+  const handleFechaEntregaChange = (event: { target: { value: any; }; }) => {
+    const fecha = event.target.value; // formato esperado YYYY-MM-DD
+    setFechaEntrega(fecha);
   };
 
-  //Fecha revision
-  const handleFechaNacimientoDos = (event: { target: { value: any } }) => {
-    const fecha = event.target.value;
-    const partesFecha = fecha.split(" ");
-
-    if (partesFecha.length === 3) {
-      setAnnoRevision(partesFecha[0]);
-      setMesRevision(partesFecha[1]);
-      setDiaRevision(partesFecha[2]);
-    }
+  // Manejador de cambios para la fecha de revisión
+  const handleFechaRevisionChange = (event: { target: { value: any; }; }) => {
+    const fecha = event.target.value; // formato esperado YYYY-MM-DD
+    setFechaRevision(fecha);
   };
+
   return (
     <>
       <div className="bodySidebar">
@@ -714,20 +679,18 @@ export default function Mantenimiento() {
                         <input
                           type="date"
                           className="inputRes"
-                          id="fechaNacimiento"
-                          name="fechaNacimiento"
-                          onChange={handleFechaNacimientoChange}
+                          onChange={handleFechaEntregaChange}
+                          value={fechaEntrega}
                           required
-                        ></input>
+                        />
                         <label className="textDos">Fecha de revisión:</label>
                         <input
                           type="date"
                           className="inputRes"
-                          id="fechaRevision"
-                          name="fechaRevision"
-                          onChange={handleFechaNacimientoDos}
+                          onChange={handleFechaRevisionChange}
+                          value={fechaRevision}
                           required
-                        ></input>
+                        />
                         <label className="textDos">Dirección:</label>
                         <input
                           className="inputRes"
@@ -774,9 +737,8 @@ export default function Mantenimiento() {
                       {showColors ? "Ocultar colores" : "Mostrar colores"}
                     </button>
                     <div
-                      className={`colorPalette ${
-                        showColors ? "visible" : "hidden"
-                      }`}
+                      className={`colorPalette ${showColors ? "visible" : "hidden"
+                        }`}
                     >
                       {colors.map((color) => (
                         <div
@@ -830,16 +792,9 @@ export default function Mantenimiento() {
 
                           <td>
                             {userDataIndex !== null
-                              ? userData[userDataIndex].DiaRevision
+                              ? userData[userDataIndex].fechaRevision
                               : " "}
-                            /
-                            {userDataIndex !== null
-                              ? userData[userDataIndex].MesRevision
-                              : ""}
-                            /
-                            {userDataIndex !== null
-                              ? userData[userDataIndex].AnnoRevision
-                              : ""}
+                            
                           </td>
                           <td>
                             <IoInformationCircleSharp
@@ -885,7 +840,7 @@ export default function Mantenimiento() {
                 <Link className="sidebar_linkDos" href="/Gerentes/Movimientos">
                   Movimientos
                 </Link>
-                
+
                 <Link className="sidebar_linkDos" href="/Gerentes/Ubicacion">
                   Ubicación
                 </Link>
@@ -896,7 +851,7 @@ export default function Mantenimiento() {
                   className="sidebar_linkDos"
                   href="/"
                 >
-                 Inicio
+                  Inicio
                 </Link>
               </div>
             </section>

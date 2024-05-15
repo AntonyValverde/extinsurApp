@@ -93,15 +93,6 @@ const Nav_index: React.FC<NavProps> = ({
     document.body.classList.remove("modal-open");
   };
 
-  const handleRevisionOpen = () => {
-    setRevision(true);
-    document.body.classList.add("modal-open");
-  };
-  const handleRevisionClose = () => {
-    setRevision(false);
-    document.body.classList.remove("modal-open");
-  };
-
   //Consume fireBase
   useEffect(() => {
     const ubicacionData = async () => {
@@ -215,16 +206,7 @@ const Nav_index: React.FC<NavProps> = ({
                   </button>
                 </article>
 
-                <article className="articleInfo" data-testid="article-revision">
-                  <button
-                    onClick={handleRevisionOpen}
-                    className="buttonBorderDos"
-                    data-testid="button-revision"
-                  >
-                    <span className="textOpcionesPro" data-testid="span-revision">Revisión</span>
-                    <FaBriefcase className="iconsPro" data-testid="icons-revision"></FaBriefcase>
-                  </button>
-                </article>
+                 
               </div>
             </article>
 
@@ -632,107 +614,7 @@ const Nav_index: React.FC<NavProps> = ({
                   </div>
                 )}
               </section>
-              <section  data-testid="revision-section">
-                {IsRevision && (
-                  <div className="modalNavExtintor" data-testid="revision-container">
-                    <div
-                      className="modalDivExtintor"
-                      style={{
-                        background: "#f7f7f7",
-                        padding: "20px",
-                        borderRadius: "10px",
-                        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-                      }}
-                    >
-                      <button
-                        className="icon-close"
-                        onClick={handleRevisionClose}
-                        style={{
-                          background: "none",
-                          borderRadius: "10px",
-                          border: "1px solid",
-                          color: "#555",
-                          fontSize: "16px",
-                          cursor: "pointer",
-                          position: "absolute",
-                          top: "10px",
-                          right: "10px",
-                        }}
-                        data-testid="close-button-revision"
-                      >
-                        SALIR
-                      </button>
-                      <article style={{ textAlign: "center" }} data-testid="revision-article"> 
-                        <h1
-                          style={{
-                            fontSize: "35px",
-                            marginBottom: "20px",
-                            color: "#ff0000",
-                          }}
-                        >
-                          Servicios de Recarga
-                        </h1>
-                        <h2
-                          style={{
-                            fontSize: "25px",
-                            marginBottom: "10px",
-                            color: "#000000",
-                          }}
-                        >
-                          Ofrecemos un servicio de revisión de extintores
-                          dirigido a empresas, individuos y diversas entidades
-                          que adquieran extintores.
-                        </h2>
-                        <h2
-                          style={{
-                            fontSize: "25px",
-                            marginBottom: "10px",
-                            color: "#000000",
-                          }}
-                        >
-                          Nuestro servicio de revisión tiene como objetivo
-                          verificar el estado de uno o varios extintores. En
-                          caso de detectarse algún error o deterioro durante la
-                          revisión, nuestro equipo brindará soluciones precisas.
-                          Estas soluciones pueden involucrar el reemplazo o
-                          reparación de empaques, contenido, gas, mangueras,
-                          fuga u otros problemas detectados, siempre que sean
-                          problemas solucionables por nuestros técnicos.
-                        </h2>
-                        <h2
-                          style={{
-                            fontSize: "25px",
-                            marginBottom: "10px",
-                            color: "#000000",
-                          }}
-                        >
-                          Entendemos la importancia de contar con extintores
-                          plenamente funcionales para garantizar la seguridad en
-                          su entorno. Nuestros expertos altamente capacitados se
-                          aseguran de que cada extintor cumpla con los
-                          estándares de seguridad necesarios y esté preparado
-                          para actuar en situaciones críticas.
-                        </h2>
-                        <h2
-                          style={{
-                            fontSize: "25px",
-                            marginBottom: "10px",
-                            color: "#000000",
-                          }}
-                        >
-                          No importa si es una empresa grande o un individuo
-                          preocupado por la seguridad de su hogar, nuestro
-                          servicio de revisión de extintores está diseñado para
-                          satisfacer diversas necesidades. Mantener sus
-                          extintores en condiciones óptimas es esencial, y
-                          estamos aquí para proporcionar un servicio confiable y
-                          eficiente.
-                        </h2>
-                      </article>
-                    </div>
-                  </div>
-                )}
-              </section>
+               
             </article>
           </div>
         </nav>
