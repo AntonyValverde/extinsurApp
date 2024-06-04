@@ -3,11 +3,28 @@ import { IoInformationCircleSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import IndexGerenteInicioUno from "../IndexGerenteInicioUno";
 import Link from "next/link";
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "@/firebase/config";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 export default function Ubicacion() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenDos, setIsModalOpenDos] = useState(false);
   const [isModalOpenTres, setIsModalOpenTres] = useState(false);
+
+  const [Descripcion, setDescripcion] = useState("");
+  const [HoraCierre, setHoraCierre] = useState("");
+  const [HoraInicio, setHoraInicio] = useState("");
+  const [Id, setId] = useState("");
+  const [enlace, setEnlace] = useState("");
+   
+  //Modals Eliminar
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  //Tablas
+  const [UbicationData, setUbicationData] = useState<any[]>([]);
+  //Conexion fireBase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -73,6 +90,23 @@ export default function Ubicacion() {
     }
   }, []);
 
+  //Consume tabla de Ubicacion
+  useEffect(() => {
+    const fetchDates = async () => {
+      try {
+        const querydb = await getDocs(collection(db, "Ubicacion"));
+        const data: React.SetStateAction<any[]> = [];
+        querydb.forEach((doc) => {
+          data.push(doc.data());
+        });
+        setUbicationData(data);
+      } catch (error) {
+        console.error("No se pudieron extraer los datos: " + error);
+      }
+    };
+    fetchDates();
+  }, []);
+
   return (
     <>
       <div className="bodySidebar">
@@ -96,30 +130,41 @@ export default function Ubicacion() {
                 <table className="TablaEmpleados">
                   <thead>
                     <tr>
-                      <th>Fecha</th>
-                      <th>Ubicación</th>
+                      <th>Descipcion</th>
+                      <th>Horario</th>
                       <th>Dirección</th>
-                      <th>Tiempo</th>
-                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>24/03/2022</td>
-                      <td>Ciudad Neily frente al instituto cated</td>
-                      <td>https://maps.app.goo.gl/Lpd7S5KN3sxP4FcD7</td>
-                      <td>4 Horas</td>
+                    {UbicationData.map((Id, index) => {
+                      const userDataIndex =
+                        index < UbicationData.length ? index : null;
 
-                       
-                    </tr>
-                    <tr>
-                      <td>14/04/2021</td>
-                      <td>Rio claro frente la bomba</td>
-                      <td>https://maps.app.goo.gl/8HDRTyBW89rJ3KKq6</td>
-                      <td>6 horas</td>
-
-                     
-                    </tr>
+                      return (
+                        <tr key={index}>
+                          <td>
+                            {userDataIndex !== null
+                              ? UbicationData[userDataIndex].Descripcion
+                              : ""}
+                          </td>
+                          <td>
+                            {userDataIndex !== null
+                              ? UbicationData[userDataIndex].HoraInicio
+                              : ""}{" "}
+                            /{" "}
+                            {userDataIndex !== null
+                              ? UbicationData[userDataIndex].HoraCierre
+                              : ""}
+                          </td>
+                          <td>
+                            {userDataIndex !== null
+                              ? UbicationData[userDataIndex].enlace
+                              : ""}
+                          </td>
+                           
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

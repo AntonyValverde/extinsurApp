@@ -437,7 +437,7 @@ export default function Productos() {
                         >
                           <option value="Extintor">Extintor</option>
                           <option value="Rotulo">Rotulo</option>
-                          <option value="Otro">Otro</option>
+                          
                         </select>
 
                         <label className="textDos">Detalle:</label>

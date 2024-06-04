@@ -178,7 +178,6 @@ export default function Grafica() {
       (querySnapshot) => {
         let sumaExtintor = 0;
         let sumaRotulo = 0;
-        let sumaOtro = 0;
         const data: React.SetStateAction<any[]> = [];
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
@@ -191,15 +190,10 @@ export default function Grafica() {
             if (!isNaN(producto.Cantidad)) {
               sumaRotulo += Number(producto.Cantidad);
             }
-          } else if (producto.Tipo === "Otro") {
-            if (!isNaN(producto.Cantidad)) {
-              sumaOtro += Number(producto.Cantidad);
-            }
-          }
+          }  
         });
         setRotulos(sumaRotulo);
         setExtintores(sumaExtintor);
-        setOtros(sumaOtro);
         setDataCaja(data);
       }
     );
@@ -229,7 +223,6 @@ export default function Grafica() {
   const nume = [
     { name: "Rotulos", Cantidad: Rotulos },
     { name: "Extintores", Cantidad: Extintores },
-    { name: "Otros", Cantidad: Otros },
   ];
 
   

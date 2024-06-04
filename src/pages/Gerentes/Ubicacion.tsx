@@ -95,34 +95,27 @@ export default function Ubicacion() {
       const employeesQuery = await getDocs(
         query(collection(db, "Ubicacion"), where("Id", "==", Id))
       );
-
+  
       if (!employeesQuery.empty) {
-        // Si se encuentra un empleado con la misma cédula, eliminamos el documento del empleado
         const employeeDoc = employeesQuery.docs[0];
         const userId = employeeDoc.data().Id;
-
+  
         // Eliminamos el documento del empleado
         const employeeRef = doc(db, "Ubicacion", employeeDoc.id);
         await deleteDoc(employeeRef);
-
-        // Buscamos el documento del usuario relacionado al empleado
-        const usersQuery = await getDocs(
-          query(collection(db, "Ubicacion"), where("Id", "==", userId))
-        );
-
-        const updateData = [...UbicationData];
-        setUbicationData(updateData);
+  
+        // Actualizamos el estado local eliminando la ubicación eliminada
+        setUbicationData(prevData => prevData.filter(item => item.Id !== userId));
       } else {
-        console.log(
-          "No se encontró ningún empleado con la cédula especificada."
-        );
+        console.log("No se encontró ninguna ubicación con el ID especificado.");
       }
     } catch (error) {
-      console.log("No se elimino.");
+      console.log("Error al eliminar la ubicación: ", error);
     }
-
+  
     handleCancelDelete();
   };
+  
 
   const [backgroundColor, setBackgroundColor] = useState<string>("white");
   const colors = [
@@ -175,29 +168,37 @@ export default function Ubicacion() {
     event.preventDefault();
     try {
       const usersRef = collection(db, "Ubicacion");
-      const queryDB = await getDocs(
-        query(usersRef, where("Id", "==", Id))
-      );
+      const queryDB = await getDocs(query(usersRef, where("Id", "==", Id)));
+  
+      // Verificar si la ubicación ya existe
       if (!queryDB.empty) {
+        console.log("Ubicación con este ID ya existe.");
         return;
       }
-      const ubicationData = {
+  
+      const newUbication = {
         enlace,
         HoraInicio,
         HoraCierre,
         Descripcion,
         Id,
       };
-
-      await addDoc(collection(db, "Ubicacion"), ubicationData);
-
-      const updateData = [...UbicationData];
-      setUbicationData(updateData);
+  
+      // Agregar la nueva ubicación a Firestore
+      const docRef = await addDoc(collection(db, "Ubicacion"), newUbication);
+  
+      // Actualizar el estado local para incluir la nueva ubicación
+      setUbicationData(prevUbicationData => [
+        ...prevUbicationData,
+        { ...newUbication, docId: docRef.id } // incluir el ID del documento por si necesitas referencia
+      ]);
+  
     } catch (error) {
       console.error("Error al agregar datos:", error);
     }
     handleModalCloseTres();
   };
+  
 
   //Consume tabla de Ubicacion
   useEffect(() => {

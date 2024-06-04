@@ -829,16 +829,9 @@ export default function Mantenimiento() {
 
                           <td>
                             {userDataIndex !== null
-                              ? userData[userDataIndex].DiaRevision
+                              ? userData[userDataIndex].fechaRevision
                               : " "}
-                            /
-                            {userDataIndex !== null
-                              ? userData[userDataIndex].MesRevision
-                              : ""}
-                            /
-                            {userDataIndex !== null
-                              ? userData[userDataIndex].AnnoRevision
-                              : ""}
+                            
                           </td>
                           <td>
                             <IoInformationCircleSharp
